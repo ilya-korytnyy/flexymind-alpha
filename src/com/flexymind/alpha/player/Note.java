@@ -19,4 +19,11 @@ public class Note {
         this.octave = octave;
         this.duration = duration;
     }
+
+    /** Get mid file of tone
+     *  @return mid file (R.raw."mid file")
+     * */
+    public int getTone() {
+        return 0;
+    }
 }
