@@ -6,6 +6,7 @@
     <uses-sdk android:minSdkVersion="8"/>
     <application android:label="@string/app_name">
         <activity android:name="GameScreen"
+                  android:screenOrientation="landscape"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
