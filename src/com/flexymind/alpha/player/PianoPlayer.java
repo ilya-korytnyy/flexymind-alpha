@@ -3,7 +3,6 @@ package com.flexymind.alpha.player;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import com.flexymind.alpha.R;
 
 /**
  * Класс необходимо вызывать в методе onClick в классе GameScreen
@@ -44,8 +43,7 @@ public class PianoPlayer {
 
         soundPool = new SoundPool(maxStreams, streamType, srcQuality);
 
-        /** note.getTone() должна возвращать R.raw.<example> */
-        // toneID = soundPool.load(context, note.getTone(), 1);
-        toneID = soundPool.load(context, R.raw.a, 1);
+
+        toneID = soundPool.load(context, note.getRawName(), 1);
     }
 }
