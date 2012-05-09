@@ -1,5 +1,6 @@
 package com.flexymind.alpha.player;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -11,7 +12,7 @@ import com.flexymind.alpha.R;
  *
  * Класс необходимо вызывать в методе onClick в классе GameScreen
  */
-public class PianoPlayer implements IPlayer {
+public class PianoPlayer extends Activity implements IPlayer {
 
     public  SoundPool   soundPool;
     public  int         toneID;
