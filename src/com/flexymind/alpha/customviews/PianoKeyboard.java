@@ -1,8 +1,6 @@
 package com.flexymind.alpha.customviews;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
@@ -23,8 +21,6 @@ public class PianoKeyboard extends LinearLayout {
             addKey();
         }
     }
-
-
 
     private void addKey() {
         PianoKey key = new PianoKey(getContext());

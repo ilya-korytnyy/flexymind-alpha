@@ -6,13 +6,9 @@ import android.media.SoundPool;
 import com.flexymind.alpha.R;
 
 /**
- * @author Ilya Koritniy
- * @author Pavel Malkov
- *
  * Класс необходимо вызывать в методе onClick в классе GameScreen
  */
-public class PianoPlayer implements IPlayer {
-
+public class PianoPlayer {
     public  SoundPool   soundPool;
     public  int         toneID;
     private Context     context;
@@ -29,7 +25,6 @@ public class PianoPlayer implements IPlayer {
     /**
      * Gets the .mid file for that Note and plays it.
      */
-    @Override
     public void play(Note note) {
         getTone(note);
         float   leftVolume  =   1.0f;

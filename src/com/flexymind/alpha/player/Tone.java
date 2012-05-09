@@ -1,8 +1,5 @@
 package com.flexymind.alpha.player;
 
-/**
- * @author Ilya Koritniy
- */
 public enum Tone {
     C,   // до
     D,   // ре
