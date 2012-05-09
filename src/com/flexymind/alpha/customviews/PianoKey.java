@@ -3,6 +3,7 @@ package com.flexymind.alpha.customviews;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Picture;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
@@ -33,19 +34,14 @@ public class PianoKey extends ImageView {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        canvas.scale((float)1.5, (float)1.0);
-        super.draw(canvas);
-        this.layout(keyPosition.left,
-                    keyPosition.top,
-                    keyPosition.right,
-                    keyPosition.bottom);
+    public void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(false, 0, 0, 100, 100);
     }
 
     private void makeDrawableKey() {
         this.setBackgroundColor(Color.WHITE);
         SVG svg = getSVGFromResource(getResources(),
-                R.raw.bigkey);
+                R.raw.whitekey);
 
        PictureDrawable drawable = svg.createPictureDrawable();
        this.setImageDrawable(drawable);
