@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <com.flexymind.alpha.ui.NoteBoard
+    <com.flexymind.alpha.customviews.NoteBoard
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="2"

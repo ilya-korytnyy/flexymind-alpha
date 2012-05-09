@@ -1,4 +1,4 @@
-package com.flexymind.alpha.ui;
+package com.flexymind.alpha.customviews;
 
 import android.content.Context;
 import android.graphics.*;
