@@ -19,17 +19,15 @@ public class PianoKeyboard extends LinearLayout {
     }
 
     private void onCreate() {
-        Rect initPosition = new Rect(100,100,150,200);
-        addKey(initPosition);
         for (int i=0; i<8; i++) {
-            addKey(initPosition);
+            addKey();
         }
     }
 
 
 
-    private void addKey(Rect initPosition) {
-        PianoKey key = new PianoKey(getContext(), initPosition);
+    private void addKey() {
+        PianoKey key = new PianoKey(getContext());
         addView(key);
     }
 }

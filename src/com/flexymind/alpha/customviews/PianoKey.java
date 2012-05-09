@@ -19,7 +19,6 @@ import com.larvalabs.svgandroid.SVG;
 import static com.larvalabs.svgandroid.SVGParser.getSVGFromResource;
 
 public class PianoKey extends ImageView {
-    private Rect keyPosition;
     private Drawable pianoKey;
 
     public PianoKey(Context context, AttributeSet attrs) {
@@ -27,15 +26,9 @@ public class PianoKey extends ImageView {
         makeDrawableKey();
     }
 
-    public PianoKey(Context context,  Rect position) {
+    public PianoKey(Context context) {
         super(context);
         makeDrawableKey();
-        this.keyPosition = new Rect(position);
-    }
-
-    @Override
-    public void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(false, 0, 0, 100, 100);
     }
 
     private void makeDrawableKey() {
@@ -46,5 +39,4 @@ public class PianoKey extends ImageView {
        PictureDrawable drawable = svg.createPictureDrawable();
        this.setImageDrawable(drawable);
     }
-
 }
