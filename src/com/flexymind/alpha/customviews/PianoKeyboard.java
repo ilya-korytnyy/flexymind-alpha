@@ -5,17 +5,19 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 public class PianoKeyboard extends LinearLayout {
-    static boolean isKeyboardAlreadyDraw = false;
+    static boolean              isKeyboardAlreadyDraw        = false;
+    private final static int    countOfWhiteKeys             = 8;
 
     public PianoKeyboard(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
-    protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec){
+    protected void onMeasure (int widthMeasureSpec,
+                              int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        final int keyboardW= getMeasuredWidth();
-        final int keyboardH= getMeasuredHeight();
+        final int keyboardW = getMeasuredWidth();
+        final int keyboardH = getMeasuredHeight();
 
         if (!isKeyboardAlreadyDraw) {
             addWhiteKeys(keyboardH, keyboardW);
@@ -34,7 +36,15 @@ public class PianoKeyboard extends LinearLayout {
     }
 
     private void addKey(int keyboardH, int keyboardW) {
-        PianoKey key = new PianoKey(getContext(), keyboardH*2/3, keyboardW/8);
+        PianoKey key = new PianoKey(getContext(),
+                       (int) (keyboardH * 2 / 3),
+                         /*
+                           because at first time
+                           layout measured at fullscreen.
+                           need to get right dimensions of
+                           the screen, using custom main layout
+                         */
+                        keyboardW / countOfWhiteKeys);
         addView(key);
     }
 }
