@@ -1,35 +1,52 @@
 package com.flexymind.alpha.customviews;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.PictureDrawable;
+import android.graphics.Canvas;
+import android.graphics.Picture;
+import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.widget.ImageView;
-import com.flexymind.alpha.R;
-import com.larvalabs.svgandroid.SVG;
+import android.view.View;
 
-import static com.larvalabs.svgandroid.SVGParser.getSVGFromResource;
 
-public class PianoKey extends ImageView {
-    private Drawable pianoKey;
+public class PianoKey extends View {
+
+    private int     keyHeight;
+    private int     keyWidth;
+    private Picture picture;
 
     public PianoKey(Context context, AttributeSet attrs) {
         super(context, attrs);
-        makeDrawableKey();
     }
 
     public PianoKey(Context context) {
         super(context);
-        makeDrawableKey();
     }
 
-    private void makeDrawableKey() {
-        this.setBackgroundColor(Color.WHITE);
-        SVG svg = getSVGFromResource(getResources(),
-                R.raw.whitekey);
+    /**
+     *
+     * @param context
+     * @param keyH key height
+     * @param keyW key width
+     * @param picture
+     */
 
-       PictureDrawable drawable = svg.createPictureDrawable();
-       this.setImageDrawable(drawable);
+    public PianoKey(Context context, int keyH, int keyW, Picture picture) {
+        super(context);
+        this.keyHeight  = keyH;
+        this.keyWidth   = keyW;
+        this.picture    = picture;
+    }
+
+    @Override
+    protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec){
+       setMeasuredDimension(keyWidth, keyHeight);
+    }
+
+    @Override
+    protected void onDraw (Canvas canvas) {
+        canvas.drawPicture(picture,
+                           new RectF(0, 0, keyWidth, keyHeight) );
+
+        super.onDraw(canvas);
     }
 }

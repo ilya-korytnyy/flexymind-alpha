@@ -74,6 +74,12 @@ public class NoteBoard extends View {
             int clefWidth = (int) (lineMargin * 4 * proportion);
             canvas.drawBitmap(clef, null, new Rect(MARGIN, MARGIN - LINE_THICKNESS, clefHeight, clefWidth), paint);
         }
+
+        //HARDCODE FOR NOTE CLASS TEST
+        Note note = new Note(getContext());
+        note.onDraw(canvas, note, MARGIN, lineMargin, 0);
+        //++++++++++++++++++++++++++++
+
     }
 
     /**
