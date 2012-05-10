@@ -33,7 +33,7 @@ public class PianoPlayer extends View {
 
         soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
-        note = new Note(tone, 1, true, true);
+        note = new Note(tone);
         toneID = soundPool.load(context, note.getRawName(), 1);
     }
 

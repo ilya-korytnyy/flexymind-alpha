@@ -5,7 +5,7 @@ import com.flexymind.alpha.R;
 import java.util.EnumMap;
 
 /**
- * Represents a musical note with it's tone and duration.
+ * Represents a musical note with it's tone.
  * Immutable
  */
 public class Note {
@@ -13,18 +13,12 @@ public class Note {
      * no getters because of performance issues
      */
     private final Tone tone;
-    private final int duration;
-    private final boolean sharp;
-    private final boolean flat;
     public static EnumMap<Tone, Integer> notesWithRaw;
 
 
-    public Note(Tone tone, int duration, boolean sharp, boolean  flat) {
+    public Note(Tone tone) {
 
         this.tone = tone;
-        this.duration = duration;
-        this.sharp = sharp;
-        this.flat = flat;
 
         notesWithRaw = new EnumMap<Tone, Integer>(Tone.class);
 
@@ -48,16 +42,6 @@ public class Note {
         notesWithRaw.put(Tone.C1, R.raw.c1);
     }
 
-    private int isSharp() {
-
-        return sharp ? 1 : 0;
-    }
-
-    private int isFlat() {
-
-        return flat ? 0 : 1;
-    }
-
     private Tone getTone() {
 
         return this.tone;
@@ -71,10 +55,4 @@ public class Note {
 
         return notesWithRaw.get(getTone());
     }
-
-    public void drawNote() {
-        //do smth stub
-    }
-
-
 }
