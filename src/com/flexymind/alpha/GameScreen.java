@@ -20,7 +20,6 @@ public class GameScreen extends Activity {
         Display display = getWindowManager().getDefaultDisplay();
         windowW = display.getWidth();
         windowH = display.getHeight();
-
     }
 
     @Override
