@@ -4,19 +4,15 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Picture;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.ImageView;
-import com.flexymind.alpha.R;
-import com.larvalabs.svgandroid.SVG;
-
-import static com.larvalabs.svgandroid.SVGParser.getSVGFromResource;
+import android.view.View;
 
 
-public class PianoKey extends ImageView {
-    private Drawable    pianoKey;
-    private int         keyHeight;
-    private int         keyWidth;
+public class PianoKey extends View {
+
+    private int     keyHeight;
+    private int     keyWidth;
+    private Picture picture;
 
     public PianoKey(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -26,10 +22,19 @@ public class PianoKey extends ImageView {
         super(context);
     }
 
-    public PianoKey(Context context, int keyH, int keyW) {
+    /**
+     *
+     * @param context
+     * @param keyH key height
+     * @param keyW key width
+     * @param picture
+     */
+
+    public PianoKey(Context context, int keyH, int keyW, Picture picture) {
         super(context);
-        keyHeight  = keyH;
-        keyWidth   = keyW;
+        this.keyHeight  = keyH;
+        this.keyWidth   = keyW;
+        this.picture    = picture;
     }
 
     @Override
@@ -39,11 +44,6 @@ public class PianoKey extends ImageView {
 
     @Override
     protected void onDraw (Canvas canvas) {
-        SVG svg = getSVGFromResource(getResources(),
-                R.raw.whitekey);
-
-        Picture picture = svg.getPicture();
-
         canvas.drawPicture(picture,
                            new RectF(0, 0, keyWidth, keyHeight) );
 

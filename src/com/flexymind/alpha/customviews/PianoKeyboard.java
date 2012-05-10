@@ -1,12 +1,18 @@
 package com.flexymind.alpha.customviews;
 
 import android.content.Context;
+import android.graphics.Picture;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
+import com.flexymind.alpha.R;
+import com.larvalabs.svgandroid.SVG;
+import com.larvalabs.svgandroid.SVGParser;
 
 public class PianoKeyboard extends LinearLayout {
-    static boolean              isKeyboardAlreadyDraw        = false;
-    private final static int    countOfWhiteKeys             = 8;
+
+    private final static int    COUNT_OF_WHITE_KEYS = 8;
+    private              int    keyboardW           = 0;
+    private              int    keyboardH           = 0;
 
     public PianoKeyboard(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -15,36 +21,34 @@ public class PianoKeyboard extends LinearLayout {
     @Override
     protected void onMeasure (int widthMeasureSpec,
                               int heightMeasureSpec) {
+
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        final int keyboardW = getMeasuredWidth();
-        final int keyboardH = getMeasuredHeight();
 
-        if (!isKeyboardAlreadyDraw) {
-            addWhiteKeys(keyboardH, keyboardW);
-            isKeyboardAlreadyDraw = true;
+        keyboardW = getMeasuredWidth();
+        keyboardH = getMeasuredHeight();
+    }
+
+    @Override
+    public void onLayout(boolean changed, int l,
+                             int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        addWhiteKeys();
+    }
+
+    private void addWhiteKeys() {
+        SVG svg = SVGParser.getSVGFromResource(getResources(),
+                R.raw.whitekey);
+
+        for (int i = 0; i < COUNT_OF_WHITE_KEYS; i++) {
+            addKey(svg.getPicture());
         }
     }
 
-    public PianoKeyboard(Context context) {
-        super(context);
-    }
-
-    private void addWhiteKeys(int keyboardH, int keyboardW) {
-        for (int i=0; i<8; i++) {
-            addKey(keyboardH, keyboardW);
-        }
-    }
-
-    private void addKey(int keyboardH, int keyboardW) {
+    private void addKey(Picture picture) {
         PianoKey key = new PianoKey(getContext(),
-                       (int) (keyboardH * 2 / 3),
-                         /*
-                           because at first time
-                           layout measured at fullscreen.
-                           need to get right dimensions of
-                           the screen, using custom main layout
-                         */
-                        keyboardW / countOfWhiteKeys);
+                                    keyboardH,
+                                    keyboardW / COUNT_OF_WHITE_KEYS,
+                                    picture);
         addView(key);
     }
 }
