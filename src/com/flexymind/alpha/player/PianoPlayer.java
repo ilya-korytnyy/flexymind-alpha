@@ -24,16 +24,15 @@ public class PianoPlayer extends View {
     public  SoundPool   soundPool;
     public  int         toneID;
     private Note        note;
-    private Tone        tone;
 
     /**
      * @param context from class GameScreen
      */
     public PianoPlayer(Context context, Tone tone) {
         super(context);
+
         soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
-        this.tone = tone;
         note = new Note(tone, 1, true, true);
         toneID = soundPool.load(context, note.getRawName(), 1);
     }
@@ -42,7 +41,7 @@ public class PianoPlayer extends View {
      * Gets the .mid file for that Note and plays it.
      */
     public void play() {
-
+        // params of playing
         float   leftVolume      =   1.0f;
         float   rightVolume     =   1.0f;
         int     priority        =   0;
