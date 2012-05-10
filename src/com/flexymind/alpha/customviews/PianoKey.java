@@ -3,6 +3,7 @@ package com.flexymind.alpha.customviews;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Picture;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
@@ -47,19 +48,22 @@ public class PianoKey extends ImageView {
     @Override
     protected void onDraw (Canvas canvas) {
         //canvas.scale((float)1.0, (float)1.2333);
-        canvas.translate((float)0.0, (float)-Math.abs(keyHeight-svgHeight)/2);
+        SVG svg = getSVGFromResource(getResources(),
+                R.raw.whitekey);
+
+        getHeightAndWidthOfSVG (svg);
+        Picture picture = svg.getPicture();
+
+        canvas.drawPicture(picture, new RectF(0,0,keyWidth, keyHeight/2));
+
+        //canvas.translate((float)0.0, (float)-100);
         super.onDraw(canvas);
     }
 
     private void makeDrawableKey() {
         this.setBackgroundColor(Color.RED);
-        SVG svg = getSVGFromResource(getResources(),
-                R.raw.whitekey);
 
-        getHeightAndWidthOfSVG (svg);
-
-        PictureDrawable drawable = svg.createPictureDrawable();
-        this.setImageDrawable(drawable);
+     //   this.setImageDrawable(drawable);
     }
 
     private void getHeightAndWidthOfSVG(SVG svg) {
