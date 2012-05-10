@@ -34,7 +34,7 @@ public class PianoKeyboard extends LinearLayout {
     }
 
     private void addKey(int keyboardH, int keyboardW) {
-        PianoKey key = new PianoKey(getContext(), keyboardH, keyboardW/8);
+        PianoKey key = new PianoKey(getContext(), keyboardH*2/3, keyboardW/8);
         addView(key);
     }
 }

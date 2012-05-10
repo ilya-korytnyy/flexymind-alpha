@@ -54,7 +54,7 @@ public class PianoKey extends ImageView {
         getHeightAndWidthOfSVG (svg);
         Picture picture = svg.getPicture();
 
-        canvas.drawPicture(picture, new RectF(0,0,keyWidth, keyHeight/2));
+        canvas.drawPicture(picture, new RectF(0,0,keyWidth, keyHeight));
 
         //canvas.translate((float)0.0, (float)-100);
         super.onDraw(canvas);
