@@ -8,18 +8,11 @@ import android.view.Display;
 
 public class GameScreen extends Activity {
 
-    private Integer windowW = 0;
-    private Integer windowH = 0;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-        Display display = getWindowManager().getDefaultDisplay();
-        windowW = display.getWidth();
-        windowH = display.getHeight();
     }
 
     @Override
@@ -45,14 +38,6 @@ public class GameScreen extends Activity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-    }
-
-    public Integer getWindowWidth() {
-        return windowW;
-    }
-
-    public Integer getWindowHeight() {
-        return windowH;
     }
 
 }
