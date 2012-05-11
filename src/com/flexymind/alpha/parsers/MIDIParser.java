@@ -18,6 +18,7 @@ public class MIDIParser {
 //    protected final static int DEFAULT_DURATION = 480;
 
     protected List<Note> listNotes;
+
     public MIDIParser(File file) throws IOException{
         listNotes = new ArrayList<Note>();
         parseFile(new MidiFile(file));
@@ -33,11 +34,10 @@ public class MIDIParser {
     }
 
     private void parseFile(MidiFile mFile){
-        SortedSet<MidiEvent> eventTreeSet =mFile.getTracks().get(1).getEvents();
+        SortedSet<MidiEvent> eventTreeSet = mFile.getTracks().get(1).getEvents();
         for (MidiEvent event : eventTreeSet) {
-            Tone noteTone = Tone.getToneById(((NoteOn) event).getNoteValue());
-            if ((event instanceof NoteOn) && (noteTone != Tone.UNKNOW)) {
-                Note note = new Note(noteTone);
+            if ((event instanceof NoteOn) && (Tone.getToneById(((NoteOn) event).getNoteValue()) != Tone.UNKNOW)) {
+                Note note = new Note(Tone.getToneById(((NoteOn) event).getNoteValue()));
                 listNotes.add(note);
             }
         }
