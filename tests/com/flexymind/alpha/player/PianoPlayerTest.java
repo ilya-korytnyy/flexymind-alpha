@@ -1,24 +1,42 @@
 package com.flexymind.alpha.player;
 
-import junit.framework.TestCase;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pavel
- * Date: 09.05.12
- * Time: 12:41
- * To change this template use File | Settings | File Templates.
- */
+
+import android.media.SoundPool;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+import org.junit.After;
+import org.junit.Before;
+
+
 public class PianoPlayerTest extends TestCase {
+    public SoundPool testSoundPool;
+    public  int      testToneID;
+    private Note     testNote;
+
+    @Before
     public void setUp() throws Exception {
+        super.setUp();
 
     }
 
+    @After
     public void tearDown() throws Exception {
-
+        super.tearDown();
     }
 
     public void testPlay() throws Exception {
 
+    }
+
+    public PianoPlayerTest(String name) {
+        super(name);
+    }
+
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        suite.addTest(new PianoPlayerTest("testPlay"));
+        return suite;
     }
 }
