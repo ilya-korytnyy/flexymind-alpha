@@ -11,9 +11,13 @@ import com.larvalabs.svgandroid.SVGParser;
 
 public class PianoKeyboard extends RelativeLayout {
 
-    private final static int    COUNT_OF_WHITE_KEYS = 8;
-    private              int    keyboardW           = 0;
-    private              int    keyboardH           = 0;
+    private final int    COUNT_OF_WHITE_KEYS     =   8;
+    private final int    COUNT_OF_BLACK_KEYS     =   5;
+    private final int    START_ID_FOR_KEY_VIEWS  = 100;
+    private final int[]  BLACK_KEY_POSITIONS     = {1, 2, 4, 5, 6};
+
+    private       int    keyboardW               =   0;
+    private       int    keyboardH               =   0;
 
     public PianoKeyboard(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -41,22 +45,26 @@ public class PianoKeyboard extends RelativeLayout {
         SVG svg = SVGParser.getSVGFromResource(getResources(),
                 R.raw.blackkey);
 
+        int id = START_ID_FOR_KEY_VIEWS + COUNT_OF_WHITE_KEYS;
+
+        for (int whiteKeyNumber: BLACK_KEY_POSITIONS) {
+            addKey(svg.getPicture(),
+            getBlackKeyHeight(),
+            getBlackKeyWidth(),
+            paramsWithMargin(whiteKeyNumber * getWhiteKeyWidth()
+                                       - getBlackKeyWidth() / 2),
+            id++);
+        }
+    }
+
+    private LayoutParams paramsWithMargin(int margin) {
         RelativeLayout.LayoutParams params = new
                 RelativeLayout.LayoutParams(
                 LayoutParams.FILL_PARENT,
                 LayoutParams.FILL_PARENT);
 
-        int startId = 108;
-
-            params.addRule(RelativeLayout.RIGHT_OF, 100);
-
-
-
-            addKey(svg.getPicture(),
-                    keyboardH / 2,
-                    keyboardW / COUNT_OF_WHITE_KEYS / 2,
-                    params,
-                    startId++);
+        params.leftMargin = margin;
+        return params;
     }
 
     private void addWhiteKeys() {
@@ -68,31 +76,35 @@ public class PianoKeyboard extends RelativeLayout {
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-        int startId = 100;
+        params.addRule(ALIGN_LEFT);
+
+        int id = START_ID_FOR_KEY_VIEWS;
 
         addKey(svg.getPicture(),
-               keyboardH,
-               keyboardW / COUNT_OF_WHITE_KEYS,
+               getWhiteKeyHeight(),
+               getWhiteKeyWidth(),
                params,
-               startId++);
+               id++);
 
-
-
-        for (int i = 0; i < COUNT_OF_WHITE_KEYS; i++) {
-
-            RelativeLayout.LayoutParams paramss = new
-                    RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-            paramss.addRule(RelativeLayout.RIGHT_OF, startId - 1);
-
+        for (int i = 0; i < COUNT_OF_WHITE_KEYS - 1; i++) {
             addKey(svg.getPicture(),
-                    keyboardH,
-                    keyboardW / COUNT_OF_WHITE_KEYS,
-                    paramss,
-                    startId++);
+                    getWhiteKeyHeight(),
+                    getWhiteKeyWidth(),
+                    paramsWithRightOf(id - 1),
+                    id++);
         }
+    }
+
+    private RelativeLayout.LayoutParams paramsWithRightOf(int id) {
+
+        RelativeLayout.LayoutParams params = new
+                RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        params.addRule(RelativeLayout.RIGHT_OF, id);
+
+        return  params;
     }
 
     private void addKey(Picture picture, int keyH, int keyW, RelativeLayout.LayoutParams params, int id) {
