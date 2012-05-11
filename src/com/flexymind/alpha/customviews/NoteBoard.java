@@ -57,7 +57,7 @@ public class NoteBoard extends View {
 
         // set parameters for drawing
         margin = this.getHeight() / 5;
-        int linesHeight = (this.getHeight() - margin * 2);
+        int linesHeight = (this.getHeight() - (int) (margin * 2.5));
         int linesWidth = (this.getWidth() - margin * 2);
         hStep = linesWidth / MAX_NOTES;
 
