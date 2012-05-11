@@ -14,7 +14,7 @@ public class PianoKeyboard extends RelativeLayout {
     private final int    COUNT_OF_WHITE_KEYS     =   8;
     private final int    COUNT_OF_BLACK_KEYS     =   5;
     private final int    START_ID_FOR_KEY_VIEWS  = 100;
-    private final int[]  BLACK_KEY_POSITIONS     = {1, 2, 4, 5, 6};
+    private final int[]  BLACK_KEY_POSITIONS     =  {1, 2, 4, 5, 6};
 
     private       int    keyboardW               =   0;
     private       int    keyboardH               =   0;
@@ -37,54 +37,28 @@ public class PianoKeyboard extends RelativeLayout {
     public void onLayout(boolean changed, int l,
                              int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
+
         addWhiteKeys();
         addBlackKeys();
     }
 
-    private void addBlackKeys() {
-        SVG svg = SVGParser.getSVGFromResource(getResources(),
-                R.raw.blackkey);
-
-        int id = START_ID_FOR_KEY_VIEWS + COUNT_OF_WHITE_KEYS;
-
-        for (int whiteKeyNumber: BLACK_KEY_POSITIONS) {
-            addKey(svg.getPicture(),
-            getBlackKeyHeight(),
-            getBlackKeyWidth(),
-            paramsWithMargin(whiteKeyNumber * getWhiteKeyWidth()
-                                       - getBlackKeyWidth() / 2),
-            id++);
-        }
-    }
-
-    private LayoutParams paramsWithMargin(int margin) {
-        RelativeLayout.LayoutParams params = new
-                RelativeLayout.LayoutParams(
-                LayoutParams.FILL_PARENT,
-                LayoutParams.FILL_PARENT);
-
-        params.leftMargin = margin;
-        return params;
-    }
-
     private void addWhiteKeys() {
+        int id = START_ID_FOR_KEY_VIEWS;
+
         SVG svg = SVGParser.getSVGFromResource(getResources(),
                 R.raw.whitekey);
 
-        RelativeLayout.LayoutParams params = new
-                RelativeLayout.LayoutParams(
+        LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
 
         params.addRule(ALIGN_LEFT);
 
-        int id = START_ID_FOR_KEY_VIEWS;
-
         addKey(svg.getPicture(),
-               getWhiteKeyHeight(),
-               getWhiteKeyWidth(),
-               params,
-               id++);
+                getWhiteKeyHeight(),
+                getWhiteKeyWidth(),
+                params,
+                id++);
 
         for (int i = 0; i < COUNT_OF_WHITE_KEYS - 1; i++) {
             addKey(svg.getPicture(),
@@ -96,18 +70,40 @@ public class PianoKeyboard extends RelativeLayout {
     }
 
     private RelativeLayout.LayoutParams paramsWithRightOf(int id) {
-
-        RelativeLayout.LayoutParams params = new
-                RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-        params.addRule(RelativeLayout.RIGHT_OF, id);
+        LayoutParams params = new LayoutParams
+                (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        params.addRule(RIGHT_OF, id);
 
         return  params;
     }
 
-    private void addKey(Picture picture, int keyH, int keyW, RelativeLayout.LayoutParams params, int id) {
+    private void addBlackKeys() {
+        SVG svg = SVGParser.getSVGFromResource(getResources(),
+                R.raw.blackkey);
+
+        int id = START_ID_FOR_KEY_VIEWS + COUNT_OF_WHITE_KEYS;
+
+        for (int whiteKeyNumber: BLACK_KEY_POSITIONS) {
+            addKey(svg.getPicture(),
+                   getBlackKeyHeight(),
+                   getBlackKeyWidth(),
+                   paramsWithMargin(whiteKeyNumber * getWhiteKeyWidth()
+                                              - getBlackKeyWidth() / 2),
+                   ++id);
+        }
+    }
+
+    private LayoutParams paramsWithMargin(int margin) {
+        LayoutParams params = new LayoutParams
+                (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        params.leftMargin = margin;
+
+        return params;
+    }
+
+    private void addKey(Picture picture, int keyH, int keyW,
+                                LayoutParams params, int id) {
+
         PianoKey key = new PianoKey(getContext(),
                                     keyH,
                                     keyW,
