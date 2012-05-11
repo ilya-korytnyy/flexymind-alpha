@@ -103,4 +103,20 @@ public class PianoKeyboard extends RelativeLayout {
         key.setId(id);
         addView(key, params);
     }
+
+    private int getWhiteKeyWidth() {
+        return keyboardW / COUNT_OF_WHITE_KEYS;
+    }
+
+    private int getWhiteKeyHeight() {
+        return  keyboardH;
+    }
+
+    private int getBlackKeyWidth() {
+        return  getWhiteKeyWidth() / 2;
+    }
+
+    private int getBlackKeyHeight() {
+        return getWhiteKeyHeight() / 2;
+    }
 }
