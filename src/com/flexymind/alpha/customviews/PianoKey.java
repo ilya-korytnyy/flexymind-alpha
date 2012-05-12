@@ -31,6 +31,7 @@ public class PianoKey extends View {
      */
 
     public PianoKey(Context context, int keyH, int keyW, Picture picture) {
+
         super(context);
         this.keyHeight  = keyH;
         this.keyWidth   = keyW;
@@ -38,14 +39,16 @@ public class PianoKey extends View {
     }
 
     @Override
-    protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec){
+    protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
+
        setMeasuredDimension(keyWidth, keyHeight);
     }
 
     @Override
     protected void onDraw (Canvas canvas) {
-        canvas.drawPicture(picture,
-                           new RectF(0, 0, keyWidth, keyHeight) );
+
+        canvas.drawPicture( picture
+                          , new RectF(0, 0, keyWidth, keyHeight));
 
         super.onDraw(canvas);
     }
