@@ -16,7 +16,6 @@ public class NoteBoard extends RelativeLayout {
 
     private static final int ALL_LINES_COUNT  =  9;
     private static final int MAX_NOTES        =  7;
-    private static final int WIDTH_MARGIN     = 10;
 
     private static EnumMap<Note, Integer> noteYCoord;
     private int staveHeight;
@@ -26,6 +25,7 @@ public class NoteBoard extends RelativeLayout {
     private int linesGap;
     private int lineHeight;
     private int notesGap;
+    private int lineWidth;
 
     public NoteBoard(Context context) {
         super(context);
@@ -73,7 +73,7 @@ public class NoteBoard extends RelativeLayout {
 
         setAllNeededSizes();
 
-        drawStave(canvas);
+        drawStave();
         drawClief(canvas);
 
         //HARDCODE try to output
@@ -82,22 +82,23 @@ public class NoteBoard extends RelativeLayout {
 
     private void setAllNeededSizes() {
         setStaveSize();
-        setLinesGap();
+        setLineSize();
         setCliefSize();
         prepareNotesCoord();
     }
 
 
-    private void drawStave(Canvas canvas) {
-        SVG lineSvg = SVGParser.getSVGFromResource(getResources(),
-                                                   R.raw.line);
-        Picture linesPicture = lineSvg.getPicture();
+    private void drawStave() {
+
         for (int i = 2; i < 7; i++) {
-            canvas.drawPicture(linesPicture,
-                               new Rect(WIDTH_MARGIN,
-                                       i * linesGap,
-                                       this.staveWidth,
-                                       i * linesGap + lineHeight) );
+            StaveLine staveLine = new StaveLine(getContext(), lineWidth, lineHeight);
+
+            LayoutParams layoutParams = new LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+
+            layoutParams.topMargin = linesGap * i;
+            layoutParams.leftMargin = linesGap;
+            this.addView(staveLine, layoutParams);
         }
     }
 
@@ -107,10 +108,10 @@ public class NoteBoard extends RelativeLayout {
         Picture clefPicture = clefSvg.getPicture();
 
         canvas.drawPicture(clefPicture,
-                           new Rect(WIDTH_MARGIN,
-                           0,
-                           WIDTH_MARGIN + cliefWidth,
-                           cliefHeight) );
+                           new Rect( linesGap
+                                   , 0
+                                   , linesGap + cliefWidth
+                                   , cliefHeight) );
     }
 
     public void outputMelody() {
@@ -125,7 +126,7 @@ public class NoteBoard extends RelativeLayout {
 
         NoteView note = new NoteView(getContext(), tone, staveWidth, lineHeight);
 
-        int x = WIDTH_MARGIN + cliefWidth + notesGap;
+        int x = linesGap + cliefWidth + notesGap;
         int y = noteYCoord.get(tone) + lineHeight / 2;
         int scale = linesGap;
 
@@ -172,14 +173,15 @@ public class NoteBoard extends RelativeLayout {
         cliefWidth  = staveHeight  / 3;
     }
 
-    private void setLinesGap() {
-        linesGap = staveHeight / (ALL_LINES_COUNT - 1);
-        lineHeight = linesGap / 5;
-    }
-
     private void setStaveSize() {
         staveHeight = this.getHeight();
-        staveWidth = this.getWidth() - WIDTH_MARGIN * 2;
+        linesGap = staveHeight / (ALL_LINES_COUNT - 1);
+        staveWidth = this.getWidth() - linesGap * 2;
+    }
+
+    private void setLineSize() {
+        lineHeight = linesGap / 5;
+        lineWidth = staveWidth;
     }
 
 }

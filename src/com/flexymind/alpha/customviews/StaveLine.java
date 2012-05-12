@@ -16,6 +16,8 @@ public class StaveLine extends View {
 
     public StaveLine(Context context, int lineWidth, int lineHeight) {
         super(context);
+        this.lineWidth  = lineWidth;
+        this.lineHeight = lineHeight;
     }
 
     public StaveLine(Context context, AttributeSet attrs) {
@@ -39,8 +41,8 @@ public class StaveLine extends View {
         canvas.drawPicture( linesPicture
                           , new Rect( 0
                                     , 0
-                                    , this.lineHeight
-                                    , this.lineWidth) );
+                                    , this.lineWidth
+                                    , this.lineHeight) );
         super.onDraw(canvas);
     }
 
