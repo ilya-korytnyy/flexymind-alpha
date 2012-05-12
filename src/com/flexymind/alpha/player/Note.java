@@ -16,6 +16,9 @@ public enum Note {
     C1,   // до
     UNKNOW;
 
+    //[review] mandrgin: strange name... it points to the MIDI file.
+    //so  it better be called as 'getMidiFileId()'
+    ////[review] mandrigin: javadocs for public methods!
     /**
      * For MIDI labrary
      * @param id

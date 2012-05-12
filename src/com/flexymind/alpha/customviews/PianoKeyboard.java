@@ -22,6 +22,10 @@ public class PianoKeyboard extends RelativeLayout {
         super(context, attrs);
     }
 
+    //[review] mandrigin: ',' should be on the new line:
+    // Make:
+    //protected void onMeasure( int widthMeasureSpec
+    //                        , int heightMeasureSpec) {
     @Override
     protected void onMeasure (int widthMeasureSpec,
                               int heightMeasureSpec) {

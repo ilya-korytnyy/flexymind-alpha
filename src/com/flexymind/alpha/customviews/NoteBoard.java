@@ -14,10 +14,12 @@ import java.util.EnumMap;
 
 public class NoteBoard extends RelativeLayout {
 
+
     private static final int ALL_LINES_COUNT  =  9;
     private static final int MAX_NOTES        =  7;
 
     private static EnumMap<Note, Integer> noteYCoord;
+
     private int staveHeight;
     private int staveWidth;
     private int cliefHeight;
@@ -123,7 +125,6 @@ public class NoteBoard extends RelativeLayout {
      * @param tone tone to represent
      */
     public void outputNote(Canvas canvas, Note tone) {
-
         NoteView note = new NoteView(getContext(), tone, staveWidth, lineHeight);
 
         int x = linesGap + cliefWidth + notesGap;
@@ -134,7 +135,7 @@ public class NoteBoard extends RelativeLayout {
     }
 
     private boolean isStraight(Note note) {
-        if(noteYCoord.get(note) < noteYCoord.get(Note.Az)){
+        if(noteYCoord.get(note) < noteYCoord.get(Note.Az)) { // TODO make it H, not Az
             return false;
         }
         return true;
