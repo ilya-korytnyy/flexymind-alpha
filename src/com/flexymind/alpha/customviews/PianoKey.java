@@ -45,9 +45,9 @@ public class PianoKey extends View {
 
     @Override
     protected void onDraw (Canvas canvas) {
+        super.onDraw(canvas);
         canvas.drawPicture(picture,
                            new Rect(0, 0, keyWidth, keyHeight) );
 
-        super.onDraw(canvas);
     }
 }

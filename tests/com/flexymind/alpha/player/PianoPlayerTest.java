@@ -13,7 +13,7 @@ import org.junit.Before;
 public class PianoPlayerTest extends TestCase {
     public SoundPool testSoundPool;
     public  int      testToneID;
-    private Note     testNote;
+    private MidiNote testNote;
 
     @Before
     public void setUp() throws Exception {

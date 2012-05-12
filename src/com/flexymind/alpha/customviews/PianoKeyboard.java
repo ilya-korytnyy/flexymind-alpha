@@ -47,24 +47,23 @@ public class PianoKeyboard extends RelativeLayout {
         SVG svg = SVGParser.getSVGFromResource(getResources(),
                                                R.raw.whitekey);
 
-        LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        LayoutParams params = new LayoutParams(
+                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
         params.addRule(ALIGN_LEFT);
 
-        addKey(svg.getPicture(),
-               getWhiteKeyHeight(),
-               getWhiteKeyWidth(),
-               params,
-               id++);
+        addKey( svg.getPicture()
+              , getWhiteKeyHeight()
+              , getWhiteKeyWidth()
+              , params
+              , id++ );
 
         for (int i = 0; i < COUNT_OF_WHITE_KEYS - 1; i++) {
-            addKey(svg.getPicture(),
-                   getWhiteKeyHeight(),
-                   getWhiteKeyWidth(),
-                   paramsWithRightOf(id - 1),
-                   id++);
+            addKey( svg.getPicture()
+                  , getWhiteKeyHeight()
+                  , getWhiteKeyWidth()
+                  , paramsWithRightOf(id - 1)
+                  , id++);
         }
     }
 
@@ -103,10 +102,10 @@ public class PianoKeyboard extends RelativeLayout {
     private void addKey(Picture picture, int keyH, int keyW,
                                 LayoutParams params, int id) {
 
-        PianoKey key = new PianoKey(getContext(),
-                                    keyH,
-                                    keyW,
-                                    picture);
+        PianoKey key = new PianoKey( getContext()
+                                   , keyH
+                                   , keyW
+                                   , picture );
         key.setId(id);
         addView(key, params);
     }

@@ -3,24 +3,22 @@ package com.flexymind.alpha.customviews;
 import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
-import android.view.View;
+import android.widget.RelativeLayout;
 import com.flexymind.alpha.R;
-import com.flexymind.alpha.player.Tone;
+import com.flexymind.alpha.player.Note;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
 import java.util.EnumMap;
 
-/**
- * All coordinates are in density pixels
- */
-public class NoteBoard extends View {
+
+public class NoteBoard extends RelativeLayout {
 
     private static final int ALL_LINES_COUNT  =  9;
     private static final int MAX_NOTES        =  7;
-    private static final int WIDTH_MARGIN      = 10;
+    private static final int WIDTH_MARGIN     = 10;
 
-    private static EnumMap<Tone, Integer> noteYCoord;
+    private static EnumMap<Note, Integer> noteYCoord;
     private int staveHeight;
     private int staveWidth;
     private int cliefHeight;
@@ -48,25 +46,26 @@ public class NoteBoard extends View {
     private void initializeMap(int linesGap) {
         int step = linesGap / 2;
 
-        noteYCoord.put(Tone.C,  step * 15);
-        noteYCoord.put(Tone.Cz, step * 15);
-        noteYCoord.put(Tone.D,  step * 14);
-        noteYCoord.put(Tone.Dz, step * 14);
-        noteYCoord.put(Tone.E,  step * 13);
-        noteYCoord.put(Tone.F,  step * 12);
-        noteYCoord.put(Tone.Fz, step * 12);
-        noteYCoord.put(Tone.G,  step * 11);
-        noteYCoord.put(Tone.Gz, step * 11);
-        noteYCoord.put(Tone.A,  step * 10);
-        noteYCoord.put(Tone.Az, step * 10);
-        noteYCoord.put(Tone.H,  step *  7);
-        noteYCoord.put(Tone.C1, step *  6);
+        noteYCoord.put(Note.C,  step * 15);
+        noteYCoord.put(Note.Cz, step * 15);
+        noteYCoord.put(Note.D,  step * 14);
+        noteYCoord.put(Note.Dz, step * 14);
+        noteYCoord.put(Note.E,  step * 13);
+        noteYCoord.put(Note.F,  step * 12);
+        noteYCoord.put(Note.Fz, step * 12);
+        noteYCoord.put(Note.G,  step * 11);
+        noteYCoord.put(Note.Gz, step * 11);
+        noteYCoord.put(Note.A,  step * 10);
+        noteYCoord.put(Note.Az, step * 10);
+        noteYCoord.put(Note.H,  step *  7);
+        noteYCoord.put(Note.C1, step *  6);
     }
 
     /**
      * Draw stave, clef, manage notes drawing
      * @param canvas canvas to draw on
      */
+
     @Override
     protected void onDraw(Canvas canvas) {
 
@@ -78,7 +77,7 @@ public class NoteBoard extends View {
         drawClief(canvas);
 
         //HARDCODE try to output
-        outputNote(canvas, Tone.Fz);
+        outputNote(canvas, Note.Fz);
     }
 
     private void setAllNeededSizes() {
@@ -122,9 +121,9 @@ public class NoteBoard extends View {
      * @param canvas canvas to draw on
      * @param tone tone to represent
      */
-    public void outputNote(Canvas canvas, Tone tone) {
+    public void outputNote(Canvas canvas, Note tone) {
 
-        NoteView note = new NoteView(getContext());
+        NoteView note = new NoteView(getContext(), tone, staveWidth, lineHeight);
 
         int x = WIDTH_MARGIN + cliefWidth + notesGap;
         int y = noteYCoord.get(tone) + lineHeight / 2;
@@ -133,17 +132,17 @@ public class NoteBoard extends View {
         note.onDraw(canvas, x, y, scale, isStraight(tone), isSharp(tone));
     }
 
-    private boolean isStraight(Tone tone) {
-        if(noteYCoord.get(tone) < noteYCoord.get(Tone.Az)){
+    private boolean isStraight(Note note) {
+        if(noteYCoord.get(note) < noteYCoord.get(Note.Az)){
             return false;
         }
         return true;
     }
 
-    private boolean isSharp(Tone tone) {
-        if (tone== Tone.Cz || tone== Tone.Dz
-            || tone== Tone.Fz || tone== Tone.Cz
-            || tone== Tone.Gz || tone == Tone.Az) {
+    private boolean isSharp(Note note) {
+        if (note == Note.Cz || note == Note.Dz
+            || note == Note.Fz || note == Note.Cz
+            || note == Note.Gz || note == Note.Az) {
                 return  true;
         }
         return false;
@@ -158,13 +157,13 @@ public class NoteBoard extends View {
        //
     }
 
-    public void highlightErrorNote(Tone tone, int position) {
+    public void highlightErrorNote(Note note, int position) {
         //
     }
 
     private void prepareNotesCoord() {
         notesGap = (staveWidth - cliefWidth) / (MAX_NOTES + 1);
-        noteYCoord = new EnumMap<Tone, Integer>(Tone.class);
+        noteYCoord = new EnumMap<Note, Integer>(Note.class);
         initializeMap(linesGap);
     }
 
