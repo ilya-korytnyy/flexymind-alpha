@@ -3,7 +3,6 @@ package com.flexymind.alpha.customviews;
 import android.content.Context;
 import android.graphics.Picture;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.flexymind.alpha.R;
 import com.larvalabs.svgandroid.SVG;
@@ -12,9 +11,9 @@ import com.larvalabs.svgandroid.SVGParser;
 public class PianoKeyboard extends RelativeLayout {
 
     private final int    COUNT_OF_WHITE_KEYS     =   8;
-    private final int    COUNT_OF_BLACK_KEYS     =   5;
     private final int    START_ID_FOR_KEY_VIEWS  = 100;
     private final int[]  BLACK_KEY_POSITIONS     =  {1, 2, 4, 5, 6};
+            // in future this array will be create automatic,
 
     private       int    keyboardW               =   0;
     private       int    keyboardH               =   0;
@@ -46,7 +45,7 @@ public class PianoKeyboard extends RelativeLayout {
         int id = START_ID_FOR_KEY_VIEWS;
 
         SVG svg = SVGParser.getSVGFromResource(getResources(),
-                R.raw.whitekey);
+                                               R.raw.whitekey);
 
         LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -55,17 +54,17 @@ public class PianoKeyboard extends RelativeLayout {
         params.addRule(ALIGN_LEFT);
 
         addKey(svg.getPicture(),
-                getWhiteKeyHeight(),
-                getWhiteKeyWidth(),
-                params,
-                id++);
+               getWhiteKeyHeight(),
+               getWhiteKeyWidth(),
+               params,
+               id++);
 
         for (int i = 0; i < COUNT_OF_WHITE_KEYS - 1; i++) {
             addKey(svg.getPicture(),
-                    getWhiteKeyHeight(),
-                    getWhiteKeyWidth(),
-                    paramsWithRightOf(id - 1),
-                    id++);
+                   getWhiteKeyHeight(),
+                   getWhiteKeyWidth(),
+                   paramsWithRightOf(id - 1),
+                   id++);
         }
     }
 
