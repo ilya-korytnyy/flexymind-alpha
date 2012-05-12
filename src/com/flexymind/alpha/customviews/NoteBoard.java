@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.RelativeLayout;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.player.Tone;
 import com.larvalabs.svgandroid.SVG;
@@ -49,6 +50,16 @@ public class NoteBoard extends View {
 
     private void init() {
         clef = BitmapFactory.decodeResource(getResources(), R.drawable.treble_clef);
+
+        // init {@code notes} with default values
+        notes.add(new Note(getContext(), Tone.C));
+        notes.add(new Note(getContext(), Tone.D));
+        notes.add(new Note(getContext(), Tone.E));
+        notes.add(new Note(getContext(), Tone.F));
+        notes.add(new Note(getContext(), Tone.G));
+        notes.add(new Note(getContext(), Tone.A));
+        notes.add(new Note(getContext(), Tone.H));
+        notes.add(new Note(getContext(), Tone.C1));
     }
 
     @Override
@@ -59,7 +70,24 @@ public class NoteBoard extends View {
         margin = this.getHeight() / 5;
         int linesHeight = (this.getHeight() - (int) (margin * 2.5));
         int linesWidth = (this.getWidth() - margin * 2);
-        hStep = linesWidth / MAX_NOTES;
+        int lineHeight = linesHeight / (LINE_COUNT - 1);
+
+        // set coordinates for each tone
+        int lowestPoint = linesHeight + margin + lineHeight;
+        int step = lineHeight / 2;
+        noteYMap.put(Tone.C, lowestPoint);
+        noteYMap.put(Tone.Cz, lowestPoint);
+        noteYMap.put(Tone.C1, lowestPoint);
+        noteYMap.put(Tone.D, lowestPoint - step);
+        noteYMap.put(Tone.Dz, lowestPoint - step);
+        noteYMap.put(Tone.E, lowestPoint - step * 2);
+        noteYMap.put(Tone.F, lowestPoint - step * 3);
+        noteYMap.put(Tone.Fz, lowestPoint - step * 3);
+        noteYMap.put(Tone.G, lowestPoint - step * 4);
+        noteYMap.put(Tone.Gz, lowestPoint - step * 4);
+        noteYMap.put(Tone.A, lowestPoint - step * 5);
+        noteYMap.put(Tone.Az, lowestPoint - step * 5);
+        noteYMap.put(Tone.H, lowestPoint - step * 6);
 
         // draw 5 lines
         SVG linesSvg = SVGParser.getSVGFromResource(getResources(), R.raw.linescut);
@@ -74,26 +102,37 @@ public class NoteBoard extends View {
         int clefHeight = linesHeight + margin;
         int clefLeftIndent = (int) (margin * 1.5);
         int clefTopIndent = margin / 2;
+        int clefWidth = (int) (clefHeight / proportion);
         canvas.drawPicture(clefPicture, new RectF(clefLeftIndent, clefTopIndent,
-                                                  clefHeight / proportion + clefLeftIndent,
-                                                  clefHeight + clefTopIndent + margin / 2));
+                                                  clefWidth + clefLeftIndent, clefHeight + clefTopIndent + margin / 2));
+
+        // let's try to add note
+        Note note = new Note(getContext(), Tone.C);
+
+        // set note on required position
+        int nY = noteYMap.get(Tone.C);
+        hStep = linesWidth / MAX_NOTES;
+        int nX = clefLeftIndent + clefWidth + clefLeftIndent // space for clef
+                 + notes.indexOf(Tone.C) * hStep;
+
+        // here we add the note
     }
 
     /**
-     * Puts the specified {@code note} on the specified position of the note board
+     * Puts the specified {@code tone} on the specified position of the note board
      *
-     * @param note
+     * @param tone
      */
-    public void outputNote(Note note) {
+    public void outputTone(Tone tone) {
 
     }
 
     /**
-     * Puts specified {@code notes} on the note board
+     * Puts specified {@code tones} on the note board
      *
-     * @param notes
+     * @param tones
      */
-    public void outputNotes(List<Note> notes) {
+    public void outputNotes(List<Tone> tones) {
 
     }
 
@@ -107,33 +146,32 @@ public class NoteBoard extends View {
     /**
      * Changes the color of a note.
      *
-     * @param note
      * @param position Position of a note on the note board, starting from 0.
      */
-    public void highlightCorrectNote(Note note, int position, Color color) {
+    public void highlightCorrectNote(int position) {
         // check range
         if (position < 0
                 || position >= notes.size()) {
             return;
         }
 
-        notes.get(position).setColor(color);
+        notes.get(position).highlight();
     }
 
     /**
      * Changes the color of a note.
      *
-     * @param note
+     * @param tone
      * @param position Position of a note on the note board, starting from 0.
      */
-    public void highlightErrorNote(Note note, int position, Color color) {
+    public void highlightErrorNote(Tone tone, int position) {
         // check range
         if (position < 0
                 || position >= notes.size()) {
             return;
         }
 
-        notes.get(position).setColor(color);
+        notes.get(position).highlight();
     }
 
 }

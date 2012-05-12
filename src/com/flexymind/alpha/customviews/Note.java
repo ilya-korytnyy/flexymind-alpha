@@ -2,7 +2,6 @@ package com.flexymind.alpha.customviews;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
@@ -15,40 +14,22 @@ import com.larvalabs.svgandroid.SVGParser;
 import java.util.EnumMap;
 
 public class Note extends View {
-
-    Tone tone;
-    boolean sharp;
     private static EnumMap<Tone, Integer> noteOrder;
+    private Tone tone;
 
-    /**
-     *   Parameters of rectangle picture fits in
-     */
-    private class rectEdges{
-
-        int left;
-        int top;
-        int right;
-        int bottom;
-    }
-
-    public Note(Context context) {
-
+    public Note(Context context, Tone tone) {
         super(context);
+        this.tone = tone;
         init();
     }
 
-    public Note(Context context, AttributeSet attrs) {
-
+    public Note(Context context, AttributeSet attrs, Tone tone) {
         super(context, attrs);
+        this.tone = tone;
         init();
-    }
-
-    public void setColor(Color color) {
-
     }
 
     private void init(){
-
         noteOrder = new EnumMap<Tone, Integer>(Tone.class);
         initializeMap();
     }
@@ -57,7 +38,6 @@ public class Note extends View {
      * Map tones in ascending order
      */
     private void initializeMap() {
-
         noteOrder.put(Tone.C, 0);
         noteOrder.put(Tone.Cz, 0);
         noteOrder.put(Tone.D, 1);
@@ -79,8 +59,7 @@ public class Note extends View {
      * @param source path to picture source
      * @param edges rectangle parametres
      */
-    private void drawSVG(Canvas canvas, int source, rectEdges edges){
-
+    private void drawSVG(Canvas canvas, int source, Rect edges){
         SVG noteSvg = SVGParser.getSVGFromResource(getResources(), source);
         Picture notePicture = noteSvg.getPicture();
         Rect noteRect = new Rect(edges.left, edges.top, edges.right, edges.bottom);
@@ -91,58 +70,83 @@ public class Note extends View {
      * Compute note & sharp position in relation
      * to the stave. Draw note & sharp if necessary.
      * @param canvas canvas to draw on
-     * @param note note to draw
-     * @param margin left margin from display edge to the stave
-     * @param lineMargin margin between lines
-     * @param order number of note in current NoteBoard view
      */
-    protected void onDraw(Canvas canvas, Note note, int margin, int lineMargin, int order) {
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
 
-        //HARDCODE FOR TEST
-        note.tone = Tone.A;     //+++++
-        note.sharp = true;      //+++++
-        //++++++++++++++++++
-
-        int linesX = lineMargin*6+lineMargin/2;
-        int linesY = margin+100+order*100;
-        int noteWidth = lineMargin*2;
-        int noteHeight = lineMargin*3;
-        int sharpWidth = lineMargin;
-        int sharpHeight = lineMargin*2;
-
-        rectEdges noteRect = new rectEdges();
-        rectEdges sharpRect = new rectEdges();
-
-        //Notes till H would be drawn straight, rest of them inverted
-        if ((order = noteOrder.get(note.tone))<6){
-            noteRect.left = linesY;
-            noteRect.bottom = linesX-lineMargin/2*order;
-            noteRect.top = noteRect.bottom-noteHeight;
-            noteRect.right = noteRect.left+noteWidth;
-            if(note.sharp == true){
-                sharpRect.right = noteRect.left;
-                sharpRect.left = sharpRect.right-sharpWidth;
-                sharpRect.top = noteRect.bottom+lineMargin/2;
-                sharpRect.bottom = sharpRect.top-sharpHeight;
-            }
+        // determine if we've to add #
+        boolean isDiez = false;
+        if (tone == Tone.Cz || tone == Tone.Dz
+                || tone == Tone.Fz || tone == Tone.Cz
+                || tone == Tone.Gz || tone == Tone.Az) {
+            isDiez = true;
         }
-        else{                            //inverted position
-            noteRect.left = linesY;
-            noteRect.bottom = linesX-lineMargin/2*(order+2);
-            noteRect.right = noteRect.left+noteWidth;
-            noteRect.top = noteRect.bottom+noteHeight;
-            if(note.sharp == true){
+
+        /*
+         * noteWidth - width of the note without '#'
+         * '#' takes 2/3 of the note's height anf 1/3 of it's width
+         */
+        int noteWidth = this.getWidth() / 3 * 2;
+        int sharpWidth = noteWidth / 2;          // width of the '#'
+        int noteHeight = this.getHeight();
+        int sharpHeight = noteHeight / 3;        // height of the '#'
+
+        Rect noteRect = new Rect();
+        Rect sharpRect = new Rect();
+
+        // All notes except H would be drawn straight, H is inverted
+        if (noteOrder.get(tone) != 6){
+            noteRect.left = sharpWidth;
+            noteRect.right = noteRect.left + noteWidth;
+            noteRect.top = noteHeight / 3;              // if its 'straight', drawing starts lower
+            noteRect.bottom = noteHeight;
+            if (isDiez) {
+                sharpRect.left = 0;
                 sharpRect.right = noteRect.left;
-                sharpRect.left = sharpRect.right-sharpWidth;
-                sharpRect.top = noteRect.bottom-lineMargin/2;
-                sharpRect.bottom = sharpRect.top+sharpHeight;
+                sharpRect.top = noteHeight / 3;
+                sharpRect.bottom = sharpRect.top + sharpHeight;
+            }
+        } else {                            //inverted position
+            noteRect.left = sharpWidth;
+            noteRect.bottom = noteHeight * 2/ 3;
+            noteRect.right = noteRect.left + noteWidth;
+            noteRect.top = 0;
+            if(isDiez){
+                sharpRect.left = 0;
+                sharpRect.right = noteRect.left;
+                sharpRect.top = noteHeight / 3;
+                sharpRect.bottom = sharpRect.top + sharpHeight;
             }
         }
 
         //Draw note & sharp if necessary
         drawSVG(canvas, R.raw.note, noteRect);
-        if(note.sharp == true){
+        if(isDiez){
             drawSVG(canvas, R.raw.sharp, sharpRect);
         }
+    }
+
+    // SHOW ERROR/CORRECT NOTE
+
+    /**
+     * Makes it green
+     */
+    public void highlight() {
+
+    }
+
+    /**
+     * Makes it red
+     */
+    public void highlightError() {
+
+    }
+
+    /**
+     * Makes it black again
+     */
+    public void unHighlight() {
+
     }
 }
