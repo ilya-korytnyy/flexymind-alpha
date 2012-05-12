@@ -3,7 +3,7 @@ package com.flexymind.alpha.customviews;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Picture;
-import android.graphics.RectF;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -42,10 +42,11 @@ public class PianoKey extends View {
        setMeasuredDimension(keyWidth, keyHeight);
     }
 
+
     @Override
     protected void onDraw (Canvas canvas) {
         canvas.drawPicture(picture,
-                           new RectF(0, 0, keyWidth, keyHeight) );
+                           new Rect(0, 0, keyWidth, keyHeight) );
 
         super.onDraw(canvas);
     }
