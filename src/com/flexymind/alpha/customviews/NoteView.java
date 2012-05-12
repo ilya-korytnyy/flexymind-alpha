@@ -13,17 +13,17 @@ import com.larvalabs.svgandroid.SVGParser;
 
 import java.util.EnumMap;
 
-public class Note extends View {
+public class NoteView extends View {
     private static EnumMap<Tone, Integer> noteOrder;
     private Tone tone;
 
-    public Note(Context context, Tone tone) {
+    public NoteView(Context context, Tone tone) {
         super(context);
         this.tone = tone;
         init();
     }
 
-    public Note(Context context, AttributeSet attrs, Tone tone) {
+    public NoteView(Context context, AttributeSet attrs, Tone tone) {
         super(context, attrs);
         this.tone = tone;
         init();

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.RelativeLayout;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.player.Tone;
 import com.larvalabs.svgandroid.SVG;
@@ -29,8 +28,7 @@ public class NoteBoard extends View {
     /** The horizontal distance between two (@code Notes} */
     private int hStep;
 
-    private Bitmap clef;
-    private ArrayList<Note> notes = new ArrayList<Note>(MAX_NOTES);
+    private ArrayList<NoteView> notes = new ArrayList<NoteView>(MAX_NOTES);
     private HashMap<Tone, Integer> noteYMap = new HashMap<Tone, Integer>(MAX_NOTES);
 
     public NoteBoard(Context context) {
@@ -49,17 +47,15 @@ public class NoteBoard extends View {
     }
 
     private void init() {
-        clef = BitmapFactory.decodeResource(getResources(), R.drawable.treble_clef);
-
         // init {@code notes} with default values
-        notes.add(new Note(getContext(), Tone.C));
-        notes.add(new Note(getContext(), Tone.D));
-        notes.add(new Note(getContext(), Tone.E));
-        notes.add(new Note(getContext(), Tone.F));
-        notes.add(new Note(getContext(), Tone.G));
-        notes.add(new Note(getContext(), Tone.A));
-        notes.add(new Note(getContext(), Tone.H));
-        notes.add(new Note(getContext(), Tone.C1));
+        notes.add(new NoteView(getContext(), Tone.C));
+        notes.add(new NoteView(getContext(), Tone.D));
+        notes.add(new NoteView(getContext(), Tone.E));
+        notes.add(new NoteView(getContext(), Tone.F));
+        notes.add(new NoteView(getContext(), Tone.G));
+        notes.add(new NoteView(getContext(), Tone.A));
+        notes.add(new NoteView(getContext(), Tone.H));
+        notes.add(new NoteView(getContext(), Tone.C1));
     }
 
     @Override
@@ -107,7 +103,6 @@ public class NoteBoard extends View {
                                                   clefWidth + clefLeftIndent, clefHeight + clefTopIndent + margin / 2));
 
         // let's try to add note
-        Note note = new Note(getContext(), Tone.C);
 
         // set note on required position
         int nY = noteYMap.get(Tone.C);
@@ -115,7 +110,7 @@ public class NoteBoard extends View {
         int nX = clefLeftIndent + clefWidth + clefLeftIndent // space for clef
                  + notes.indexOf(Tone.C) * hStep;
 
-        // here we add the note
+        notes.get(0);// here we add the note to this View
     }
 
     /**
