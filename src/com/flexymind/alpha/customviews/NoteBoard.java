@@ -10,163 +10,159 @@ import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * All coordinates are in density pixels
- *
  */
 public class NoteBoard extends View {
-    /** Number of lines of the board. The value is {@value}. */
-    private static final int LINE_COUNT = 5;
-    /** The maximum number of notes that can be drawn on the notes board. The value is {@value}. */
+
+    private static final int ALL_LINES_COUNT = 9;
     private static final int MAX_NOTES = 7;
+    private static final int widthMargin = 10;
 
-    /** A margin from each side of the display. */
-    private int margin;
-    /** The horizontal distance between two (@code Notes} */
-    private int hStep;
-
-    private ArrayList<NoteView> notes = new ArrayList<NoteView>(MAX_NOTES);
-    private HashMap<Tone, Integer> noteYMap = new HashMap<Tone, Integer>(MAX_NOTES);
+    private static EnumMap<Tone, Integer> noteYCoord;
+    private int staveHeight;
+    private int staveWidth;
+    private int linesGap;
+    private int lineHeight;
+    private int clefHeight;
+    private int clefWidth;
+    private int notesGap;
 
     public NoteBoard(Context context) {
         super(context);
-        init();
     }
 
     public NoteBoard(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
     }
 
     public NoteBoard(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
     }
 
-    private void init() {
-        // init {@code notes} with default values
-        notes.add(new NoteView(getContext(), Tone.C));
-        notes.add(new NoteView(getContext(), Tone.D));
-        notes.add(new NoteView(getContext(), Tone.E));
-        notes.add(new NoteView(getContext(), Tone.F));
-        notes.add(new NoteView(getContext(), Tone.G));
-        notes.add(new NoteView(getContext(), Tone.A));
-        notes.add(new NoteView(getContext(), Tone.H));
-        notes.add(new NoteView(getContext(), Tone.C1));
+    /**
+     * Map tones and y coordinate of the related notes
+     * @param linesGap gap between two lines of the stave
+     */
+    private void initializeMap(int linesGap) {
+
+        int step = linesGap / 2;
+
+        noteYCoord.put(Tone.C, step*15);
+        noteYCoord.put(Tone.Cz, step*15);
+        noteYCoord.put(Tone.D, step*14);
+        noteYCoord.put(Tone.Dz, step*14);
+        noteYCoord.put(Tone.E, step*13);
+        noteYCoord.put(Tone.F, step*12);
+        noteYCoord.put(Tone.Fz, step*12);
+        noteYCoord.put(Tone.G, step*11);
+        noteYCoord.put(Tone.Gz, step*11);
+        noteYCoord.put(Tone.A, step*10);
+        noteYCoord.put(Tone.Az, step*10);
+        noteYCoord.put(Tone.H, step*7);
+        noteYCoord.put(Tone.C1, step*6);
     }
 
+    /**
+     * Draw stave, clef, manage notes drawing
+     * @param canvas canvas to draw on
+     */
     @Override
     protected void onDraw(Canvas canvas) {
+
         super.onDraw(canvas);
 
-        // set parameters for drawing
-        margin = this.getHeight() / 5;
-        int linesHeight = (this.getHeight() - (int) (margin * 2.5));
-        int linesWidth = (this.getWidth() - margin * 2);
-        int lineHeight = linesHeight / (LINE_COUNT - 1);
+        //stave size
+        staveHeight = this.getHeight();
+        staveWidth = this.getWidth() - widthMargin*2;
+        //lines gap
+        linesGap = staveHeight / (ALL_LINES_COUNT-1);
+        lineHeight = linesGap / 5;
+        //draw stave (5 lines visible, gap for 2+2 auxiliary lines above&below stave)
+        SVG lineSvg = SVGParser.getSVGFromResource(getResources(), R.raw.line);
+        Picture linesPicture = lineSvg.getPicture();
+        for (int i = 2; i < 7; i++) {
+            canvas.drawPicture(linesPicture, new Rect(widthMargin, i*linesGap,
+                               this.staveWidth, i*linesGap+lineHeight));
+        }
 
-        // set coordinates for each tone
-        int lowestPoint = linesHeight + margin + lineHeight;
-        int step = lineHeight / 2;
-        noteYMap.put(Tone.C, lowestPoint);
-        noteYMap.put(Tone.Cz, lowestPoint);
-        noteYMap.put(Tone.C1, lowestPoint);
-        noteYMap.put(Tone.D, lowestPoint - step);
-        noteYMap.put(Tone.Dz, lowestPoint - step);
-        noteYMap.put(Tone.E, lowestPoint - step * 2);
-        noteYMap.put(Tone.F, lowestPoint - step * 3);
-        noteYMap.put(Tone.Fz, lowestPoint - step * 3);
-        noteYMap.put(Tone.G, lowestPoint - step * 4);
-        noteYMap.put(Tone.Gz, lowestPoint - step * 4);
-        noteYMap.put(Tone.A, lowestPoint - step * 5);
-        noteYMap.put(Tone.Az, lowestPoint - step * 5);
-        noteYMap.put(Tone.H, lowestPoint - step * 6);
-
-        // draw 5 lines
-        SVG linesSvg = SVGParser.getSVGFromResource(getResources(), R.raw.linescut);
-        Picture linesPicture = linesSvg.getPicture();
-        canvas.drawPicture(linesPicture, new Rect(margin, margin, linesWidth + margin, linesHeight + margin));
-
-        // draw the clef
-        SVG clefSvg = SVGParser.getSVGFromResource(getResources(), R.raw.goodclef);
+        //clef size
+        clefHeight = staveHeight;
+        clefWidth = clefHeight / 3;
+        //draw clef
+        SVG clefSvg = SVGParser.getSVGFromResource(getResources(), R.raw.scaledclef);
         Picture clefPicture = clefSvg.getPicture();
-        RectF clefLimits = clefSvg.getLimits();
-        float proportion = clefLimits.bottom / clefLimits.right;
-        int clefHeight = linesHeight + margin;
-        int clefLeftIndent = (int) (margin * 1.5);
-        int clefTopIndent = margin / 2;
-        int clefWidth = (int) (clefHeight / proportion);
-        canvas.drawPicture(clefPicture, new RectF(clefLeftIndent, clefTopIndent,
-                                                  clefWidth + clefLeftIndent, clefHeight + clefTopIndent + margin / 2));
+        canvas.drawPicture(clefPicture, new Rect(widthMargin, 0,
+                           widthMargin+clefWidth, clefHeight));
 
-        // let's try to add note
+        //prepare notes coordinates
+        notesGap = (staveWidth-clefWidth) / (MAX_NOTES+1);
+        noteYCoord = new EnumMap<Tone, Integer>(Tone.class);
+        initializeMap(linesGap);
 
-        // set note on required position
-        int nY = noteYMap.get(Tone.C);
-        hStep = linesWidth / MAX_NOTES;
-        int nX = clefLeftIndent + clefWidth + clefLeftIndent // space for clef
-                 + notes.indexOf(Tone.C) * hStep;
-
-        notes.get(0);// here we add the note to this View
-    }
-
-    /**
-     * Puts the specified {@code tone} on the specified position of the note board
-     *
-     * @param tone
-     */
-    public void outputTone(Tone tone) {
+        //HARDCODE try to output
+        outputNote(canvas, Tone.Fz);
 
     }
 
-    /**
-     * Puts specified {@code tones} on the note board
-     *
-     * @param tones
-     */
-    public void outputNotes(List<Tone> tones) {
+    public void outputMelody()
+    {
+        //outputNote();
+    }
 
+    /**
+     * Manage note parameters based on tone given
+     * @param canvas canvas to draw on
+     * @param tone tone to represent
+     */
+    public void outputNote(Canvas canvas, Tone tone) {
+
+        NoteView note = new NoteView(getContext());
+
+        int x = widthMargin + clefWidth + notesGap;
+        int y = noteYCoord.get(tone) + lineHeight/2;
+        int scale = linesGap;
+
+        //straight or inverted position
+        boolean isStraight = true;
+        if(noteYCoord.get(tone) < noteYCoord.get(Tone.Az)){
+            isStraight = false;
+        }
+
+        //has sharp or not
+        boolean isSharp = false;
+        if (tone== Tone.Cz || tone== Tone.Dz
+            || tone== Tone.Fz || tone== Tone.Cz
+            || tone== Tone.Gz || tone == Tone.Az) {
+            isSharp = true;
+        }
+
+        note.onDraw(canvas, x, y, scale, isStraight, isSharp);
     }
 
     /**
      * Removes all notes
      */
     public void clear() {
-        notes.clear();
+        //
     }
 
     /**
      * Changes the color of a note.
-     *
-     * @param position Position of a note on the note board, starting from 0.
      */
     public void highlightCorrectNote(int position) {
-        // check range
-        if (position < 0
-                || position >= notes.size()) {
-            return;
-        }
-
-        notes.get(position).highlight();
+       //
     }
 
     /**
      * Changes the color of a note.
-     *
-     * @param tone
-     * @param position Position of a note on the note board, starting from 0.
      */
     public void highlightErrorNote(Tone tone, int position) {
-        // check range
-        if (position < 0
-                || position >= notes.size()) {
-            return;
-        }
-
-        notes.get(position).highlight();
+        //
     }
 
 }
