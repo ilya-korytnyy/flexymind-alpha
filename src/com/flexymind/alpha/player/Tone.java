@@ -1,5 +1,14 @@
 package com.flexymind.alpha.player;
 
+/*
+ *  [review] mandrigin: maybe it is better to assign IDs to tones?
+ *  E.g.:
+ *  public enum Tone {
+ *      A = 57;
+ *  }
+ *  And use (Tone)id instead of getToneById method;
+ *  And there should be test for the Tone methods.
+ */
 public enum Tone {
     C,   // до
     D,   // ре
@@ -16,6 +25,7 @@ public enum Tone {
     C1,   // до
     UNKNOW;
 
+    ////[review] mandrigin: javadocs for public methods!
     public static Tone getToneById(int id){
         switch (id){
             case 57:

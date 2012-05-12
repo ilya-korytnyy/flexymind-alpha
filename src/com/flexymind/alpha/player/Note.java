@@ -13,6 +13,7 @@ public class Note {
      * no getters because of performance issues
      */
     private final Tone tone;
+    ////[review] mandrigin: bad name... midiByToneMap is better.
     public static EnumMap<Tone, Integer> notesWithRaw;
 
 
@@ -25,6 +26,10 @@ public class Note {
         initializeMap();
     }
 
+    //[review] mandrigin: is it called on every note creation? if you need to initialize static fields,
+    // I think it's better to use static constrictors:
+    // http://www.snippetit.com/2009/05/java-static-variables-static-methods-and-static-constructor/
+    // And it is better to make it unmodifiable: http://stackoverflow.com/a/507621/1084240
     private void initializeMap() {
 
         notesWithRaw.put(Tone.C, R.raw.c);
@@ -42,11 +47,15 @@ public class Note {
         notesWithRaw.put(Tone.C1, R.raw.c1);
     }
 
+    //[review] mandrigin: do you really need this method?
     private Tone getTone() {
 
         return this.tone;
     }
 
+    //[review] mandrgin: strange name... it points to the MIDI file.
+    //so  it better be called as 'getMidiFileId()'
+    ////[review] mandrigin: javadocs for public methods!
     /**
      *
      * @return R.raw.smthng

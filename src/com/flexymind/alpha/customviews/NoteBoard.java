@@ -23,6 +23,7 @@ public class NoteBoard extends View {
     private static final int MAX_NOTES = 7;
     private static final int widthMargin = 10;
 
+    //[review] mandrigin: don't think is should be static.
     private static EnumMap<Tone, Integer> noteYCoord;
     private int staveHeight;
     private int staveWidth;
@@ -121,6 +122,13 @@ public class NoteBoard extends View {
      */
     public void outputNote(Canvas canvas, Tone tone) {
 
+        //[review] mandrigin: it's better to make additional params ot the NoteView -- tone.
+        // Then all the code will be:
+        // ToneView note = new ToneView(getContext(), tone);
+        // int x = ...
+        // int y = ...
+        // int scale = ...
+        // note.onDraw(...)
         NoteView note = new NoteView(getContext());
 
         int x = widthMargin + clefWidth + notesGap;
@@ -128,12 +136,16 @@ public class NoteBoard extends View {
         int scale = linesGap;
 
         //straight or inverted position
+        //[review] mandrigin: I think the NoteView should know is it inverted. It should know it's note then.
+        // Move to the NoteView class.
         boolean isStraight = true;
         if(noteYCoord.get(tone) < noteYCoord.get(Tone.Az)){
             isStraight = false;
         }
 
         //has sharp or not
+        //[review] mandrigin: I think the NoteView should know is it sharp. It should know it's note then.
+        // Move to the NoteView class.
         boolean isSharp = false;
         if (tone== Tone.Cz || tone== Tone.Dz
             || tone== Tone.Fz || tone== Tone.Cz

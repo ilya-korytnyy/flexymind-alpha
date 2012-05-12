@@ -12,6 +12,7 @@ import com.larvalabs.svgandroid.SVGParser;
 public class PianoKeyboard extends RelativeLayout {
 
     private final int    COUNT_OF_WHITE_KEYS     =   8;
+    //[review] mandrigin: remove unused constants
     private final int    COUNT_OF_BLACK_KEYS     =   5;
     private final int    START_ID_FOR_KEY_VIEWS  = 100;
     private final int[]  BLACK_KEY_POSITIONS     =  {1, 2, 4, 5, 6};
@@ -23,6 +24,10 @@ public class PianoKeyboard extends RelativeLayout {
         super(context, attrs);
     }
 
+    //[review] mandrigin: ',' should be on the new line:
+    // Make:
+    //protected void onMeasure( int widthMeasureSpec
+    //                        , int heightMeasureSpec) {
     @Override
     protected void onMeasure (int widthMeasureSpec,
                               int heightMeasureSpec) {

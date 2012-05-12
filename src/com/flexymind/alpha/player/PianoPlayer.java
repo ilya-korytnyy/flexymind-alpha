@@ -19,6 +19,14 @@ import android.view.View;
  *      pPlayerX.play();
  *  }
  *
+ *
+ */
+
+/*
+ * [review] mandrigin:
+ * 1. Maybe it is better to move Tone to the "play" method? Then we won't need the player for every key.
+ * 2. Why is it inherited from the View? Looks like it's not. Maybe better to just save the 'context'?
+ * 3. If it will be slow on soundpool.load, we can preload all notes.
  */
 public class PianoPlayer extends View {
     public  SoundPool   soundPool;

@@ -13,6 +13,7 @@ import com.larvalabs.svgandroid.SVGParser;
 
 import java.util.EnumMap;
 
+//[review] mandrigin: Maybe it's the ToneView class?
 public class NoteView extends View {
 
     public NoteView(Context context) {
