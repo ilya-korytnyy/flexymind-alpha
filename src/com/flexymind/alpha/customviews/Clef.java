@@ -10,38 +10,40 @@ import com.flexymind.alpha.R;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
-public class StaveLine extends View {
-    private int lineHeight;
-    private int lineWidth;
+public class Clef extends View {
+    private int width;
+    private int height;
 
-    public StaveLine(Context context, int lineWidth, int lineHeight) {
+    public Clef(Context context, int width, int height) {
         super(context);
+        this.width = width;
+        this.height = height;
     }
 
-    public StaveLine(Context context, AttributeSet attrs) {
+    public Clef(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public StaveLine(Context context, AttributeSet attrs, int defStyle) {
+    public Clef(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(lineWidth, lineHeight);
+        setMeasuredDimension(width, height);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
         SVG lineSvg = SVGParser.getSVGFromResource( getResources()
                                                    , R.raw.line);
         Picture linesPicture = lineSvg.getPicture();
         canvas.drawPicture( linesPicture
-                          , new Rect( 0
-                                    , 0
-                                    , this.lineHeight
-                                    , this.lineWidth) );
-        super.onDraw(canvas);
+                , new Rect( 0
+                , 0
+                , this.width
+                , this.height) );
     }
-
 }
