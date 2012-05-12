@@ -7,5 +7,6 @@ build.xml
 local.properties
 proguard-project.txt
 project.properties
-Piano.iml
 /.idea
+*.iml
+/out
