@@ -75,8 +75,6 @@ public class NoteBoard extends RelativeLayout {
 
         setAllNeededSizes();
 
-        drawStave();
-        drawClief(canvas);
 
         //HARDCODE try to output
         outputNote(canvas, Note.C, 0);
