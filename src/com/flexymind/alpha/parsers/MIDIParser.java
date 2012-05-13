@@ -1,7 +1,7 @@
 package com.flexymind.alpha.parsers;
 
+import com.flexymind.alpha.player.MidiNote;
 import com.flexymind.alpha.player.Note;
-import com.flexymind.alpha.player.Tone;
 import com.leff.midi.MidiFile;
 import com.leff.midi.event.MidiEvent;
 import com.leff.midi.event.NoteOn;
@@ -39,34 +39,28 @@ public class MIDIParser {
      */
 //    protected final static int DEFAULT_DURATION = 480;
 
-    protected List<Note> listNotes;
+    protected List<MidiNote> listNotes;
 
 
     public MIDIParser(File file) throws IOException{
-        listNotes = new ArrayList<Note>();
+        listNotes = new ArrayList<MidiNote>();
         parseFile(new MidiFile(file));
     }
 
     public MIDIParser(InputStream file) throws IOException{
-        listNotes = new ArrayList<Note>();
+        listNotes = new ArrayList<MidiNote>();
         parseFile(new MidiFile(file));
     }
 
-    public List<Note> getNotes(){
+    public List<MidiNote> getNotes(){
         return listNotes;
     }
 
     private void parseFile(MidiFile mFile){
         SortedSet<MidiEvent> eventTreeSet = mFile.getTracks().get(1).getEvents();
         for (MidiEvent event : eventTreeSet) {
-            //[review] too complicated. maybe it is better to have 'isSupported' method in the Tone class and
-            // so the code will look like:
-            // if((event instanceof NoteOn) && Tone.isSupported(event))
-            // {
-            //    Note note = new Note((Tone)event);
-            // }
-            if ((event instanceof NoteOn) && (Tone.getToneById(((NoteOn) event).getNoteValue()) != Tone.UNKNOW)) {
-                Note note = new Note(Tone.getToneById(((NoteOn) event).getNoteValue()));
+            if ((event instanceof NoteOn) && (Note.getToneById(((NoteOn) event).getNoteValue()) != Note.UNKNOW)) {
+                MidiNote note = new MidiNote(Note.getToneById(((NoteOn) event).getNoteValue()));
                 listNotes.add(note);
             }
         }

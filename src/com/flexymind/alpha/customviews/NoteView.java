@@ -6,17 +6,14 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import com.flexymind.alpha.R;
-import com.flexymind.alpha.player.Tone;
+import com.flexymind.alpha.player.Note;
 import com.larvalabs.svgandroid.SVG;
 import android.graphics.Picture;
 import com.larvalabs.svgandroid.SVGParser;
 
-import java.util.EnumMap;
-
-//[review] mandrigin: Maybe it's the ToneView class?
 public class NoteView extends View {
 
-    public NoteView(Context context) {
+    public NoteView(Context context, Note note, int noteWidth, int noteHeight) {
         super(context);
     }
 

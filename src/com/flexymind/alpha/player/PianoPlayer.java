@@ -12,7 +12,7 @@ import android.view.View;
  *  public PianoPlayer pPlayerX;    // one instance for defined tone
  *  public void onCreate.... {
  *      ...
- *      pPlayerX = new PlaySound(this, Tone.X);
+ *      pPlayerX = new PlaySound(this, Note.X);
  *  }
  *  and
  *  public void onClick... {
@@ -31,22 +31,22 @@ import android.view.View;
 public class PianoPlayer extends View {
     public  SoundPool   soundPool;
     public  int         toneID;
-    private Note        note;
+    private MidiNote note;
 
     /**
      * @param context from class GameScreen
      */
-    public PianoPlayer(Context context, Tone tone) {
+    public PianoPlayer(Context context, Note note) {
         super(context);
 
         soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
-        note = new Note(tone);
-        toneID = soundPool.load(context, note.getRawName(), 1);
+        this.note = new MidiNote(note);
+        toneID = soundPool.load(context, this.note.getRawName(), 1);
     }
 
     /**
-     * Gets the .mid file for that Note and plays it.
+     * Gets the .mid file for that MidiNote and plays it.
      */
     public void play() {
         // params of playing

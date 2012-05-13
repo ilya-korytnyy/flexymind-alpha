@@ -41,7 +41,7 @@ public class SVG {
 
     /**
      * These are the estimated bounds of the SVG computed from the SVG elements while parsing.
-     * Note that this could be null if there was a failure to compute limits (ie. an empty SVG).
+     * MidiNote that this could be null if there was a failure to compute limits (ie. an empty SVG).
      */
     private RectF limits = null;
 

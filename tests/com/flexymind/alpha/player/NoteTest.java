@@ -7,18 +7,18 @@ import junit.framework.TestSuite;
 
 public class NoteTest extends TestCase {
 
-    private Note noteC;
-    private Note noteC1;
-    private Note noteFz;
+    private MidiNote noteC;
+    private MidiNote noteC1;
+    private MidiNote noteFz;
 
     @org.junit.Before
     public void setUp() throws Exception {
 
         super.setUp();
 
-        noteC = new Note(Tone.C);
-        noteC1 = new Note(Tone.C1);
-        noteFz = new Note(Tone.Fz);
+        noteC = new MidiNote(Note.C);
+        noteC1 = new MidiNote(Note.C1);
+        noteFz = new MidiNote(Note.Fz);
     }
 
     @org.junit.After
