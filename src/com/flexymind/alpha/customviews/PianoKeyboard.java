@@ -3,8 +3,12 @@ package com.flexymind.alpha.customviews;
 import android.content.Context;
 import android.graphics.Picture;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import com.flexymind.alpha.R;
+import com.flexymind.alpha.player.Note;
+import com.flexymind.alpha.player.PianoPlayer;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
@@ -19,16 +23,18 @@ public class PianoKeyboard extends RelativeLayout {
     private       int    keyboardH               =   0;
 
     public PianoKeyboard(Context context, AttributeSet attrs) {
+
         super(context, attrs);
     }
+
 
     //[review] mandrigin: ',' should be on the new line:
     // Make:
     //protected void onMeasure( int widthMeasureSpec
     //                        , int heightMeasureSpec) {
     @Override
-    protected void onMeasure (int widthMeasureSpec,
-                              int heightMeasureSpec) {
+    protected void onMeasure ( int widthMeasureSpec
+                             , int heightMeasureSpec) {
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
@@ -39,20 +45,24 @@ public class PianoKeyboard extends RelativeLayout {
     @Override
     public void onLayout(boolean changed, int l,
                              int t, int r, int b) {
+
         super.onLayout(changed, l, t, r, b);
 
         addWhiteKeys();
         addBlackKeys();
+        addPlayMidiButton();
     }
 
     private void addWhiteKeys() {
+
         int id = START_ID_FOR_KEY_VIEWS;
 
         SVG svg = SVGParser.getSVGFromResource(getResources(),
-                                               R.raw.whitekey);
+                R.raw.whitekey);
 
-        LayoutParams params = new LayoutParams(
-                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
 
         params.addRule(ALIGN_LEFT);
 
@@ -60,18 +70,21 @@ public class PianoKeyboard extends RelativeLayout {
               , getWhiteKeyHeight()
               , getWhiteKeyWidth()
               , params
-              , id++ );
+              , id++
+              , Note.C );
 
         for (int i = 0; i < COUNT_OF_WHITE_KEYS - 1; i++) {
             addKey( svg.getPicture()
                   , getWhiteKeyHeight()
                   , getWhiteKeyWidth()
                   , paramsWithRightOf(id - 1)
-                  , id++);
+                  , id++
+                  , Note.getNotesForWhiteKeys()[i+1] );
         }
     }
 
     private RelativeLayout.LayoutParams paramsWithRightOf(int id) {
+
         LayoutParams params = new LayoutParams
                 (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         params.addRule(RIGHT_OF, id);
@@ -79,19 +92,47 @@ public class PianoKeyboard extends RelativeLayout {
         return  params;
     }
 
+    private void addPlayMidiButton() {
+
+        final Button playButton = new Button(getContext());
+        final PianoPlayer song = new PianoPlayer( this.getContext()
+                                                , R.raw.song );
+        LayoutParams layoutParams = new LayoutParams
+                (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+
+        layoutParams.addRule(CENTER_HORIZONTAL);
+
+        OnClickListener onClickListener = new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                song.play();
+                playButton.setVisibility(View.INVISIBLE);
+            }
+        };
+
+        playButton.setText("Play");
+
+        playButton.setOnClickListener(onClickListener);
+
+        this.addView(playButton, layoutParams);
+    }
+
     private void addBlackKeys() {
+
         SVG svg = SVGParser.getSVGFromResource(getResources(),
                 R.raw.blackkey);
 
         int id = START_ID_FOR_KEY_VIEWS + COUNT_OF_WHITE_KEYS;
 
+        int j = 0;
         for (int whiteKeyNumber: BLACK_KEY_POSITIONS) {
-            addKey(svg.getPicture(),
-                   getBlackKeyHeight(),
-                   getBlackKeyWidth(),
-                   paramsWithMargin(whiteKeyNumber * getWhiteKeyWidth()
-                                              - getBlackKeyWidth() / 2),
-                   ++id);
+            addKey( svg.getPicture()
+                  , getBlackKeyHeight()
+                  , getBlackKeyWidth()
+                  , paramsWithMargin(whiteKeyNumber * getWhiteKeyWidth()
+                                              - getBlackKeyWidth() / 2)
+                  , ++id
+                  , Note.getNotesForBlackKeys()[j++] );
         }
     }
 
@@ -104,12 +145,13 @@ public class PianoKeyboard extends RelativeLayout {
     }
 
     private void addKey(Picture picture, int keyH, int keyW,
-                                LayoutParams params, int id) {
+                        LayoutParams params, int id, Note note) {
 
         PianoKey key = new PianoKey( getContext()
                                    , keyH
                                    , keyW
-                                   , picture );
+                                   , picture
+                                   , note);
         key.setId(id);
         addView(key, params);
     }

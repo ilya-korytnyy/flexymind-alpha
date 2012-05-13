@@ -79,7 +79,13 @@ public class NoteBoard extends RelativeLayout {
         drawClief(canvas);
 
         //HARDCODE try to output
-        outputNote(canvas, Note.Fz);
+        outputNote(canvas, Note.C, 0);
+        outputNote(canvas, Note.D, notesGap);
+        outputNote(canvas, Note.E, notesGap * 2);
+        outputNote(canvas, Note.F, notesGap * 3);
+        outputNote(canvas, Note.G, notesGap * 4);
+        outputNote(canvas, Note.A, notesGap * 5);
+        outputNote(canvas, Note.H, notesGap * 6);
     }
 
     private void setAllNeededSizes() {
@@ -105,6 +111,7 @@ public class NoteBoard extends RelativeLayout {
     }
 
     private void drawClief(Canvas canvas) {
+
         SVG clefSvg = SVGParser.getSVGFromResource(getResources(),
                 R.raw.scaledclef);
         Picture clefPicture = clefSvg.getPicture();
@@ -124,10 +131,11 @@ public class NoteBoard extends RelativeLayout {
      * @param canvas canvas to draw on
      * @param tone tone to represent
      */
-    public void outputNote(Canvas canvas, Note tone) {
+    public void outputNote(Canvas canvas, Note tone, int noteX) {
+
         NoteView note = new NoteView(getContext(), tone, staveWidth, lineHeight);
 
-        int x = linesGap + cliefWidth + notesGap;
+        int x = noteX + linesGap + cliefWidth + notesGap;
         int y = noteYCoord.get(tone) + lineHeight / 2;
         int scale = linesGap;
 
@@ -135,6 +143,7 @@ public class NoteBoard extends RelativeLayout {
     }
 
     private boolean isStraight(Note note) {
+
         if(noteYCoord.get(note) < noteYCoord.get(Note.Az)) { // TODO make it H, not Az
             return false;
         }
@@ -142,6 +151,7 @@ public class NoteBoard extends RelativeLayout {
     }
 
     private boolean isSharp(Note note) {
+
         if (note == Note.Cz || note == Note.Dz
             || note == Note.Fz || note == Note.Cz
             || note == Note.Gz || note == Note.Az) {
@@ -164,23 +174,27 @@ public class NoteBoard extends RelativeLayout {
     }
 
     private void prepareNotesCoord() {
+
         notesGap = (staveWidth - cliefWidth) / (MAX_NOTES + 1);
         noteYCoord = new EnumMap<Note, Integer>(Note.class);
         initializeMap(linesGap);
     }
 
     private void setCliefSize() {
+
         cliefHeight = staveHeight;
         cliefWidth  = staveHeight  / 3;
     }
 
     private void setStaveSize() {
+
         staveHeight = this.getHeight();
         linesGap = staveHeight / (ALL_LINES_COUNT - 1);
         staveWidth = this.getWidth() - linesGap * 2;
     }
 
     private void setLineSize() {
+
         lineHeight = linesGap / 5;
         lineWidth = staveWidth;
     }

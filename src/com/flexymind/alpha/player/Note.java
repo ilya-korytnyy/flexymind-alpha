@@ -56,4 +56,22 @@ public enum Note {
                 return Note.UNKNOW;
         }
     }
+
+    private static Note[] blackTone = null;
+    private static Note[] whiteTone = null;
+
+    public static Note[] getNotesForBlackKeys() {
+        if(blackTone == null){
+            blackTone =  new Note[] {Cz, Dz, Fz, Gz, Az };
+        }
+
+        return blackTone;
+    }
+
+    public static Note[] getNotesForWhiteKeys() {
+        if(whiteTone == null){
+            whiteTone = new Note[] {C, D, E, F, G, A, H, C1};
+        }
+        return whiteTone;
+    }
 }

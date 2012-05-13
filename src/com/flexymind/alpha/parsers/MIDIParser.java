@@ -59,12 +59,18 @@ public class MIDIParser {
     private void parseFile(MidiFile mFile){
         SortedSet<MidiEvent> eventTreeSet = mFile.getTracks().get(1).getEvents();
         for (MidiEvent event : eventTreeSet) {
-            if ((event instanceof NoteOn) && (Note.getToneById(((NoteOn) event).getNoteValue()) != Note.UNKNOW)) {
+            if (isCorrectMidiNote(event)) {
                 MidiNote note = new MidiNote(Note.getToneById(((NoteOn) event).getNoteValue()));
                 listNotes.add(note);
             }
         }
+    }
 
+    private boolean isCorrectMidiNote(MidiEvent event) {
+
+        Note note = Note.getToneById(((NoteOn) event).getNoteValue());
+        return (event instanceof NoteOn)
+                && note != Note.UNKNOW;
     }
 
 }
