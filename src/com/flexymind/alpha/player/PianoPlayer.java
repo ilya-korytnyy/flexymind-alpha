@@ -35,7 +35,7 @@ public class PianoPlayer extends View {
         soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
         midiNote = new MidiNote(note);
-        toneID = soundPool.load(context, midiNote.getRawName(), 1);
+        toneID = soundPool.load(context, midiNote.getMidiFileId(), 1);
     }
 
 
