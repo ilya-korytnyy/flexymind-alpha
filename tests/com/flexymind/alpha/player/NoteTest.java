@@ -33,9 +33,9 @@ public class NoteTest extends TestCase {
 
     public void testGetRawName() throws Exception {
 
-        assertEquals(noteC.getRawName(), R.raw.c);
-        assertEquals(noteC1.getRawName(), R.raw.c1);
-        assertEquals(noteFz.getRawName(), R.raw.fdiez);
+        assertEquals(noteC.getMidiFileId(), R.raw.c);
+        assertEquals(noteC1.getMidiFileId(), R.raw.c1);
+        assertEquals(noteFz.getMidiFileId(), R.raw.fdiez);
         // test 4 fail
         //assertEquals(noteFz.getRawName(), R.raw.gdiez);
     }
@@ -48,7 +48,7 @@ public class NoteTest extends TestCase {
     public static Test suite() {
 
         TestSuite suite = new TestSuite();
-        suite.addTest(new NoteTest("testGetRawName"));
+        suite.addTest(new NoteTest("testGetMidiFileId"));
         return suite;
     }
 }

@@ -2,7 +2,9 @@ package com.flexymind.alpha.player;
 
 import com.flexymind.alpha.R;
 
+import java.util.Collections;
 import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * Represents a musical note with it's note.
@@ -13,46 +15,46 @@ public class MidiNote {
      * no getters because of performance issues
      */
     private final Note note;
-    public static EnumMap<Note, Integer> notesWithRaw;
+    public static final Map<Note, Integer> midiByToneMap;
+
+    static {
+
+        Map<Note, Integer> tempMap = new EnumMap<Note, Integer>(Note.class);
+
+        initializeMap(tempMap);
+
+        midiByToneMap = Collections.unmodifiableMap(tempMap);
+    }
 
 
     public MidiNote(Note note) {
 
         this.note = note;
-
-        notesWithRaw = new EnumMap<Note, Integer>(Note.class);
-
-        initializeMap();
     }
 
-    private void initializeMap() {
+    private static void initializeMap(Map<Note, Integer> tempMap) {
 
-        notesWithRaw.put(Note.C, R.raw.c);
-        notesWithRaw.put(Note.Cz, R.raw.cdiez);
-        notesWithRaw.put(Note.D, R.raw.d);
-        notesWithRaw.put(Note.Dz, R.raw.ddiez);
-        notesWithRaw.put(Note.E, R.raw.e);
-        notesWithRaw.put(Note.F, R.raw.f);
-        notesWithRaw.put(Note.Fz, R.raw.fdiez);
-        notesWithRaw.put(Note.G, R.raw.g);
-        notesWithRaw.put(Note.Gz, R.raw.gdiez);
-        notesWithRaw.put(Note.A, R.raw.a);
-        notesWithRaw.put(Note.Az, R.raw.adiez);
-        notesWithRaw.put(Note.H, R.raw.h);
-        notesWithRaw.put(Note.C1, R.raw.c1);
-    }
-
-    private Note getNote() {
-
-        return this.note;
+        tempMap.put(Note.C,  R.raw.c);
+        tempMap.put(Note.Cz, R.raw.cdiez);
+        tempMap.put(Note.D,  R.raw.d);
+        tempMap.put(Note.Dz, R.raw.ddiez);
+        tempMap.put(Note.E,  R.raw.e);
+        tempMap.put(Note.F,  R.raw.f);
+        tempMap.put(Note.Fz, R.raw.fdiez);
+        tempMap.put(Note.G,  R.raw.g);
+        tempMap.put(Note.Gz, R.raw.gdiez);
+        tempMap.put(Note.A,  R.raw.a);
+        tempMap.put(Note.Az, R.raw.adiez);
+        tempMap.put(Note.H,  R.raw.h);
+        tempMap.put(Note.C1, R.raw.c1);
     }
 
     /**
-     *
+     * Method gets MidiFileID
      * @return R.raw.smthng
      */
-    public int getRawName() {
+    public int getMidiFileId() {
 
-        return notesWithRaw.get(getNote());
+        return midiByToneMap.get(note);
     }
 }
