@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.RelativeLayout;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.player.Note;
 import com.larvalabs.svgandroid.SVG;
@@ -33,12 +34,12 @@ import com.larvalabs.svgandroid.SVGParser;
  * about (not)inversion of note tail
  */
 
-public class NoteView extends View {
+public class NoteView extends RelativeLayout {
 
     private static SVG      noteSVG;
-    private static SVG      noteLine;
+    private static SVG      noteInvertedTail;
     private static Picture  notePicture;
-    private static Picture  noteLinePicture;
+    private static Picture  noteInvertedTailPicture;
 
     private final  Note     note;
     private final  boolean  isSharp;
@@ -64,15 +65,15 @@ public class NoteView extends View {
         notePicture = noteSVG.getPicture();
 
 
-        noteLine    = SVGParser.getSVGFromResource( getResources()
-                                                  , R.raw.note);
-        noteLinePicture = noteLine.getPicture();
+        noteInvertedTail    = SVGParser.getSVGFromResource( getResources()
+                                                  , R.raw.notetailinverted);
+        noteInvertedTailPicture = noteInvertedTail.getPicture();
 
-        isSharp         = isSharp();
-        isInverted      = isInverted();
+        this.note       = note;
         this.noteWidth  = noteWidth;
         this.noteHeight = noteHeight;
-        this.note       = note;
+        isSharp         = isSharp();
+        isInverted      = isInverted();
     }
 
     private boolean isInverted() {
@@ -99,11 +100,13 @@ public class NoteView extends View {
 
     private boolean isSharp() {
 
-        if (note == Note.Cz || note == Note.Dz
-                || note == Note.Fz || note == Note.Cz
-                || note == Note.Gz || note == Note.Az) {
-            return  true;
+        for (Note note : Note.getNotesForBlackKeys()) {
+
+           if (this.note == note) {
+               return true;
+           }
         }
+
         return false;
     }
 
