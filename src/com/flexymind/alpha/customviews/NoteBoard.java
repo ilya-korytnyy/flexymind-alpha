@@ -102,17 +102,17 @@ public class NoteBoard extends RelativeLayout {
 
     private void drawStave() {
 
-        SVG lineSvg = SVGParser.getSVGFromResource( getResources()
-                                                  , R.raw.line);
-        Picture lineSvgPicture = lineSvg.getPicture();
-
         for (int i = 2; i < 7; i++) {
-            StaveLine staveLine = new StaveLine(getContext(), lineWidth, lineHeight, lineSvgPicture);
+
+            StaveLine staveLine = new StaveLine( getContext()
+                                               , lineWidth
+                                               , lineHeight);
             LayoutParams layoutParams = new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
             layoutParams.topMargin = linesGap * i;
             layoutParams.leftMargin = linesGap;
+
             this.addView(staveLine, layoutParams);
         }
     }
