@@ -11,6 +11,28 @@ import com.larvalabs.svgandroid.SVG;
 import android.graphics.Picture;
 import com.larvalabs.svgandroid.SVGParser;
 
+/**
+ * This class was created to solve the problem of itself
+ * note rendering.
+ *
+ * Brief tutorial:
+ *   1. create an object of this class in parent ViewGroup
+ *      and send to constructor just a note, note width and note height
+ *   2. now you should find a correct position in your ViewGroup
+ *      and create an object of class RelativeLayout.LayoutParams
+ *   3. to set position of note in relation to left coner of your
+ *      View Group set the leftMergin and topMergin of your
+ *      LayoutParamsMergin.
+ *      Or if you want set position in relation
+ *      to another view in your ViewGroup
+ *      use the LayoutParams method addRule (for this feature, each
+ *      component, should have an unique Id)
+ *
+ * The left top corner of whole note (include tail) is a left top corner
+ * of note herself (ellipse of note). that's why you don't need to worry
+ * about (not)inversion of note tail
+ */
+
 public class NoteView extends View {
 
     private static SVG      noteSVG;
@@ -25,6 +47,14 @@ public class NoteView extends View {
     private final  int      noteWidth;
     private final  int      noteHeight;
 
+    /**
+     * @param context
+     * @param noteWidth a width just of the ellipse
+     *                  of note (exclude tail and sharp)
+     * @param noteHeight a height just of the ellipse
+     *                  of note (exclude tail and sharp)
+     * @param note
+     */
     public NoteView(Context context, int noteWidth,
                             int noteHeight, Note note) {
 
@@ -66,58 +96,6 @@ public class NoteView extends View {
                                                 , noteHeight) );
     }
 
-    /**
-     * Compute note & sharp position in relation
-     * to the stave. Draw note & sharp if necessary.
-     * @param canvas canvas to draw on
-     * @param x x coordinate of the note
-     * @param y y coordinate of the note
-     * @param scale gap betweem lines for note scaling
-     * @param isStraight straight or inverted position
-     * @param isSharp has sharp or not
-     */
-    protected void onDraw(Canvas canvas, int x, int y, int scale,
-                          boolean isStraight, boolean isSharp) {
-
-        int noteWidth = scale * 2;
-        int noteHeight = scale * 3;
-        int sharpWidth = noteWidth / 2;
-        int sharpHeight = noteWidth;
-
-        Rect noteRect = new Rect();
-        Rect sharpRect = new Rect();
-
-        // All notes till H would be drawn straight, rest is inverted
-        if (isStraight){
-            noteRect.left = x;
-            noteRect.right = noteRect.left + noteWidth;
-            noteRect.bottom = y;
-            noteRect.top = noteRect.bottom - noteHeight;
-            if (isSharp) {
-                sharpRect.right = noteRect.left;
-                sharpRect.left = sharpRect.right - sharpWidth;
-                sharpRect.top = noteRect.bottom + scale/2;
-                sharpRect.bottom = sharpRect.top - sharpHeight;
-            }
-        }else {                            //inverted position
-            noteRect.right = x;
-            noteRect.left = noteRect.right + noteWidth;
-            noteRect.bottom = y;
-            noteRect.top = noteRect.bottom + noteHeight;
-            /*  if(isSharp){                           //XXX: don't need for one octave
-                sharpRect.left = 0;
-                sharpRect.right = noteRect.left;
-                sharpRect.top = noteHeight / 3;
-                sharpRect.bottom = sharpRect.top + sharpHeight;
-            }*/
-        }
-
-        //Draw note & sharp if necessary
-      //  drawSVG(canvas, R.raw.note, noteRect);
-        if(isSharp){
-         //   drawSVG(canvas, R.raw.invertedsharp, sharpRect);
-        }
-    }
 
     private boolean isSharp() {
 
