@@ -20,9 +20,9 @@ import com.larvalabs.svgandroid.SVGParser;
  *      and send to constructor just a note, note width and note height
  *   2. now you should find a correct position in your ViewGroup
  *      and create an object of class RelativeLayout.LayoutParams
- *   3. to set position of note in relation to left coner of your
- *      View Group set the leftMergin and topMergin of your
- *      LayoutParamsMergin.
+ *   3. to set position of note in relation to left corner of your
+ *      View Group set the leftMargin and topMargin of your
+ *      LayoutParamsMargin.
  *      Or if you want set position in relation
  *      to another view in your ViewGroup
  *      use the LayoutParams method addRule (for this feature, each
