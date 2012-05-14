@@ -83,7 +83,7 @@ public class NoteBoard extends RelativeLayout {
         super.onLayout(changed, l, t, r, b);
         setAllNeededSizes();
         drawStave();
-        drawNote(Note.C);
+        drawNote(Note.Dz);
     }
 
     private void setAllNeededSizes() {
@@ -101,7 +101,7 @@ public class NoteBoard extends RelativeLayout {
     public void drawNote(Note note) {
 
         NoteView noteView = new NoteView( getContext()
-                                        , linesGap + linesGap * 1 / 3
+                                        , linesGap
                                         , linesGap
                                         , note);
 

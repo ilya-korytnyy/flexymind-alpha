@@ -1,15 +1,14 @@
 package com.flexymind.alpha.customviews;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Rect;
+import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.player.Note;
 import com.larvalabs.svgandroid.SVG;
-import android.graphics.Picture;
 import com.larvalabs.svgandroid.SVGParser;
 
 /**
@@ -34,19 +33,23 @@ import com.larvalabs.svgandroid.SVGParser;
  * about (not)inversion of note tail
  */
 
-public class NoteView extends RelativeLayout {
+public class NoteView extends View {
 
-    private static SVG      noteSVG;
-    private static SVG      noteInvertedTail;
-    private static Picture  notePicture;
-    private static Picture  noteInvertedTailPicture;
+    private  static Picture  noteUpPicture;
+    private  static Picture  noteDownPicture;
+    private  static Picture  noteUpSharpPicture;
+    private  static Picture  noteDownSharpPicture;
 
-    private final  Note     note;
-    private final  boolean  isSharp;
-    private final  boolean  isInverted;
+    private final   Note     note;
+    private final   boolean  isSharp;
+    private final   boolean  isInverted;
+    private    int      noteHeight;
 
-    private final  int      noteWidth;
-    private final  int      noteHeight;
+    private         int      noteWidth;
+    private         Picture  ourNote;
+
+    //  private static int sharpWidth =  noteWidth / 2;
+   // private static int sharpHeight = noteWidth;
 
     /**
      * @param context
@@ -60,25 +63,59 @@ public class NoteView extends RelativeLayout {
                             int noteHeight, Note note) {
 
         super(context);
-        noteSVG     = SVGParser.getSVGFromResource( getResources()
-                                                  , R.raw.notebody);
-        notePicture = noteSVG.getPicture();
 
+        SVG noteUp = SVGParser.getSVGFromResource
+                (getResources(), R.raw.noteup);
 
-        noteInvertedTail    = SVGParser.getSVGFromResource( getResources()
-                                                  , R.raw.notetailinverted);
-        noteInvertedTailPicture = noteInvertedTail.getPicture();
+        noteUpPicture  = noteUp.getPicture();
+
+        noteDownPicture  = SVGParser.getSVGFromResource
+                (getResources(), R.raw.notedown).getPicture();
+
+        noteUpSharpPicture  = SVGParser.getSVGFromResource
+                (getResources(), R.raw.sharpnoteup).getPicture();
+
+        noteDownSharpPicture = SVGParser.getSVGFromResource
+                (getResources(), R.raw.sharpnotedown).getPicture();
+
 
         this.note       = note;
-        this.noteWidth  = noteWidth;
-        this.noteHeight = noteHeight;
         isSharp         = isSharp();
         isInverted      = isInverted();
+
+        this.noteWidth  = noteWidth * 2;
+        this.noteHeight = noteHeight * 3;
+
+        setPictureOfNoteAndRedefineWidthIfNecessary();
+    }
+
+    private void setPictureOfNoteAndRedefineWidthIfNecessary() {
+
+        if (!isSharp && isInverted) {
+
+            ourNote = new Picture(noteDownPicture);
+
+        }else if (!isSharp && !isInverted) {
+
+            ourNote = new Picture(noteDownPicture);
+
+        }else if (isSharp && !isInverted)  {
+
+            ourNote = noteUpSharpPicture;
+            this.noteWidth *= 1.5;
+
+        }else if (isSharp && isInverted)  {
+
+            ourNote = noteDownSharpPicture;
+            this.noteWidth *= 1.5;
+        }
+
+
     }
 
     private boolean isInverted() {
 
-        return false;
+        return true;
     }
 
     @Override
@@ -91,12 +128,13 @@ public class NoteView extends RelativeLayout {
     protected void onDraw(Canvas canvas) {
 
         super.onDraw(canvas);
-        canvas.drawPicture(notePicture, new Rect( 0
-                                                , 0
-                                                , noteWidth
-                                                , noteHeight) );
-    }
 
+        canvas.drawPicture( ourNote
+                          , new Rect( 0
+                                    , 0
+                                    , noteWidth
+                                    , noteHeight) );
+    }
 
     private boolean isSharp() {
 
