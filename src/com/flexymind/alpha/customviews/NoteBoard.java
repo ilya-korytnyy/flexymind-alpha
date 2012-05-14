@@ -22,11 +22,12 @@ public class NoteBoard extends RelativeLayout {
 
     private int staveHeight;
     private int staveWidth;
-    private int cliefHeight;
-    private int cliefWidth;
+    private int clefHeight;
+    private int clefWidth;
     private int linesGap;
     private int lineHeight;
     private int notesGap;
+
     private int lineWidth;
 
     public NoteBoard(Context context) {
@@ -73,9 +74,7 @@ public class NoteBoard extends RelativeLayout {
 
         super.onDraw(canvas);
 
-        setAllNeededSizes();
-
-
+        drawClef(canvas);
         //HARDCODE try to output
         outputNote(canvas, Note.C, 0);
         outputNote(canvas, Note.D, notesGap);
@@ -86,6 +85,14 @@ public class NoteBoard extends RelativeLayout {
         outputNote(canvas, Note.H, notesGap * 6);
     }
 
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
+        super.onLayout(changed, l, t, r, b);
+        setAllNeededSizes();
+        drawStave();
+    }
+
     private void setAllNeededSizes() {
         setStaveSize();
         setLineSize();
@@ -93,12 +100,14 @@ public class NoteBoard extends RelativeLayout {
         prepareNotesCoord();
     }
 
-
     private void drawStave() {
 
-        for (int i = 2; i < 7; i++) {
-            StaveLine staveLine = new StaveLine(getContext(), lineWidth, lineHeight);
+        SVG lineSvg = SVGParser.getSVGFromResource( getResources()
+                                                  , R.raw.line);
+        Picture lineSvgPicture = lineSvg.getPicture();
 
+        for (int i = 2; i < 7; i++) {
+            StaveLine staveLine = new StaveLine(getContext(), lineWidth, lineHeight, lineSvgPicture);
             LayoutParams layoutParams = new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
@@ -108,17 +117,17 @@ public class NoteBoard extends RelativeLayout {
         }
     }
 
-    private void drawClief(Canvas canvas) {
+    private void drawClef(Canvas canvas) {
 
         SVG clefSvg = SVGParser.getSVGFromResource(getResources(),
                 R.raw.scaledclef);
         Picture clefPicture = clefSvg.getPicture();
 
         canvas.drawPicture(clefPicture,
-                           new Rect( linesGap
-                                   , 0
-                                   , linesGap + cliefWidth
-                                   , cliefHeight) );
+                new Rect(linesGap
+                        , 0
+                        , linesGap + clefWidth
+                        , clefHeight));
     }
 
     public void outputMelody() {
@@ -133,7 +142,7 @@ public class NoteBoard extends RelativeLayout {
 
         NoteView note = new NoteView(getContext(), tone, staveWidth, lineHeight);
 
-        int x = noteX + linesGap + cliefWidth + notesGap;
+        int x = noteX + linesGap + clefWidth + notesGap;
         int y = noteYCoord.get(tone) + lineHeight / 2;
         int scale = linesGap;
 
@@ -173,15 +182,15 @@ public class NoteBoard extends RelativeLayout {
 
     private void prepareNotesCoord() {
 
-        notesGap = (staveWidth - cliefWidth) / (MAX_NOTES + 1);
+        notesGap = (staveWidth - clefWidth) / (MAX_NOTES + 1);
         noteYCoord = new EnumMap<Note, Integer>(Note.class);
         initializeMap(linesGap);
     }
 
     private void setCliefSize() {
 
-        cliefHeight = staveHeight;
-        cliefWidth  = staveHeight  / 3;
+        clefHeight = staveHeight;
+        clefWidth  = staveHeight  / 3;
     }
 
     private void setStaveSize() {
@@ -196,5 +205,4 @@ public class NoteBoard extends RelativeLayout {
         lineHeight = linesGap / 5;
         lineWidth = staveWidth;
     }
-
 }

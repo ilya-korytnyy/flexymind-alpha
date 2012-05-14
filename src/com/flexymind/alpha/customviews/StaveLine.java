@@ -11,34 +11,39 @@ import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
 public class StaveLine extends View {
-    private int lineHeight;
-    private int lineWidth;
+    private  int      lineHeight;
+    private  int      lineWidth;
+    private  Picture  picture;
 
-    public StaveLine(Context context, int lineWidth, int lineHeight) {
+
+    public StaveLine(Context context, int lineWidth, int lineHeight, Picture picture) {
+
         super(context);
         this.lineWidth  = lineWidth;
         this.lineHeight = lineHeight;
+        this.picture    = picture;
     }
 
     public StaveLine(Context context, AttributeSet attrs) {
+
         super(context, attrs);
     }
 
     public StaveLine(Context context, AttributeSet attrs, int defStyle) {
+
         super(context, attrs, defStyle);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
         setMeasuredDimension(lineWidth, lineHeight);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        SVG lineSvg = SVGParser.getSVGFromResource( getResources()
-                                                   , R.raw.line);
-        Picture linesPicture = lineSvg.getPicture();
-        canvas.drawPicture( linesPicture
+
+        canvas.drawPicture( picture
                           , new Rect( 0
                                     , 0
                                     , this.lineWidth
