@@ -13,26 +13,57 @@ import com.larvalabs.svgandroid.SVGParser;
 
 public class NoteView extends View {
 
-    public NoteView(Context context, Note note, int noteWidth, int noteHeight) {
+    private static SVG      noteSVG;
+    private static SVG      noteLine;
+    private static Picture  notePicture;
+    private static Picture  noteLinePicture;
+
+    private final  Note     note;
+    private final  boolean  isSharp;
+    private final  boolean  isInverted;
+
+    private final  int      noteWidth;
+    private final  int      noteHeight;
+
+    public NoteView(Context context, int noteWidth,
+                            int noteHeight, Note note) {
+
         super(context);
+        noteSVG     = SVGParser.getSVGFromResource( getResources()
+                                                  , R.raw.notebody);
+        notePicture = noteSVG.getPicture();
+
+
+        noteLine    = SVGParser.getSVGFromResource( getResources()
+                                                  , R.raw.note);
+        noteLinePicture = noteLine.getPicture();
+
+        isSharp         = isSharp();
+        isInverted      = isInverted();
+        this.noteWidth  = noteWidth;
+        this.noteHeight = noteHeight;
+        this.note       = note;
     }
 
-    public NoteView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    private boolean isInverted() {
+
+        return false;
     }
 
-    /**
-     * Parse .svg picture and fit it in rectangle
-     * @param canvas canvas to draw on
-     * @param source path to picture source
-     * @param edges rectangle parametres
-     */
-    private void drawSVG(Canvas canvas, int source, Rect edges){
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-        SVG noteSvg = SVGParser.getSVGFromResource(getResources(), source);
-        Picture notePicture = noteSvg.getPicture();
-        Rect noteRect = new Rect(edges.left, edges.top, edges.right, edges.bottom);
-        canvas.drawPicture(notePicture, noteRect);
+        setMeasuredDimension(noteWidth, noteHeight);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+
+        super.onDraw(canvas);
+        canvas.drawPicture(notePicture, new Rect( 0
+                                                , 0
+                                                , noteWidth
+                                                , noteHeight) );
     }
 
     /**
@@ -82,11 +113,23 @@ public class NoteView extends View {
         }
 
         //Draw note & sharp if necessary
-        drawSVG(canvas, R.raw.note, noteRect);
+      //  drawSVG(canvas, R.raw.note, noteRect);
         if(isSharp){
-            drawSVG(canvas, R.raw.invertedsharp, sharpRect);
+         //   drawSVG(canvas, R.raw.invertedsharp, sharpRect);
         }
     }
+
+    private boolean isSharp() {
+
+        if (note == Note.Cz || note == Note.Dz
+                || note == Note.Fz || note == Note.Cz
+                || note == Note.Gz || note == Note.Az) {
+            return  true;
+        }
+        return false;
+    }
+
+
 
     // SHOW ERROR/CORRECT NOTE
 

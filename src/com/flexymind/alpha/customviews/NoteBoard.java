@@ -75,14 +75,6 @@ public class NoteBoard extends RelativeLayout {
         super.onDraw(canvas);
 
         drawClef(canvas);
-        //HARDCODE try to output
-        outputNote(canvas, Note.C, 0);
-        outputNote(canvas, Note.D, notesGap);
-        outputNote(canvas, Note.E, notesGap * 2);
-        outputNote(canvas, Note.F, notesGap * 3);
-        outputNote(canvas, Note.G, notesGap * 4);
-        outputNote(canvas, Note.A, notesGap * 5);
-        outputNote(canvas, Note.H, notesGap * 6);
     }
 
     @Override
@@ -91,13 +83,38 @@ public class NoteBoard extends RelativeLayout {
         super.onLayout(changed, l, t, r, b);
         setAllNeededSizes();
         drawStave();
+        drawNote(Note.C);
     }
 
     private void setAllNeededSizes() {
+
         setStaveSize();
         setLineSize();
         setCliefSize();
         prepareNotesCoord();
+    }
+
+    /**
+     * Manage note parameters based on note given
+     * @param note note to represent
+     */
+    public void drawNote(Note note) {
+
+        NoteView noteView = new NoteView( getContext()
+                                        , linesGap + linesGap * 1 / 3
+                                        , linesGap
+                                        , note);
+
+        LayoutParams params = new LayoutParams
+                (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+
+        int x = linesGap + clefWidth + notesGap;
+        int y = noteYCoord.get(note) + lineHeight / 2 - 100;
+
+        params.leftMargin = x;
+        params.topMargin  = y;
+
+        this.addView(noteView, params);
     }
 
     private void drawStave() {
@@ -107,8 +124,8 @@ public class NoteBoard extends RelativeLayout {
             StaveLine staveLine = new StaveLine( getContext()
                                                , lineWidth
                                                , lineHeight);
-            LayoutParams layoutParams = new LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+            LayoutParams layoutParams = new LayoutParams
+                    (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
             layoutParams.topMargin = linesGap * i;
             layoutParams.leftMargin = linesGap;
@@ -123,49 +140,16 @@ public class NoteBoard extends RelativeLayout {
                 R.raw.scaledclef);
         Picture clefPicture = clefSvg.getPicture();
 
-        canvas.drawPicture(clefPicture,
-                new Rect(linesGap
-                        , 0
-                        , linesGap + clefWidth
-                        , clefHeight));
+        canvas.drawPicture( clefPicture
+                          , new Rect( linesGap
+                                    , 0
+                                    , linesGap + clefWidth
+                                    , clefHeight) );
     }
 
     public void outputMelody() {
     }
 
-    /**
-     * Manage note parameters based on tone given
-     * @param canvas canvas to draw on
-     * @param tone tone to represent
-     */
-    public void outputNote(Canvas canvas, Note tone, int noteX) {
-
-        NoteView note = new NoteView(getContext(), tone, staveWidth, lineHeight);
-
-        int x = noteX + linesGap + clefWidth + notesGap;
-        int y = noteYCoord.get(tone) + lineHeight / 2;
-        int scale = linesGap;
-
-        note.onDraw(canvas, x, y, scale, isStraight(tone), isSharp(tone));
-    }
-
-    private boolean isStraight(Note note) {
-
-        if(noteYCoord.get(note) < noteYCoord.get(Note.Az)) { // TODO make it H, not Az
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isSharp(Note note) {
-
-        if (note == Note.Cz || note == Note.Dz
-            || note == Note.Fz || note == Note.Cz
-            || note == Note.Gz || note == Note.Az) {
-                return  true;
-        }
-        return false;
-    }
 
     public void removeAllNotes() {
         //
