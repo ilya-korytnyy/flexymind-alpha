@@ -2,13 +2,9 @@ package com.flexymind.alpha.customviews;
 
 import android.content.Context;
 import android.graphics.*;
-import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.player.Note;
-import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
 /**
@@ -35,21 +31,21 @@ import com.larvalabs.svgandroid.SVGParser;
 
 public class NoteView extends View {
 
-    private  static Picture  noteUpPicture;
-    private  static Picture  noteDownPicture;
-    private  static Picture  noteUpSharpPicture;
-    private  static Picture  noteDownSharpPicture;
+    private static Picture   noteUpPicture;
+    private static Picture   noteDownPicture;
+    private static Picture   noteUpSharpPicture;
+    private static Picture   noteDownSharpPicture;
+    private static float     ratioWidthShapedAndNonShaped;
+    private static float     ratioHeightShapedAndNonShaped;
 
     private final   Note     note;
     private final   boolean  isSharp;
     private final   boolean  isInverted;
-    private    int      noteHeight;
+    private         int      noteHeight;
 
     private         int      noteWidth;
     private         Picture  ourNote;
 
-    //  private static int sharpWidth =  noteWidth / 2;
-   // private static int sharpHeight = noteWidth;
 
     /**
      * @param context
@@ -64,20 +60,22 @@ public class NoteView extends View {
 
         super(context);
 
-        SVG noteUp = SVGParser.getSVGFromResource
-                (getResources(), R.raw.noteup);
-
-        noteUpPicture  = noteUp.getPicture();
-
         noteDownPicture  = SVGParser.getSVGFromResource
                 (getResources(), R.raw.notedown).getPicture();
+
+        noteUpPicture    = SVGParser.getSVGFromResource
+                   (getResources(), R.raw.noteup).getPicture();
+
 
         noteUpSharpPicture  = SVGParser.getSVGFromResource
                 (getResources(), R.raw.sharpnoteup).getPicture();
 
+
         noteDownSharpPicture = SVGParser.getSVGFromResource
                 (getResources(), R.raw.sharpnotedown).getPicture();
 
+        ratioHeightShapedAndNonShaped = 1.25f;
+        ratioWidthShapedAndNonShaped  = 1.5f;
 
         this.note       = note;
         isSharp         = isSharp();
@@ -97,20 +95,21 @@ public class NoteView extends View {
 
         }else if (!isSharp && !isInverted) {
 
-            ourNote = new Picture(noteDownPicture);
+            ourNote = new Picture(noteUpPicture);
 
         }else if (isSharp && !isInverted)  {
 
             ourNote = noteUpSharpPicture;
-            this.noteWidth *= 1.5;
+            this.noteWidth  *= ratioWidthShapedAndNonShaped;
+            this.noteHeight *= ratioHeightShapedAndNonShaped;
 
         }else if (isSharp && isInverted)  {
 
             ourNote = noteDownSharpPicture;
-            this.noteWidth *= 1.5;
+            this.noteWidth  *= ratioWidthShapedAndNonShaped;
+            this.noteHeight *= ratioHeightShapedAndNonShaped;
+
         }
-
-
     }
 
     private boolean isInverted() {

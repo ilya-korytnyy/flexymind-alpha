@@ -4,21 +4,12 @@ import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
-import com.flexymind.alpha.R;
 import com.flexymind.alpha.player.Note;
-import com.larvalabs.svgandroid.SVG;
-import com.larvalabs.svgandroid.SVGParser;
-
-import java.util.EnumMap;
-
 
 public class NoteBoard extends RelativeLayout {
 
 
     private static final int ALL_LINES_COUNT  =  9;
-    private static final int MAX_NOTES        =  7;
-
-    private static EnumMap<Note, Integer> noteYCoord;
 
     private int staveHeight;
     private int staveWidth;
@@ -26,55 +17,16 @@ public class NoteBoard extends RelativeLayout {
     private int clefWidth;
     private int linesGap;
     private int lineHeight;
-    private int notesGap;
-
     private int lineWidth;
 
     public NoteBoard(Context context) {
+
         super(context);
     }
 
     public NoteBoard(Context context, AttributeSet attrs) {
+
         super(context, attrs);
-    }
-
-    public NoteBoard(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
-    /**
-     * Map tones and y coordinate of the related notes
-     * @param linesGap gap between two lines of the stave
-     */
-    private void initializeMap(int linesGap) {
-        int step = linesGap / 2;
-
-        noteYCoord.put(Note.C,  step * 15);
-        noteYCoord.put(Note.Cz, step * 15);
-        noteYCoord.put(Note.D,  step * 14);
-        noteYCoord.put(Note.Dz, step * 14);
-        noteYCoord.put(Note.E,  step * 13);
-        noteYCoord.put(Note.F,  step * 12);
-        noteYCoord.put(Note.Fz, step * 12);
-        noteYCoord.put(Note.G,  step * 11);
-        noteYCoord.put(Note.Gz, step * 11);
-        noteYCoord.put(Note.A,  step * 10);
-        noteYCoord.put(Note.Az, step * 10);
-        noteYCoord.put(Note.H,  step *  7);
-        noteYCoord.put(Note.C1, step *  6);
-    }
-
-    /**
-     * Draw stave, clef, manage notes drawing
-     * @param canvas canvas to draw on
-     */
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-
-        super.onDraw(canvas);
-
-        drawClef(canvas);
     }
 
     @Override
@@ -83,15 +35,15 @@ public class NoteBoard extends RelativeLayout {
         super.onLayout(changed, l, t, r, b);
         setAllNeededSizes();
         drawStave();
-        drawNote(Note.Dz);
+        drawClef();
+        drawNote(Note.Cz);
     }
 
     private void setAllNeededSizes() {
 
         setStaveSize();
         setLineSize();
-        setCliefSize();
-        prepareNotesCoord();
+        setClefSize();
     }
 
     /**
@@ -108,11 +60,9 @@ public class NoteBoard extends RelativeLayout {
         LayoutParams params = new LayoutParams
                 (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
-        int x = linesGap + clefWidth + notesGap;
-        int y = noteYCoord.get(note) + lineHeight / 2 - 100;
 
-        params.leftMargin = x;
-        params.topMargin  = y;
+        params.addRule(BELOW, 2);
+        params.leftMargin = 100;
 
         this.addView(noteView, params);
     }
@@ -125,26 +75,31 @@ public class NoteBoard extends RelativeLayout {
                                                , lineWidth
                                                , lineHeight);
             LayoutParams layoutParams = new LayoutParams
-                    (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                   (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
-            layoutParams.topMargin = linesGap * i;
+            layoutParams.topMargin  = linesGap * i;
             layoutParams.leftMargin = linesGap;
+
+            staveLine.setId(i-1);
+                    //TODO make unique constants to Id of each component
 
             this.addView(staveLine, layoutParams);
         }
     }
 
-    private void drawClef(Canvas canvas) {
+    private void drawClef() {
 
-        SVG clefSvg = SVGParser.getSVGFromResource(getResources(),
-                R.raw.scaledclef);
-        Picture clefPicture = clefSvg.getPicture();
+        Clef clef = new Clef( getContext()
+                            , clefWidth
+                            , clefHeight );
 
-        canvas.drawPicture( clefPicture
-                          , new Rect( linesGap
-                                    , 0
-                                    , linesGap + clefWidth
-                                    , clefHeight) );
+        LayoutParams layoutParams = new LayoutParams
+               (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+
+        layoutParams.leftMargin = linesGap;
+        clef.setId(0);
+
+        this.addView(clef, layoutParams);
     }
 
     public void outputMelody() {
@@ -152,26 +107,19 @@ public class NoteBoard extends RelativeLayout {
 
 
     public void removeAllNotes() {
-        //
+
     }
 
 
     public void highlightCorrectNote(int position) {
-       //
+
     }
 
     public void highlightErrorNote(Note note, int position) {
-        //
+
     }
 
-    private void prepareNotesCoord() {
-
-        notesGap = (staveWidth - clefWidth) / (MAX_NOTES + 1);
-        noteYCoord = new EnumMap<Note, Integer>(Note.class);
-        initializeMap(linesGap);
-    }
-
-    private void setCliefSize() {
+    private void setClefSize() {
 
         clefHeight = staveHeight;
         clefWidth  = staveHeight  / 3;
