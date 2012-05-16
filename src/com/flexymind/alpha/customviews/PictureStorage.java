@@ -2,7 +2,6 @@ package com.flexymind.alpha.customviews;
 
 import android.graphics.Picture;
 import com.flexymind.alpha.R;
-import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
 import static com.flexymind.alpha.StaticResources.*;

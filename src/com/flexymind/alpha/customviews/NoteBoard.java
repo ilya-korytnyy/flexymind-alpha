@@ -3,6 +3,9 @@ package com.flexymind.alpha.customviews;
 import android.content.Context;
 import android.util.AttributeSet;
 import com.flexymind.alpha.player.Note;
+import org.w3c.dom.ProcessingInstruction;
+
+import java.util.Map;
 
 public class NoteBoard extends Board {
 
@@ -16,6 +19,7 @@ public class NoteBoard extends Board {
     private int linesGap;
     private int lineHeight;
     private int lineWidth;
+    private int topMarginCorrection = 0;
 
     public NoteBoard(Context context) {
 
@@ -34,7 +38,7 @@ public class NoteBoard extends Board {
         setAllNeededSizes();
         drawStave();
         drawClef();
-        drawNote(Note.D);
+        drawNote(Note.C1);
     }
 
     private void setAllNeededSizes() {
@@ -60,10 +64,14 @@ public class NoteBoard extends Board {
 
 
         params.addRule(BELOW, 2);
-        params.leftMargin = 100;
+        params.topMargin    = this.topMarginCorrection
+                                + noteView.getTopMarginCorrection();
+        params.leftMargin   = 100;
 
         this.addView(noteView, params);
     }
+
+
 
     private void drawStave() {
 
@@ -114,6 +122,11 @@ public class NoteBoard extends Board {
     }
 
     public void highlightErrorNote(Note note, int position) {
+
+    }
+
+    private void initializeMap() {
+
 
     }
 

@@ -30,9 +30,9 @@ import android.view.View;
 
 public abstract class ParentSelfDrawingView extends View {
 
-    protected     Picture picture;
-    private final int     width;
-    private final int     height;
+    protected       Picture picture;
+    protected final int     width;
+    protected final int     height;
 
 
 
@@ -59,4 +59,7 @@ public abstract class ParentSelfDrawingView extends View {
                           , this.height) );
         super.onDraw(canvas);
     }
+
+
+
 }

@@ -2,17 +2,17 @@ package com.flexymind.alpha.player;
 
 public enum Note {
     C,   // до
+    Cz,  // до диез
     D,   // ре                       // TODO: refactor (D=1)
+    Dz,  // ре диез
     E,   // ми
     F,   // фа
-    G,   // соль
-    A,   // ля
-    H,   // си
-    Az,  // ля диез
-    Cz,  // до диез
-    Dz,  // ре диез
     Fz,  // фа диез
+    G,   // соль
     Gz,  // соль диез
+    A,   // ля
+    Az,  // ля диез
+    H,   // си
     C1,   // до
     UNKNOW;
 
@@ -59,6 +59,7 @@ public enum Note {
 
     private static Note[] blackTone = null;
     private static Note[] whiteTone = null;
+    private static Note[] allNotes  = null;
 
     public static Note[] getNotesForBlackKeys() {
         if(blackTone == null){
