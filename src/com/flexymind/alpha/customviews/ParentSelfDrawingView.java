@@ -28,7 +28,7 @@ import android.view.View;
  * about (not)inversion of note tail
  */
 
-public class ParentSelfDrawingView extends View {
+public abstract class ParentSelfDrawingView extends View {
 
     protected     Picture picture;
     private final int     width;
