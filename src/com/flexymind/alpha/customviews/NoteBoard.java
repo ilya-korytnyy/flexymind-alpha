@@ -1,7 +1,6 @@
 package com.flexymind.alpha.customviews;
 
 import android.content.Context;
-import android.graphics.*;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import com.flexymind.alpha.player.Note;
