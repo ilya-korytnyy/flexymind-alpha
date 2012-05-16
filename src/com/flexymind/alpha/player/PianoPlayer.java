@@ -20,7 +20,7 @@ import android.view.View;
  *  }
  *
  */
-public class PianoPlayer extends View {
+public class PianoPlayer {
     public  SoundPool   soundPool;
     public  int         toneID;
     private MidiNote    midiNote;
@@ -30,18 +30,17 @@ public class PianoPlayer extends View {
      */
     public PianoPlayer(Context context, Note note) {
 
-        super(context);
-
         soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
         midiNote = new MidiNote(note);
         toneID = soundPool.load(context, midiNote.getMidiFileId(), 1);
     }
 
-
+    /**
+     * @param context Context for SoundPool
+     * @param song WTF???
+     */
     public PianoPlayer(Context context, int song) {
-
-        super(context);
 
         soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         toneID = soundPool.load(context, song, 1);
@@ -50,6 +49,7 @@ public class PianoPlayer extends View {
      * Gets the .mid file for that Note and plays it.
      */
     public void play() {
+
         // params of playing
         float   leftVolume      =   1.0f;
         float   rightVolume     =   1.0f;
