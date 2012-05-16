@@ -11,22 +11,11 @@ import com.flexymind.alpha.player.Note;
 import com.flexymind.alpha.player.PianoPlayer;
 
 
-public class PianoKey extends View {
+public class PianoKey extends ParentSelfDrawingView {
 
     private int         keyHeight;
     private int         keyWidth;
-    private Picture     picture;
     private PianoPlayer player;
-
-    public PianoKey(Context context, AttributeSet attrs) {
-
-        super(context, attrs);
-    }
-
-    public PianoKey(Context context) {
-
-        super(context);
-    }
 
     /**
      *
@@ -39,27 +28,11 @@ public class PianoKey extends View {
     public PianoKey(Context context, int keyH, int keyW,
                             Picture picture,  Note note) {
 
-        super(context);
+        super(context, keyW, keyH);
         this.keyHeight  = keyH;
         this.keyWidth   = keyW;
         this.picture    = picture;
         this.player     = new PianoPlayer(context, note);
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-       setMeasuredDimension(keyWidth, keyHeight);
-    }
-
-
-    @Override
-    protected void onDraw (Canvas canvas) {
-
-        super.onDraw(canvas);
-        canvas.drawPicture( picture
-                          , new Rect(0, 0, keyWidth, keyHeight) );
-
     }
 
     public void playOwnSound() {

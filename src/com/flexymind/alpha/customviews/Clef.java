@@ -9,36 +9,14 @@ import com.flexymind.alpha.R;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
-public class Clef extends View {
-
-    private int width;
-    private int height;
+public class Clef extends ParentSelfDrawingView {
 
     public Clef(Context context, int width, int height) {
 
-        super(context);
-        this.width = width;
-        this.height = height;
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-        setMeasuredDimension(width, height);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-
-        super.onDraw(canvas);
+        super(context, width, height);
 
         SVG clef = SVGParser.getSVGFromResource( getResources()
                                                , R.raw.scaledclef);
-        Picture linesPicture = clef.getPicture();
-        canvas.drawPicture( linesPicture
-                          , new Rect( 0
-                                    , 0
-                                    , this.width
-                                    , this.height) );
+        picture = clef.getPicture();
     }
 }
