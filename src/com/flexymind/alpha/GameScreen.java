@@ -12,6 +12,7 @@ public class GameScreen extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        StaticResources.res = getResources();
     }
 
     @Override
