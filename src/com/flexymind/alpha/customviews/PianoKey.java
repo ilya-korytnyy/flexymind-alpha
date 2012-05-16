@@ -20,7 +20,6 @@ public class PianoKey extends View {
     private Picture     pictureUnpress;
     private PianoPlayer player;
 
-
     public PianoKey(Context context, AttributeSet attrs) {
 
         super(context, attrs);
@@ -58,15 +57,6 @@ public class PianoKey extends View {
        setMeasuredDimension(keyWidth, keyHeight);
     }
 
-
-    @Override
-    protected void onDraw (Canvas canvas) {
-
-        super.onDraw(canvas);
-        canvas.drawPicture( picture
-                          , new Rect(0, 0, keyWidth, keyHeight) );
-    }
-
     public void playOwnSound() {
 
         Thread soundThread = new Thread(new Runnable() {
@@ -81,17 +71,33 @@ public class PianoKey extends View {
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
 
-        if(motionEvent.getAction() ==  MotionEvent.ACTION_DOWN) {
+        switch (motionEvent.getAction()) {
 
-            picture = picturePress;
-            postInvalidate();
-            playOwnSound();
-        }  else
-        if(motionEvent.getAction() ==  MotionEvent.ACTION_UP) {
+            case MotionEvent.ACTION_DOWN: {
 
-            picture = pictureUnpress;
+                picture = picturePress;
+                postInvalidate();
+                playOwnSound();
+                break;
+            }
+
+            case MotionEvent.ACTION_UP: {
+
+                picture = pictureUnpress;
+                postInvalidate();
+                break;
+            }
 
         }
+
         return true;
+    }
+
+    @Override
+    protected void onDraw (Canvas canvas) {
+
+        super.onDraw(canvas);
+        canvas.drawPicture( picture
+                          , new Rect(0, 0, keyWidth, keyHeight) );
     }
 }

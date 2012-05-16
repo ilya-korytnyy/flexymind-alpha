@@ -55,7 +55,7 @@ public class PianoKeyboard extends RelativeLayout {
         SVG svgUnpress = SVGParser.getSVGFromResource(getResources(),
                          R.raw.whitekey);
         SVG svgPress = SVGParser.getSVGFromResource(getResources(),
-                R.raw.whitekey);
+                R.raw.whitekeypressed);
 
         LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
