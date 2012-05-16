@@ -5,7 +5,6 @@ import android.graphics.Picture;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.player.Note;
 import com.flexymind.alpha.player.PianoPlayer;
@@ -44,7 +43,7 @@ public class PianoKeyboard extends Board {
 
         int id = START_ID_FOR_KEY_VIEWS;
 
-        LayoutParams params = new RelativeLayout.LayoutParams(
+        LayoutParams params = new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
         params.addRule(ALIGN_LEFT);
@@ -66,7 +65,7 @@ public class PianoKeyboard extends Board {
         }
     }
 
-    private RelativeLayout.LayoutParams paramsWithRightOf(int id) {
+    private LayoutParams paramsWithRightOf(int id) {
 
         LayoutParams params = new LayoutParams
                 (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
