@@ -1,29 +1,34 @@
 package com.flexymind.alpha.player;
 
+import com.flexymind.alpha.R;
+
 public enum Note {
-    C,   // до
-    Cz,  // до диез
-    D,   // ре                       // TODO: refactor (D=1)
-    Dz,  // ре диез
-    E,   // ми
-    F,   // фа
-    Fz,  // фа диез
-    G,   // соль
-    Gz,  // соль диез
-    A,   // ля
-    Az,  // ля диез
-    H,   // си
-    C1,   // до
-    UNKNOW;
+    C   (R.raw.c, R.raw.noteup),   // до
+    Cz  (R.raw.cdiez, R.raw.sharpnoteup),   // до диез
+    D   (R.raw.d, R.raw.noteup),   // ре
+    Dz  (R.raw.ddiez, R.raw.sharpnoteup),   // ре диез
+    E   (R.raw.e, R.raw.noteup),   // ми
+    F   (R.raw.f, R.raw.noteup),   // фа
+    Fz  (R.raw.fdiez, R.raw.sharpnoteup),   // фа диез
+    G   (R.raw.g, R.raw.noteup),   // соль
+    Gz  (R.raw.gdiez, R.raw.sharpnoteup),   // соль диез
+    A   (R.raw.a, R.raw.noteup),   // ля
+    Az  (R.raw.adiez, R.raw.sharpnoteup),   // ля диез
+    H   (R.raw.h, R.raw.notedown),   // си
+    C1  (R.raw.c1, R.raw.notedown),   // до
+    UNKNOW(-1, -1);
+
+    public final int soundResource;
+    public final int blackSvgResource;
+
+    private Note(int soundResource, int blackSvgResource) {
+        this.soundResource = soundResource;
+        this.blackSvgResource = blackSvgResource;
+    }
 
     //[review] mandrgin: strange name... it points to the MIDI file.
     //so  it better be called as 'getMidiFileId()'
     ////[review] mandrigin: javadocs for public methods!
-    /**
-     * For MIDI labrary
-     * @param id
-     * @return
-     */
     public static Note getToneById(int id){
         switch (id){
             case 57:
