@@ -36,7 +36,7 @@ public class NoteBoard extends RelativeLayout {
         setAllNeededSizes();
         drawStave();
         drawClef();
-        drawNote(Note.Cz);
+        drawNote(Note.D);
     }
 
     private void setAllNeededSizes() {

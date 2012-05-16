@@ -2,49 +2,21 @@ package com.flexymind.alpha.customviews;
 
 import android.content.Context;
 import android.graphics.*;
-import android.view.View;
-import com.flexymind.alpha.R;
 import com.flexymind.alpha.player.Note;
-import com.larvalabs.svgandroid.SVGParser;
 
-/**
- * This class was created to solve the problem of itself
- * note rendering.
- *
- * Brief tutorial:
- *   1. create an object of this class in parent ViewGroup
- *      and send to constructor just a note, note width and note height
- *   2. now you should find a correct position in your ViewGroup
- *      and create an object of class RelativeLayout.LayoutParams
- *   3. to set position of note in relation to left corner of your
- *      View Group set the leftMargin and topMargin of your
- *      LayoutParamsMargin.
- *      Or if you want set position in relation
- *      to another view in your ViewGroup
- *      use the LayoutParams method addRule (for this feature, each
- *      component, should have an unique Id)
- *
- * The left top corner of whole note (include tail) is a left top corner
- * of note herself (ellipse of note). that's why you don't need to worry
- * about (not)inversion of note tail
- */
+import static com.flexymind.alpha.customviews.StaticNotesPictures.*;
 
-public class NoteView extends View {
+public class NoteView extends ParentSelfDrawingView {
 
-    private static Picture   noteUpPicture;
-    private static Picture   noteDownPicture;
-    private static Picture   noteUpSharpPicture;
-    private static Picture   noteDownSharpPicture;
-    private static float     ratioWidthShapedAndNonShaped;
-    private static float     ratioHeightShapedAndNonShaped;
+    public  final static int       UP         = 0;
+    public  final static int       DOWN       = 1;
+    public  final static int       SHARP_UP   = 2;
+    public  final static int       SHARP_DOWN = 3;
 
-    private final   Note     note;
-    private final   boolean  isSharp;
-    private final   boolean  isInverted;
-    private         int      noteHeight;
+    private final        Note      note;
 
-    private         int      noteWidth;
-    private         Picture  ourNote;
+    private              Picture[] currentColorArrayWithPictures;
+    private              int       noteForm;
 
 
     /**
@@ -58,58 +30,36 @@ public class NoteView extends View {
     public NoteView(Context context, int noteWidth,
                             int noteHeight, Note note) {
 
-        super(context);
-
-        noteDownPicture  = SVGParser.getSVGFromResource
-                (getResources(), R.raw.notedown).getPicture();
-
-        noteUpPicture    = SVGParser.getSVGFromResource
-                   (getResources(), R.raw.noteup).getPicture();
-
-
-        noteUpSharpPicture  = SVGParser.getSVGFromResource
-                (getResources(), R.raw.sharpnoteup).getPicture();
-
-
-        noteDownSharpPicture = SVGParser.getSVGFromResource
-                (getResources(), R.raw.sharpnotedown).getPicture();
-
-        ratioHeightShapedAndNonShaped = 1.25f;
-        ratioWidthShapedAndNonShaped  = 1.5f;
+        super(context, noteWidth * 2, noteHeight * 3);
 
         this.note       = note;
-        isSharp         = isSharp();
-        isInverted      = isInverted();
+        currentColorArrayWithPictures = blackPictures;
 
-        this.noteWidth  = noteWidth * 2;
-        this.noteHeight = noteHeight * 3;
-
-        setPictureOfNoteAndRedefineWidthIfNecessary();
+        setNoteForm();
+        setNotePicture();
     }
 
-    private void setPictureOfNoteAndRedefineWidthIfNecessary() {
 
-        if (!isSharp && isInverted) {
+    private void setNoteForm() {
 
-            ourNote = new Picture(noteDownPicture);
+        if (!isInverted() && !isSharp()) {
 
-        }else if (!isSharp && !isInverted) {
+            noteForm = UP;
+        }else if (!isInverted() && isSharp()) {
 
-            ourNote = new Picture(noteUpPicture);
+            noteForm = SHARP_UP;
+        }else  if (isInverted() && !isSharp()) {
 
-        }else if (isSharp && !isInverted)  {
+            noteForm = DOWN;
+        }else if (isInverted() && isSharp()) {
 
-            ourNote = noteUpSharpPicture;
-            this.noteWidth  *= ratioWidthShapedAndNonShaped;
-            this.noteHeight *= ratioHeightShapedAndNonShaped;
-
-        }else if (isSharp && isInverted)  {
-
-            ourNote = noteDownSharpPicture;
-            this.noteWidth  *= ratioWidthShapedAndNonShaped;
-            this.noteHeight *= ratioHeightShapedAndNonShaped;
-
+            noteForm = SHARP_DOWN;
         }
+    }
+
+    private void setNotePicture() {
+
+        picture = currentColorArrayWithPictures[noteForm];
     }
 
     private boolean isInverted() {
@@ -117,23 +67,6 @@ public class NoteView extends View {
         return true;
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-        setMeasuredDimension(noteWidth, noteHeight);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-
-        super.onDraw(canvas);
-
-        canvas.drawPicture( ourNote
-                          , new Rect( 0
-                                    , 0
-                                    , noteWidth
-                                    , noteHeight) );
-    }
 
     private boolean isSharp() {
 
@@ -147,15 +80,13 @@ public class NoteView extends View {
         return false;
     }
 
-
-
-    // SHOW ERROR/CORRECT NOTE
-
     /**
      * Makes it green
      */
     public void highlight() {
 
+        currentColorArrayWithPictures = greenPictures;
+        setNotePicture();
     }
 
     /**
@@ -163,6 +94,8 @@ public class NoteView extends View {
      */
     public void highlightError() {
 
+        currentColorArrayWithPictures = redPictures;
+        setNotePicture();
     }
 
     /**
@@ -170,5 +103,7 @@ public class NoteView extends View {
      */
     public void unHighlight() {
 
+        currentColorArrayWithPictures = blackPictures;
+        setNotePicture();
     }
 }
