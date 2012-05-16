@@ -16,7 +16,10 @@ public class PianoKey extends View {
     private int         keyHeight;
     private int         keyWidth;
     private Picture     picture;
+    private Picture     picturePress;
+    private Picture     pictureUnpress;
     private PianoPlayer player;
+
 
     public PianoKey(Context context, AttributeSet attrs) {
 
@@ -33,16 +36,19 @@ public class PianoKey extends View {
      * @param context
      * @param keyH key height
      * @param keyW key width
-     * @param picture
+     * @param picturePress
      */
 
-    public PianoKey(Context context, int keyH, int keyW,
-                            Picture picture,  Note note) {
+    public PianoKey( Context context, int keyH, int keyW
+                   , Picture pictureUnpress, Picture picturePress
+                   , Note note) {
 
         super(context);
         this.keyHeight  = keyH;
         this.keyWidth   = keyW;
-        this.picture    = picture;
+        this.pictureUnpress = pictureUnpress;
+        this.picturePress = picturePress;
+        this.picture    = pictureUnpress;
         this.player     = new PianoPlayer(context, note);
     }
 
@@ -59,7 +65,6 @@ public class PianoKey extends View {
         super.onDraw(canvas);
         canvas.drawPicture( picture
                           , new Rect(0, 0, keyWidth, keyHeight) );
-
     }
 
     public void playOwnSound() {
@@ -77,7 +82,15 @@ public class PianoKey extends View {
     public boolean onTouchEvent(MotionEvent motionEvent) {
 
         if(motionEvent.getAction() ==  MotionEvent.ACTION_DOWN) {
+
+            picture = picturePress;
+            postInvalidate();
             playOwnSound();
+        }  else
+        if(motionEvent.getAction() ==  MotionEvent.ACTION_UP) {
+
+            picture = pictureUnpress;
+
         }
         return true;
     }

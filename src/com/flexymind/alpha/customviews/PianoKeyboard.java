@@ -27,11 +27,6 @@ public class PianoKeyboard extends RelativeLayout {
         super(context, attrs);
     }
 
-
-    //[review] mandrigin: ',' should be on the new line:
-    // Make:
-    //protected void onMeasure( int widthMeasureSpec
-    //                        , int heightMeasureSpec) {
     @Override
     protected void onMeasure ( int widthMeasureSpec
                              , int heightMeasureSpec) {
@@ -57,7 +52,9 @@ public class PianoKeyboard extends RelativeLayout {
 
         int id = START_ID_FOR_KEY_VIEWS;
 
-        SVG svg = SVGParser.getSVGFromResource(getResources(),
+        SVG svgUnpress = SVGParser.getSVGFromResource(getResources(),
+                         R.raw.whitekey);
+        SVG svgPress = SVGParser.getSVGFromResource(getResources(),
                 R.raw.whitekey);
 
         LayoutParams params = new RelativeLayout.LayoutParams(
@@ -66,7 +63,8 @@ public class PianoKeyboard extends RelativeLayout {
 
         params.addRule(ALIGN_LEFT);
 
-        addKey( svg.getPicture()
+        addKey( svgUnpress.getPicture()
+              , svgPress.getPicture()
               , getWhiteKeyHeight()
               , getWhiteKeyWidth()
               , params
@@ -74,7 +72,8 @@ public class PianoKeyboard extends RelativeLayout {
               , Note.C );
 
         for (int i = 0; i < COUNT_OF_WHITE_KEYS - 1; i++) {
-            addKey( svg.getPicture()
+            addKey( svgUnpress.getPicture()
+                  , svgPress.getPicture()
                   , getWhiteKeyHeight()
                   , getWhiteKeyWidth()
                   , paramsWithRightOf(id - 1)
@@ -119,14 +118,17 @@ public class PianoKeyboard extends RelativeLayout {
 
     private void addBlackKeys() {
 
-        SVG svg = SVGParser.getSVGFromResource(getResources(),
+        SVG svgUnpress = SVGParser.getSVGFromResource(getResources(),
                 R.raw.blackkey);
+        SVG svgPress = SVGParser.getSVGFromResource(getResources(),
+                R.raw.blackkeypressed);
 
         int id = START_ID_FOR_KEY_VIEWS + COUNT_OF_WHITE_KEYS;
 
         int j = 0;
         for (int whiteKeyNumber: BLACK_KEY_POSITIONS) {
-            addKey( svg.getPicture()
+            addKey( svgUnpress.getPicture()
+                  , svgPress.getPicture()
                   , getBlackKeyHeight()
                   , getBlackKeyWidth()
                   , paramsWithMargin(whiteKeyNumber * getWhiteKeyWidth()
@@ -144,13 +146,15 @@ public class PianoKeyboard extends RelativeLayout {
         return params;
     }
 
-    private void addKey(Picture picture, int keyH, int keyW,
-                        LayoutParams params, int id, Note note) {
+    private void addKey( Picture pictureUnpress, Picture picturePress
+                       , int keyH, int keyW
+                       , LayoutParams params, int id, Note note) {
 
         PianoKey key = new PianoKey( getContext()
                                    , keyH
                                    , keyW
-                                   , picture
+                                   , pictureUnpress
+                                   , picturePress
                                    , note);
         key.setId(id);
         addView(key, params);
