@@ -9,8 +9,10 @@ import com.flexymind.alpha.R;
 import com.flexymind.alpha.player.Note;
 import com.flexymind.alpha.player.PianoPlayer;
 
-import static com.flexymind.alpha.customviews.PictureStorage.whiteKeyNotPressed;
-import static com.flexymind.alpha.customviews.PictureStorage.blackKeyNotPressed;
+import static com.flexymind.alpha.customviews.
+              PictureStorage.whiteKeyNotPressed;
+import static com.flexymind.alpha.customviews.
+              PictureStorage.blackKeyNotPressed;
 
 public class PianoKeyboard extends Board {
 

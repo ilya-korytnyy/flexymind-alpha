@@ -4,7 +4,13 @@ import android.content.Context;
 import android.graphics.*;
 import com.flexymind.alpha.player.Note;
 
-import static com.flexymind.alpha.customviews.PictureStorage.*;
+import static com.flexymind.alpha.customviews.
+              PictureStorage.blackPictures;
+import static com.flexymind.alpha.customviews.
+              PictureStorage.greenPictures;
+import static com.flexymind.alpha.customviews.
+              PictureStorage.redPictures;
+
 
 public class NoteView extends ParentSelfDrawingView {
 
