@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import com.flexymind.alpha.player.Note;
 
-public class NoteBoard extends RelativeLayout {
+public class NoteBoard extends Board {
 
 
     private static final int ALL_LINES_COUNT  =  9;
@@ -126,9 +126,9 @@ public class NoteBoard extends RelativeLayout {
 
     private void setStaveSize() {
 
-        staveHeight = this.getHeight();
+        staveHeight = this.height;
         linesGap = staveHeight / (ALL_LINES_COUNT - 1);
-        staveWidth = this.getWidth() - linesGap * 2;
+        staveWidth = this.width - linesGap * 2;
     }
 
     private void setLineSize() {

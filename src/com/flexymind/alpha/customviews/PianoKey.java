@@ -13,8 +13,6 @@ import com.flexymind.alpha.player.PianoPlayer;
 
 public class PianoKey extends ParentSelfDrawingView {
 
-    private int         keyHeight;
-    private int         keyWidth;
     private PianoPlayer player;
 
     /**
@@ -29,8 +27,6 @@ public class PianoKey extends ParentSelfDrawingView {
                             Picture picture,  Note note) {
 
         super(context, keyW, keyH);
-        this.keyHeight  = keyH;
-        this.keyWidth   = keyW;
         this.picture    = picture;
         this.player     = new PianoPlayer(context, note);
     }
