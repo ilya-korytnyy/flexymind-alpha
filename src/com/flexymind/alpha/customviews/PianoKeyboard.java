@@ -38,7 +38,6 @@ public class PianoKeyboard extends Board {
 
         addWhiteKeys();
         addBlackKeys();
-        addPlayMidiButton();
     }
 
     private void addWhiteKeys() {
@@ -74,31 +73,6 @@ public class PianoKeyboard extends Board {
         params.addRule(RIGHT_OF, id);
 
         return  params;
-    }
-
-    private void addPlayMidiButton() {
-
-        final Button playButton = new Button(getContext());
-        final PianoPlayer song = new PianoPlayer( this.getContext()
-                                                , R.raw.song );
-        LayoutParams layoutParams = new LayoutParams
-                (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-        layoutParams.addRule(CENTER_HORIZONTAL);
-
-        OnClickListener onClickListener = new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                song.play();
-                playButton.setVisibility(View.INVISIBLE);
-            }
-        };
-
-        playButton.setText("Play");
-
-        playButton.setOnClickListener(onClickListener);
-
-        this.addView(playButton, layoutParams);
     }
 
     private void addBlackKeys() {
