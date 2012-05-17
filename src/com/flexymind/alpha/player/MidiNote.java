@@ -20,9 +20,7 @@ public class MidiNote {
     static {
 
         Map<Note, Integer> tempMap = new EnumMap<Note, Integer>(Note.class);
-
         initializeMap(tempMap);
-
         midiByToneMap = Collections.unmodifiableMap(tempMap);
     }
 

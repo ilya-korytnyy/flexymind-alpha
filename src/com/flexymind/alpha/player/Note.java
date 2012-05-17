@@ -1,29 +1,24 @@
 package com.flexymind.alpha.player;
 
 public enum Note {
-    C,   // до
-    D,   // ре                       // TODO: refactor (D=1)
-    E,   // ми
-    F,   // фа
-    G,   // соль
-    A,   // ля
-    H,   // си
-    Az,  // ля диез
-    Cz,  // до диез
-    Dz,  // ре диез
-    Fz,  // фа диез
-    Gz,  // соль диез
-    C1,   // до
+    C,      // до
+    Cz,     // до диез
+    D,      // ре
+    Dz,     // ре диез
+    E,      // ми
+    F,      // фа
+    Fz,     // фа диез
+    G,      // соль
+    Gz,     // соль диез
+    A,      // ля
+    Az,     // ля диез
+    H,      // си
+    C1,     // до
     UNKNOW;
 
     //[review] mandrgin: strange name... it points to the MIDI file.
     //so  it better be called as 'getMidiFileId()'
     ////[review] mandrigin: javadocs for public methods!
-    /**
-     * For MIDI labrary
-     * @param id
-     * @return
-     */
     public static Note getToneById(int id){
         switch (id){
             case 57:
@@ -59,6 +54,7 @@ public enum Note {
 
     private static Note[] blackTone = null;
     private static Note[] whiteTone = null;
+    private static Note[] allNotes  = null;
 
     public static Note[] getNotesForBlackKeys() {
         if(blackTone == null){
