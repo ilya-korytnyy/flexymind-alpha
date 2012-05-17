@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
-public abstract class Board extends RelativeLayout{
+public abstract class Board extends RelativeLayout {
 
     protected int    width;
     protected int    height;
@@ -20,7 +20,6 @@ public abstract class Board extends RelativeLayout{
     public Board(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
 
     @Override
     protected void onMeasure ( int widthMeasureSpec
