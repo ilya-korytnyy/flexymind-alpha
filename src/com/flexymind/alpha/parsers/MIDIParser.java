@@ -63,7 +63,7 @@ public class MIDIParser {
         SortedSet<MidiEvent> eventTreeSet = mFile.getTracks().get(1).getEvents();
         for (MidiEvent event : eventTreeSet) {
             if (isCorrectMidiNote(event)) {
-                MidiNote note = new MidiNote(Note.getToneById(((NoteOn) event).getNoteValue()));
+                MidiNote note = new MidiNote(Note.getToneByMidiFileId(((NoteOn) event).getNoteValue()));
                 tempList.add(note);
             }
         }
@@ -77,7 +77,7 @@ public class MIDIParser {
             return false;
         }
 
-        Note note = Note.getToneById(((NoteOn) event).getNoteValue());
+        Note note = Note.getToneByMidiFileId(((NoteOn) event).getNoteValue());
         return note != Note.UNKNOW;
     }
 }
