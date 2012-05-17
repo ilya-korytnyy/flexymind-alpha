@@ -1,12 +1,8 @@
 package com.flexymind.alpha.customviews;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Picture;
-import android.graphics.Rect;
-import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import com.flexymind.alpha.player.Note;
 import com.flexymind.alpha.player.PianoPlayer;
 
@@ -46,7 +42,7 @@ public class PianoKey extends ParentSelfDrawingView {
     public boolean onTouchEvent(MotionEvent motionEvent) {
 
         if(motionEvent.getAction() ==  MotionEvent.ACTION_DOWN) {
-            playOwnSound();
+//            playOwnSound();
         }
         return true;
     }
