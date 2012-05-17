@@ -2,14 +2,10 @@ package com.flexymind.alpha.startbutton;
 
 import android.content.Context;
 import android.graphics.Picture;
-import android.view.MotionEvent;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.ParentSelfDrawingView;
-import com.flexymind.alpha.*;
-import com.flexymind.alpha.customviews.PianoKeyboard;
 import com.flexymind.alpha.customviews.PictureStorage;
 import com.flexymind.alpha.player.PianoPlayer;
-import com.larvalabs.svgandroid.SVGParser;
 
 /**
  * The class for the transparent layout with the start button..
@@ -19,6 +15,7 @@ public class StartButtonView extends ParentSelfDrawingView {
 
     private static  final   Picture     pressedPictrure;
     private static          PianoPlayer player;
+
     static {
         pressedPictrure  = PictureStorage.pressedStartButton;
 
@@ -49,7 +46,10 @@ public class StartButtonView extends ParentSelfDrawingView {
         soundThread.start();
     }
 
-    @Override
+
+
+
+ /*   @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
 
         switch (motionEvent.getAction()) {
@@ -63,19 +63,20 @@ public class StartButtonView extends ParentSelfDrawingView {
             case MotionEvent.ACTION_UP: {
                 postInvalidate();
                 playOwnSound();
-                PianoKeyboard.startDialog.hide();
+                //createGameScreen();
                 break;
 
             }
             //       if(motionEvent.getAction() ==  MotionEvent.ACTION_UP) {
-            /**
+
              * change picture to another
              * play song
              * make this layout invisible
              * set visible GameScreen layout
-             */
+
 
         }
         return true;
     }
+            */
 }
