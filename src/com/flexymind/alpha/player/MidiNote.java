@@ -7,7 +7,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * Represents a musical note with it's note.
+ * Represents a musical note with it's sound sample.
  * Immutable
  */
 public class MidiNote {
@@ -22,12 +22,6 @@ public class MidiNote {
         Map<Note, Integer> tempMap = new EnumMap<Note, Integer>(Note.class);
         initializeMap(tempMap);
         midiByToneMap = Collections.unmodifiableMap(tempMap);
-    }
-
-
-    public MidiNote(Note note) {
-
-        this.note = note;
     }
 
     private static void initializeMap(Map<Note, Integer> tempMap) {
@@ -47,9 +41,14 @@ public class MidiNote {
         tempMap.put(Note.C1, R.raw.c1);
     }
 
+    public MidiNote(Note note) {
+
+        this.note = note;
+    }
+
     /**
      * Method gets MidiFileID
-     * @return R.raw.smthng
+     * @return resource identifier (R.raw.smthng)
      */
     public int getMidiFileId() {
 
