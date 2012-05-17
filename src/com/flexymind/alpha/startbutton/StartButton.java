@@ -32,8 +32,8 @@ public class StartButton extends Board {
     }
 
     private void setAllNeedSize() {
-        double screenWidth  = 0.9 * this.getHeight();
-        double screenHeight = 0.9 * this.getHeight();
+        double screenWidth  = 0.6 * this.getHeight();
+        double screenHeight = 0.6 * this.getHeight();
         height = (int) screenHeight;
         width  = (int) screenWidth;
     }
