@@ -7,7 +7,7 @@ import com.larvalabs.svgandroid.SVGParser;
 import static com.flexymind.alpha.StaticResources.*;
 import static com.flexymind.alpha.customviews.NoteView.*;
 
-class PictureStorage {
+public class PictureStorage {
     public static final Picture[] blackPictures;
     public static final Picture[] redPictures;
     public static final Picture[] greenPictures;
@@ -16,6 +16,9 @@ class PictureStorage {
     public static final Picture   whiteKeyNotPressed;
     public static final Picture   blackKeyNotPressed;
     public static final Picture   clefPicture;
+    public static final Picture   startButton;
+    public static final Picture   pressedStartButton;
+
 
     static {
         blackPictures = new Picture[4];
@@ -64,5 +67,13 @@ class PictureStorage {
         clefPicture =
                 SVGParser.getSVGFromResource( res
                                             , R.raw.scaledclef).getPicture();
+
+        startButton =
+                SVGParser.getSVGFromResource( res
+                                            , R.raw.startbutton).getPicture();
+
+        pressedStartButton =
+                SVGParser.getSVGFromResource( res
+                                            , R.raw.pressedstartbutton).getPicture();
     }
 }
