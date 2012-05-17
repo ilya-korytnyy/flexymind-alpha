@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+    <com.flexymind.alpha.startbutton.StartButton
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/btnTestID"
+            android:background="#000000"
+            />
+ <!--     <ImageButton
+              android:layout_width="200dp"
+              android:layout_height="200dp"
+              android:background="@android:color/white"
+              android:id="@+id/test1"
 
-</LinearLayout>
+              /> -->
+</RelativeLayout>
+
