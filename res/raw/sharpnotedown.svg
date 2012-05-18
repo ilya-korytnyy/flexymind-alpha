@@ -9,7 +9,7 @@
 	<path fill="none" stroke="#000000" stroke-width="4" stroke-miterlimit="10" d="M41.607,91.057
 		C37.716,71.756,22.249,63.846,29.512,41.26"/>
 </g>
-<ellipse transform="matrix(0.4994 0.8664 -0.8664 0.4994 50.5487 -32.8907)" cx="53.736" cy="27.296" rx="11.706" ry="15.232"/>
+<ellipse fill="#000000" stroke="#000000" transform="matrix(0.4994 0.8664 -0.8664 0.4994 50.5487 -32.8907)" cx="53.736" cy="27.296" rx="11.706" ry="15.232"/>
 <line fill="none" stroke="#000000" stroke-width="2.5" stroke-miterlimit="10" x1="9.369" y1="2.511" x2="9.369" y2="58.869"/>
 <line fill="none" stroke="#000000" stroke-width="2.5" stroke-miterlimit="10" x1="23.034" y1="-0.433" x2="23.034" y2="55.928"/>
 <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="0.155" y1="20.955" x2="32.125" y2="14.233"/>

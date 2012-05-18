@@ -8,7 +8,7 @@
 	<path fill="none" stroke="#000000" stroke-width="4" stroke-miterlimit="10" d="M59.69,0.865
 		c3.892,19.301,19.358,27.211,12.096,49.797"/>
 </g>
-<ellipse transform="matrix(-0.4994 -0.8664 0.8664 -0.4994 15.3207 138.1082)" cx="47.562" cy="64.628" rx="11.706" ry="15.231"/>
+<ellipse fill="#000000" stroke="#000000" transform="matrix(-0.4994 -0.8664 0.8664 -0.4994 15.3207 138.1082)" cx="47.562" cy="64.628" rx="11.706" ry="15.231"/>
 <line fill="none" stroke="#000000" stroke-width="2.5" stroke-miterlimit="10" x1="23.91" y1="91.332" x2="23.91" y2="34.975"/>
 <line fill="none" stroke="#000000" stroke-width="2.5" stroke-miterlimit="10" x1="10.244" y1="94.277" x2="10.244" y2="37.916"/>
 <line fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" x1="33.124" y1="72.889" x2="1.154" y2="79.611"/>
