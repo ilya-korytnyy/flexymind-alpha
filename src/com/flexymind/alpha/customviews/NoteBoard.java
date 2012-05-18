@@ -17,6 +17,8 @@ public class NoteBoard extends Board {
     private int linesGap;
     private int lineHeight;
     private int lineWidth;
+    private int noteLeftMarge;
+    private int notesGap;
 
     private class NoteMargeParams {
         public int  line;
@@ -78,11 +80,12 @@ public class NoteBoard extends Board {
         setStaveSize();
         setLineSize();
         setClefSize();
+        setNotesMarginParams();
     }
 
     public int getHowMuchIWant() {
 
-        return 10;
+        return 3;
     }
 
     /**
@@ -118,12 +121,12 @@ public class NoteBoard extends Board {
 
         params.topMargin    = margeOnLineCorrection +
                               noteView.getTopMarginCorrection();
-        params.leftMargin   = 100;
+        params.leftMargin   = this.noteLeftMarge;
 
         this.addView(noteView, params);
+        this.noteLeftMarge += notesGap;
+
     }
-
-
 
     private void drawStave() {
 
@@ -144,6 +147,8 @@ public class NoteBoard extends Board {
             this.addView(staveLine, layoutParams);
         }
     }
+
+
 
     private void drawClef() {
 
@@ -218,6 +223,8 @@ public class NoteBoard extends Board {
         staveHeight = this.height;
         linesGap = staveHeight / (ALL_LINES_COUNT - 1);
         staveWidth = this.width - linesGap * 2;
+
+
     }
 
     private void setLineSize() {
@@ -230,5 +237,12 @@ public class NoteBoard extends Board {
 
         clefHeight = staveHeight;
         clefWidth  = clefHeight / 3;
+    }
+
+    private void setNotesMarginParams() {
+
+        this.noteLeftMarge = clefWidth * 2;
+        this.notesGap      = (staveWidth - noteLeftMarge
+                - getHowMuchIWant() * 20) /  (getHowMuchIWant() - 1);
     }
 }
