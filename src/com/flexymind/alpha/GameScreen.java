@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
+import com.flexymind.alpha.startbutton.StartButtonView;
 
 public class GameScreen extends Activity {
 
@@ -14,4 +15,6 @@ public class GameScreen extends Activity {
         setContentView(R.layout.main);
         StaticResources.res = getResources();
     }
+
+
 }
