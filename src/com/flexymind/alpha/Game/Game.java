@@ -26,11 +26,12 @@ public class Game {
 
         setMelody();
         getStaveCapacity();
-        drawMelodyPart();
+        drawMelodyPart(1);
     }
 
     private void setMelody() {
 
+        currentMelody = new Melody(R.raw.gooses);
     }
 
     private void getStaveCapacity() {
@@ -38,11 +39,10 @@ public class Game {
         staveCapacity = noteBoard.getHowMuchIWant();
     }
 
-    private void drawMelodyPart() {
+    private void drawMelodyPart(int part) {
 
-        melodyPart = new LinkedList<MidiNote>();
+        nextPartList(part);
         noteBoard.drawMelody(melodyPart);
-                
     }
 
     private void nextPartList(int part) {
@@ -54,7 +54,7 @@ public class Game {
             upperBorder = currentMelody.size();
         }
 
-        melodyPart= currentMelody.SubList(part,upperBorder);
+        melodyPart= currentMelody.SubList(part-1,upperBorder);
     }
 
 

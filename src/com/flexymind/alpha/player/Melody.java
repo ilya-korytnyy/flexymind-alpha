@@ -2,8 +2,6 @@ package com.flexymind.alpha.player;
 
 import com.flexymind.alpha.StaticResources;
 import com.flexymind.alpha.parsers.MIDIParser;
-import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Melody {
@@ -20,7 +18,6 @@ public class Melody {
 
         return midiList.size();
     }
-
 
     public List<MidiNote> SubList(int turn, int upperBorder) {
 
