@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.player.Note;
-import com.flexymind.alpha.player.PianoPlayer;
 
 import static com.flexymind.alpha.customviews.
               PictureStorage.whiteKeyNotPressed;
@@ -38,6 +37,7 @@ public class PianoKeyboard extends Board {
 
         addWhiteKeys();
         addBlackKeys();
+
     }
 
     private void addWhiteKeys() {
