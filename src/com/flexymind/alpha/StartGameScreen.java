@@ -12,6 +12,7 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
 
@@ -22,6 +23,7 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
     }
 
     public void createGameScreen() {
+
         Intent intent = new Intent(this, GameScreen.class);
         startActivity(intent);
 		finish();
@@ -30,6 +32,7 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+
         createGameScreen();
     }
 
