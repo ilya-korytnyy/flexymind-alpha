@@ -53,11 +53,9 @@ public abstract class ParentSelfDrawingView extends View {
     protected void onDraw(Canvas canvas) {
 
         canvas.drawPicture( picture
-                          , new Rect( 0
-                          , 0
-                          , this.width
-                          , this.height) );
+                          , new Rect( 0, 0, this.width, this.height) );
         super.onDraw(canvas);
+
     }
 
 
