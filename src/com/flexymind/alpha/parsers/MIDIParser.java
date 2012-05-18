@@ -9,7 +9,7 @@ import com.leff.midi.event.NoteOn;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedSet;
 
@@ -56,9 +56,9 @@ public class MIDIParser {
         }
     }
 
-    private static List<MidiNote> parseFile(MidiFile mFile) {
+    private static LinkedList<MidiNote> parseFile(MidiFile mFile) {
 
-        ArrayList<MidiNote> tempList = new ArrayList<MidiNote>();
+        LinkedList<MidiNote> tempList = new LinkedList<MidiNote>();
 
         SortedSet<MidiEvent> eventTreeSet = mFile.getTracks().get(1).getEvents();
         for (MidiEvent event : eventTreeSet) {

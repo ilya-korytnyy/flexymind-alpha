@@ -2,8 +2,8 @@ package com.flexymind.alpha.player;
 
 import com.flexymind.alpha.parsers.MIDIParser;
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
-
 
 public class Melody {
 
