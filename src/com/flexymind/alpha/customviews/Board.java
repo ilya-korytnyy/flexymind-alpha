@@ -10,14 +10,17 @@ public abstract class Board extends RelativeLayout{
     protected int    height;
 
     public Board(Context context) {
+
         super(context);
     }
 
     public Board(Context context, AttributeSet attrs) {
+
         super(context, attrs);
     }
 
     public Board(Context context, AttributeSet attrs, int defStyle) {
+
         super(context, attrs, defStyle);
     }
 

@@ -52,19 +52,19 @@ public class NoteView extends ParentSelfDrawingView {
 
         if (!isInverted() && !isSharp()) {
 
-            topMarginCorrection = - height + height / 8;
+            topMarginCorrection = - height / 2 - height / 10;
             noteForm = UP;
         }else if (!isInverted() && isSharp()) {
 
-            topMarginCorrection =  - height + height / 8;
+            topMarginCorrection =  - height / 2 - height / 10;
             noteForm = SHARP_UP;
         }else  if (isInverted() && !isSharp()) {
 
-            topMarginCorrection = - height / 2;
+            topMarginCorrection = - height / 3;
             noteForm = DOWN;
         }else if (isInverted() && isSharp()) {
 
-            topMarginCorrection = - height / 2;
+            topMarginCorrection = - height / 3;
             noteForm = SHARP_DOWN;
         }
     }
@@ -127,6 +127,5 @@ public class NoteView extends ParentSelfDrawingView {
 
         return topMarginCorrection;
     }
-
 
 }
