@@ -84,6 +84,11 @@ public class NoteBoard extends Board {
         setClefSize();
     }
 
+    public int getHowMuchIWant() {
+
+        return 10;
+    }
+
     /**
      * Manage note parameters based on note given
      * @param note note to represent

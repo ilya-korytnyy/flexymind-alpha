@@ -19,6 +19,7 @@ public class NoteView extends ParentSelfDrawingView {
     public  final static int       SHARP_UP   = 2;
     public  final static int       SHARP_DOWN = 3;
 
+
     private final        Note      note;
 
     private              Picture[] currentColorArrayWithPictures;
@@ -46,6 +47,8 @@ public class NoteView extends ParentSelfDrawingView {
         setNoteFormAndCorrectionToTopMargin();
         setNotePicture();
     }
+
+
 
 
     private void setNoteFormAndCorrectionToTopMargin() {
