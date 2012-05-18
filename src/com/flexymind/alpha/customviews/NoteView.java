@@ -42,7 +42,7 @@ public class NoteView extends ParentSelfDrawingView {
         super(context, noteWidth * 3, noteHeight * 4);
 
         this.note       = note;
-        currentColorArrayWithPictures = blackPictures;
+        currentColorArrayWithPictures = greenPictures;
 
         setNoteFormAndCorrectionToTopMargin();
         setNotePicture();

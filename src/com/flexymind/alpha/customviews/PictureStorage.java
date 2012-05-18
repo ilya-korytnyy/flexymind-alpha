@@ -35,24 +35,24 @@ public class PictureStorage {
         redPictures = new Picture[4];
 
         redPictures[UP] = new Picture(SVGParser.getSVGFromResource
-                (res, R.raw.noteup).getPicture());
+                (res, R.raw.noteup, 0x000000, 0xFF0000).getPicture());
         redPictures[DOWN] = new Picture(SVGParser.getSVGFromResource
-                (res, R.raw.notedown).getPicture());
+                (res, R.raw.notedown, 0x000000, 0xFF0000).getPicture());
         redPictures[SHARP_DOWN] = new Picture(SVGParser.getSVGFromResource
-                (res, R.raw.sharpnotedown).getPicture());
+                (res, R.raw.sharpnotedown, 0x000000, 0xFF0000).getPicture());
         redPictures[SHARP_UP] = new Picture(SVGParser.getSVGFromResource
-                (res, R.raw.sharpnoteup).getPicture());
+                (res, R.raw.sharpnoteup, 0x000000, 0xFF0000).getPicture());
 
         greenPictures = new Picture[4];
 
         greenPictures[UP] = new Picture(SVGParser.getSVGFromResource
-                (res, R.raw.noteup).getPicture());
+                (res, R.raw.noteup, 0x000000, 0x00AA00).getPicture());
         greenPictures[DOWN] = new Picture(SVGParser.getSVGFromResource
-                (res, R.raw.notedown).getPicture());
+                (res, R.raw.notedown, 0x000000, 0x00AA00).getPicture());
         greenPictures[SHARP_DOWN] = new Picture(SVGParser.getSVGFromResource
-                (res, R.raw.sharpnotedown).getPicture());
+                (res, R.raw.sharpnotedown, 0x000000, 0x00AA00).getPicture());
         greenPictures[SHARP_UP] = new Picture(SVGParser.getSVGFromResource
-                (res, R.raw.sharpnoteup).getPicture());
+                (res, R.raw.sharpnoteup, 0x000000, 0x00AA00).getPicture());
 
         linePicture = SVGParser.getSVGFromResource( res
                                                   , R.raw.line).getPicture();

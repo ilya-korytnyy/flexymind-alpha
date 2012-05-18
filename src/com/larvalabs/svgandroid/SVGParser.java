@@ -915,7 +915,7 @@ public class SVGParser {
         }
 
         private void doColor(Properties atts, Integer color, boolean fillMode) {
-            int c = (0xFFFFFF & color) | 0xFF000000;
+            int c = color;
             if (searchColor != null && searchColor.intValue() == c) {
                 c = replaceColor;
             }
