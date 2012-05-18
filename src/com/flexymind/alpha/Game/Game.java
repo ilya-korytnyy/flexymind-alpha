@@ -60,8 +60,6 @@ public class Game {
 
     }
 
-
-
     public void playOwnSound() {
 
         Thread soundThread = new Thread(new Runnable() {
