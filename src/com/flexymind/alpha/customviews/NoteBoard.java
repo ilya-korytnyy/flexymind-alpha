@@ -2,6 +2,7 @@ package com.flexymind.alpha.customviews;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import com.flexymind.alpha.player.MidiNote;
 import com.flexymind.alpha.player.Note;
 
 import java.util.*;
@@ -46,7 +47,8 @@ public class NoteBoard extends Board {
 
         super(context, attrs);
         initializeNotesMarginParams();
-     }
+
+    }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -55,6 +57,7 @@ public class NoteBoard extends Board {
         setAllNeededSizes();
         drawStave();
         drawClef();
+
         drawMelodyOnStave();
     }
 
@@ -142,7 +145,6 @@ public class NoteBoard extends Board {
             layoutParams.leftMargin = linesGap;
 
             staveLine.setId(i - 1);
-                    //TODO make unique constants to Id of each component
 
             this.addView(staveLine, layoutParams);
         }
@@ -169,15 +171,16 @@ public class NoteBoard extends Board {
      * Draw each Note of the melody. Previously drawn Notes are removed.
      * @param melody
      */
-    public void drawMelody(List<Note> melody) {
+    public void drawMelody(List<MidiNote> melody) {
+
         // TODO: remove NoteViews
-        notes = new LinkedList<Note>(melody);
+        for (MidiNote midiNote : melody){
 
-
+            notes.add(midiNote.getNote());
+        }
     }
 
     private void drawMelodyOnStave() {
-
 
         for (Note note1 : notes) {
 
@@ -243,6 +246,6 @@ public class NoteBoard extends Board {
 
         this.noteLeftMarge = clefWidth * 2;
         this.notesGap      = (staveWidth - noteLeftMarge
-                - getHowMuchIWant() * 20) /  (getHowMuchIWant() - 1);
+        - getHowMuchIWant() * 20) /  (getHowMuchIWant() - 1);
     }
 }

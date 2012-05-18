@@ -11,8 +11,7 @@ import java.util.List;
 
 public class Game {
 
-    private List<MidiNote> melodyPartForPlayer;
-    private List<Note> melodyPartForNoteboard;
+    private List<MidiNote> melodyPart;
     private int staveCapacity;
     private NoteBoard noteBoard;
     private Melody currentMelody;
@@ -41,12 +40,8 @@ public class Game {
 
     private void drawMelodyPart() {
 
-        melodyPartForNoteboard = new LinkedList<Note>();
-
-        melodyPartForNoteboard.add(Note.C);
-        melodyPartForNoteboard.add(Note.Az);
-        melodyPartForNoteboard.add(Note.C1);
-        noteBoard.drawMelody(melodyPartForNoteboard);
+        melodyPart = new LinkedList<MidiNote>();
+        noteBoard.drawMelody(melodyPart);
                 
     }
 
@@ -59,8 +54,7 @@ public class Game {
             upperBorder = currentMelody.size();
         }
 
-        melodyPartForPlayer= currentMelody.midiSubList(part,upperBorder);
-        melodyPartForNoteboard = currentMelody.noteSubList(part,upperBorder);
+        melodyPart= currentMelody.SubList(part,upperBorder);
     }
 
 
