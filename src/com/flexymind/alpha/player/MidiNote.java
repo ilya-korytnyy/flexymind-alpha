@@ -34,7 +34,7 @@ public class MidiNote {
         tempMap.put(Note.F,  R.raw.f);
         tempMap.put(Note.Fz, R.raw.fdiez);
         tempMap.put(Note.G,  R.raw.g);
-        tempMap.put(Note.Gz, R.raw.gdiez);
+        tempMap.put(Note .Gz, R.raw.gdiez);
         tempMap.put(Note.A,  R.raw.a);
         tempMap.put(Note.Az, R.raw.adiez);
         tempMap.put(Note.H,  R.raw.h);
@@ -53,5 +53,10 @@ public class MidiNote {
     public int getMidiFileId() {
 
         return midiByToneMap.get(note);
+    }
+
+    public Note getNote() {
+
+        return note;
     }
 }

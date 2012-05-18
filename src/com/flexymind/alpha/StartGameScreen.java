@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import com.flexymind.alpha.player.PianoPlayer;
 import com.flexymind.alpha.startbutton.StartButton;
 
 public class StartGameScreen extends Activity implements View.OnClickListener {
@@ -21,8 +22,12 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
     private static final int SETTINGS_BUTTON = 1001;
 
 
+    private PianoPlayer play;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
 
@@ -32,6 +37,7 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
 
         startButton = (StartButton) findViewById(R.id.startbutton);
         startButton.setOnClickListener(this);
+
 
         settingsButton = new ImageButton(this);
         settingsButton.setId(SETTINGS_BUTTON);
@@ -51,9 +57,12 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
 
         settingsButton.setImageBitmap(settingsBitmap);
 
+        play = new PianoPlayer(this, R.raw.gooses);
+
     }
 
     public void createGameScreen() {
+
         Intent intent = new Intent(this, GameScreen.class);
         startActivity(intent);
 		finish();
@@ -71,13 +80,27 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
         switch(view.getId()) {
             case R.id.startbutton: {
                 createGameScreen();
+                playOwnSound();
                 break;
             }
             case SETTINGS_BUTTON: {
                 createSettingsScreen();
+                break;
             }
         }
 
+    }
+
+
+    public void playOwnSound() {
+
+        Thread soundThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                play.play();
+            }
+        });
+        soundThread.start();
     }
 
 }
