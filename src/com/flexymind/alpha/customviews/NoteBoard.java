@@ -2,12 +2,10 @@ package com.flexymind.alpha.customviews;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import com.flexymind.alpha.player.MidiNote;
 import com.flexymind.alpha.player.Note;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class NoteBoard extends Board {
 
@@ -20,7 +18,8 @@ public class NoteBoard extends Board {
     private int linesGap;
     private int lineHeight;
     private int lineWidth;
-    private int topMarginCorrection = 0;
+    private int noteLeftMarge;
+    private int notesGap;
 
     private class NoteMargeParams {
         public int  line;
@@ -35,8 +34,8 @@ public class NoteBoard extends Board {
 
     private Map<Note, NoteMargeParams> notesParams;
 
-    private List<Note> notes = new ArrayList<Note>();
-    private List<NoteView> noteViews = new ArrayList<NoteView>();   // stores all NoteViews that are displayed
+    private List<Note> notes = new LinkedList<Note>();
+    private List<NoteView> noteViews = new LinkedList<NoteView>();   // stores all NoteViews that are displayed
 
     public NoteBoard(Context context) {
 
@@ -48,7 +47,8 @@ public class NoteBoard extends Board {
 
         super(context, attrs);
         initializeNotesMarginParams();
-     }
+
+    }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -57,7 +57,8 @@ public class NoteBoard extends Board {
         setAllNeededSizes();
         drawStave();
         drawClef();
-        drawNote(Note.C);
+
+        drawMelodyOnStave();
     }
 
     private void initializeNotesMarginParams() {
@@ -74,7 +75,7 @@ public class NoteBoard extends Board {
         notesParams.put(Note.A,   new NoteMargeParams(3,  0));
         notesParams.put(Note.Az,  new NoteMargeParams(3,  0));
         notesParams.put(Note.H,   new NoteMargeParams(3,  1));
-        notesParams.put(Note.C1,  new NoteMargeParams(3,  1));
+        notesParams.put(Note.C1,  new NoteMargeParams(2,  0));
     }
 
     private void setAllNeededSizes() {
@@ -82,6 +83,12 @@ public class NoteBoard extends Board {
         setStaveSize();
         setLineSize();
         setClefSize();
+        setNotesMarginParams();
+    }
+
+    public int getHowMuchIWant() {
+
+        return 3;
     }
 
     /**
@@ -117,12 +124,12 @@ public class NoteBoard extends Board {
 
         params.topMargin    = margeOnLineCorrection +
                               noteView.getTopMarginCorrection();
-        params.leftMargin   = 100;
+        params.leftMargin   = this.noteLeftMarge;
 
         this.addView(noteView, params);
+        this.noteLeftMarge += notesGap;
+
     }
-
-
 
     private void drawStave() {
 
@@ -138,11 +145,12 @@ public class NoteBoard extends Board {
             layoutParams.leftMargin = linesGap;
 
             staveLine.setId(i - 1);
-                    //TODO make unique constants to Id of each component
 
             this.addView(staveLine, layoutParams);
         }
     }
+
+
 
     private void drawClef() {
 
@@ -163,12 +171,22 @@ public class NoteBoard extends Board {
      * Draw each Note of the melody. Previously drawn Notes are removed.
      * @param melody
      */
-    public void drawMelody(List<Note> melody) {
+    public void drawMelody(List<MidiNote> melody) {
+
         // TODO: remove NoteViews
-        notes = new ArrayList<Note>();
-        for (Note note : melody) {
-            drawNote(note);
+        for (MidiNote midiNote : melody){
+
+            notes.add(midiNote.getNote());
         }
+    }
+
+    private void drawMelodyOnStave() {
+
+        for (Note note1 : notes) {
+
+            drawNote(note1);
+        }
+
     }
 
     public void removeAllNotes() {
@@ -208,6 +226,8 @@ public class NoteBoard extends Board {
         staveHeight = this.height;
         linesGap = staveHeight / (ALL_LINES_COUNT - 1);
         staveWidth = this.width - linesGap * 2;
+
+
     }
 
     private void setLineSize() {
@@ -220,5 +240,12 @@ public class NoteBoard extends Board {
 
         clefHeight = staveHeight;
         clefWidth  = clefHeight / 3;
+    }
+
+    private void setNotesMarginParams() {
+
+        this.noteLeftMarge = clefWidth * 2;
+        this.notesGap      = (staveWidth - noteLeftMarge
+        - getHowMuchIWant() * 20) /  (getHowMuchIWant() - 1);
     }
 }

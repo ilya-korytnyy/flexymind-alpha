@@ -1,5 +1,6 @@
 package com.flexymind.alpha.player;
 
+import com.flexymind.alpha.StaticResources;
 import com.flexymind.alpha.parsers.MIDIParser;
 import java.io.File;
 import java.util.LinkedList;
@@ -7,10 +8,22 @@ import java.util.List;
 
 public class Melody {
 
-    public List<MidiNote> melodyNotes;
+    public List<MidiNote> midiList;
 
-    public Melody(File melodyFile){
+    public Melody(int id) {
 
-        melodyNotes = MIDIParser.parse(melodyFile);
+        midiList = MIDIParser.parse
+                (StaticResources.res.openRawResource(id));
+    }
+
+    public int size() {
+
+        return midiList.size();
+    }
+
+
+    public List<MidiNote> SubList(int turn, int upperBorder) {
+
+        return midiList.subList(turn, upperBorder);
     }
 }
