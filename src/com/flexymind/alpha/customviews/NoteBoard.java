@@ -4,10 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import com.flexymind.alpha.player.Note;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class NoteBoard extends Board {
 
@@ -20,7 +17,6 @@ public class NoteBoard extends Board {
     private int linesGap;
     private int lineHeight;
     private int lineWidth;
-    private int topMarginCorrection = 0;
 
     private class NoteMargeParams {
         public int  line;
@@ -35,8 +31,8 @@ public class NoteBoard extends Board {
 
     private Map<Note, NoteMargeParams> notesParams;
 
-    private List<Note> notes = new ArrayList<Note>();
-    private List<NoteView> noteViews = new ArrayList<NoteView>();   // stores all NoteViews that are displayed
+    private List<Note> notes = new LinkedList<Note>();
+    private List<NoteView> noteViews = new LinkedList<NoteView>();   // stores all NoteViews that are displayed
 
     public NoteBoard(Context context) {
 
@@ -57,7 +53,6 @@ public class NoteBoard extends Board {
         setAllNeededSizes();
         drawStave();
         drawClef();
-        drawNote(Note.C);
     }
 
     private void initializeNotesMarginParams() {
@@ -170,7 +165,7 @@ public class NoteBoard extends Board {
      */
     public void drawMelody(List<Note> melody) {
         // TODO: remove NoteViews
-        notes = new ArrayList<Note>();
+        notes = new LinkedList<Note>();
         for (Note note : melody) {
             drawNote(note);
         }

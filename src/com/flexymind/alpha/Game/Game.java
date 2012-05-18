@@ -4,11 +4,14 @@ import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
 import com.flexymind.alpha.player.Melody;
 import com.flexymind.alpha.player.MidiNote;
+import com.flexymind.alpha.player.Note;
+
 import java.util.List;
 
 public class Game {
 
-    private List<MidiNote> melodyPart;
+    private List<MidiNote> melodyPartForPlayer;
+    private List<Note> melodyPartForNoteboard;
     private int staveCapacity;
     private NoteBoard noteBoard;
     private Melody currentMelody;
@@ -23,7 +26,8 @@ public class Game {
 
         setMelody();
         getStaveCapacity();
-        drawMelody();
+        nextPartList(1);
+        drawMelodyPart();
     }
 
     private void setMelody() {
@@ -36,23 +40,25 @@ public class Game {
         staveCapacity = noteBoard.getHowMuchIWant();
     }
 
-    private void drawMelody() {
+    private void drawMelodyPart() {
 
-
+        noteBoard.drawMelody(melodyPartForNoteboard);
+                
     }
 
-    private List<MidiNote> nextTurnList(int turn) {
+    private void nextPartList(int part) {
 
         int upperBorder = staveCapacity;
 
-        if(turn * staveCapacity > currentMelody.size()) {
+        if(part * staveCapacity > currentMelody.size()) {
 
             upperBorder = currentMelody.size();
         }
 
-        melodyPart = currentMelody.subList(turn, upperBorder);
-
-        return melodyPart;
+        melodyPartForPlayer= currentMelody.midiSubList(part,upperBorder);
+        melodyPartForNoteboard = currentMelody.noteSubList(part,upperBorder);
     }
+
+
 
 }

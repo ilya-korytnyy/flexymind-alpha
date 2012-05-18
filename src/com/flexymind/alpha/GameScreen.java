@@ -22,7 +22,6 @@ public class GameScreen extends Activity {
 
 
         Game game = new Game(noteBoard);
-
     }
 
 

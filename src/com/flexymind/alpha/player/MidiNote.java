@@ -54,4 +54,9 @@ public class MidiNote {
 
         return midiByToneMap.get(note);
     }
+
+    public Note getNote() {
+
+        return note;
+    }
 }
