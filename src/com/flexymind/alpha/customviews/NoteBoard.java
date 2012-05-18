@@ -3,25 +3,13 @@ package com.flexymind.alpha.customviews;
 import android.content.Context;
 import android.util.AttributeSet;
 import com.flexymind.alpha.player.Note;
-import org.w3c.dom.ProcessingInstruction;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 public class NoteBoard extends Board {
-
-    private class NoteMargeParams {
-
-        public int  line;
-        public int  isOnLine;
-
-        public NoteMargeParams(int line, int isOnLine) {
-
-            this.line = line;
-            this.isOnLine = isOnLine;
-        }
-    }
-
 
     private static final int ALL_LINES_COUNT  =  9;
 
@@ -34,7 +22,21 @@ public class NoteBoard extends Board {
     private int lineWidth;
     private int topMarginCorrection = 0;
 
+    private class NoteMargeParams {
+        public int  line;
+
+        public int  isOnLine;
+        public NoteMargeParams(int line, int isOnLine) {
+
+            this.line = line;
+            this.isOnLine = isOnLine;
+        }
+    }
+
     private Map<Note, NoteMargeParams> notesParams;
+
+    private List<Note> notes = new ArrayList<Note>();
+    private List<NoteView> noteViews = new ArrayList<NoteView>();   // stores all NoteViews that are displayed
 
     public NoteBoard(Context context) {
 
@@ -157,34 +159,50 @@ public class NoteBoard extends Board {
         this.addView(clef, layoutParams);
     }
 
-    public void outputMelody() {
+    /**
+     * Draw each Note of the melody. Previously drawn Notes are removed.
+     * @param melody
+     */
+    public void drawMelody(List<Note> melody) {
+        // TODO: remove NoteViews
+        notes = new ArrayList<Note>();
+        for (Note note : melody) {
+            drawNote(note);
+        }
     }
-
 
     public void removeAllNotes() {
-
+        notes.clear();
+        // TODO: redraw (remove NoteViews)
     }
 
-
     public void highlightCorrectNote(int position) {
+        if (position < 0 || position >= notes.size()) {
+            return;
+        }
 
+        noteViews.get(position).highlight();
+    }
+
+    public void unHighlightNote(int position) {
+        if (position < 0 || position >= notes.size()) {
+            return;
+        }
+
+        noteViews.get(position).unHighlight();
     }
 
     public void highlightErrorNote(Note note, int position) {
-
+        // TODO: create new View at specified position and make it red
     }
 
     private void initializeMap() {
 
-
     }
 
-    private void setClefSize() {
-
-        clefHeight = staveHeight;
-        clefWidth  = staveHeight  / 3;
-    }
-
+    /*
+     * The stave takes all height, width without gaps and sets line gap depending on positions count
+     */
     private void setStaveSize() {
 
         staveHeight = this.height;
@@ -194,7 +212,13 @@ public class NoteBoard extends Board {
 
     private void setLineSize() {
 
-        lineHeight = linesGap / 5;
+        lineHeight = linesGap / 5;      // the line is 5 times thinner then the distance between lines
         lineWidth = staveWidth;
+    }
+
+    private void setClefSize() {
+
+        clefHeight = staveHeight;
+        clefWidth  = clefHeight / 3;
     }
 }
