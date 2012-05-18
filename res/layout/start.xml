@@ -9,7 +9,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/startbutton"
-            android:background="#000000"
+            android:background="@drawable/piano"
     />
 
 </RelativeLayout>
