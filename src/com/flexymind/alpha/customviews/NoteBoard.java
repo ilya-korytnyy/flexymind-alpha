@@ -53,6 +53,7 @@ public class NoteBoard extends Board {
         setAllNeededSizes();
         drawStave();
         drawClef();
+        drawMelodyOnStave();
     }
 
     private void initializeNotesMarginParams() {
@@ -69,7 +70,7 @@ public class NoteBoard extends Board {
         notesParams.put(Note.A,   new NoteMargeParams(3,  0));
         notesParams.put(Note.Az,  new NoteMargeParams(3,  0));
         notesParams.put(Note.H,   new NoteMargeParams(3,  1));
-        notesParams.put(Note.C1,  new NoteMargeParams(3,  1));
+        notesParams.put(Note.C1,  new NoteMargeParams(2,  0));
     }
 
     private void setAllNeededSizes() {
@@ -165,10 +166,19 @@ public class NoteBoard extends Board {
      */
     public void drawMelody(List<Note> melody) {
         // TODO: remove NoteViews
-        notes = new LinkedList<Note>();
-        for (Note note : melody) {
-            drawNote(note);
+        notes = new LinkedList<Note>(melody);
+
+
+    }
+
+    private void drawMelodyOnStave() {
+
+
+        for (Note note1 : notes) {
+
+            drawNote(note1);
         }
+
     }
 
     public void removeAllNotes() {

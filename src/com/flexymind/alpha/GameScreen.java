@@ -13,6 +13,7 @@ public class GameScreen extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         StaticResources.res = getResources();
@@ -22,6 +23,7 @@ public class GameScreen extends Activity {
 
 
         Game game = new Game(noteBoard);
+        game.gameStart();
     }
 
 

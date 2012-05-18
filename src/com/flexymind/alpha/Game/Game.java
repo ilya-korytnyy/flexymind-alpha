@@ -6,6 +6,7 @@ import com.flexymind.alpha.player.Melody;
 import com.flexymind.alpha.player.MidiNote;
 import com.flexymind.alpha.player.Note;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
@@ -26,13 +27,11 @@ public class Game {
 
         setMelody();
         getStaveCapacity();
-        nextPartList(1);
         drawMelodyPart();
     }
 
     private void setMelody() {
 
-        currentMelody = new Melody(R.raw.song);
     }
 
     private void getStaveCapacity() {
@@ -42,6 +41,11 @@ public class Game {
 
     private void drawMelodyPart() {
 
+        melodyPartForNoteboard = new LinkedList<Note>();
+
+        melodyPartForNoteboard.add(Note.C);
+        melodyPartForNoteboard.add(Note.Az);
+        melodyPartForNoteboard.add(Note.C1);
         noteBoard.drawMelody(melodyPartForNoteboard);
                 
     }
