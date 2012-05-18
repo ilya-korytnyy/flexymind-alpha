@@ -22,9 +22,20 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
     private final int    COUNT_OF_WHITE_KEYS     =   8;
     private final int    START_ID_FOR_KEY_VIEWS  = 100;
     private final int[]  BLACK_KEY_POSITIONS     =  {1, 2, 4, 5, 6};
+ //   private final int    CONTROLS;
             //TODO fill this array automatic
 
+    private boolean wasAddBlaskKey=false;
+
     private View parent;
+
+    private final ArrayList[] recentTouchedViewsIndex = new ArrayList[10];
+
+    private final ArrayList[] downTouchedViewsIndex = new ArrayList[10];
+
+    private final ArrayList<View> moveOutsideEnabledViews = new ArrayList<View>();
+
+    private int mTouchSlop = 24;
 
     private PianoPlayer player;
 
@@ -35,8 +46,9 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
         super(context, attrs);
 
         parent = getRootView();
-        parent.setOnTouchListener(this);
+        //parent.setOnTouchListener(this);
     }
+
 
 
 
@@ -46,14 +58,18 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
         super.onLayout(changed, l, t, r, b);
 
-        addWhiteKeys();
-        addBlackKeys();
-        addPlayMidiButton();
+        if(!wasAddBlaskKey){
+            addWhiteKeys();
+            addBlackKeys();
+            addPlayMidiButton();
+            wasAddBlaskKey=true;
+        }
     }
 
     private void addWhiteKeys() {
 
         int id = START_ID_FOR_KEY_VIEWS;
+        final boolean whiteKey = true;
 
         LayoutParams params = new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -65,7 +81,8 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
               , getWhiteKeyWidth()
               , params
               , id++
-              , Note.C );
+              , Note.C
+              , whiteKey  );
 
         for (int i = 0; i < COUNT_OF_WHITE_KEYS - 1; i++) {
             addKey( whiteKeyNotPressed
@@ -73,7 +90,8 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
                   , getWhiteKeyWidth()
                   , paramsWithRightOf(id - 1)
                   , id++
-                  , Note.getNotesForWhiteKeys()[i+1] );
+                  , Note.getNotesForWhiteKeys()[i+1]
+                  , whiteKey);
         }
     }
 
@@ -114,6 +132,7 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
     private void addBlackKeys() {
 
         int id = START_ID_FOR_KEY_VIEWS + COUNT_OF_WHITE_KEYS;
+        final boolean whiteKey = false;
 
         int j = 0;
         for (int whiteKeyNumber: BLACK_KEY_POSITIONS) {
@@ -123,7 +142,8 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
                   , paramsWithMargin(whiteKeyNumber * getWhiteKeyWidth()
                                               - getBlackKeyWidth() / 2)
                   , ++id
-                  , Note.getNotesForBlackKeys()[j++] );
+                  , Note.getNotesForBlackKeys()[j++]
+                  , whiteKey);
         }
     }
 
@@ -136,13 +156,15 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
     }
 
     private void addKey(Picture picture, int keyH, int keyW,
-                        LayoutParams params, int id, Note note) {
+                        LayoutParams params, int id, Note note
+                       , boolean isWhiteKey ) {
 
         PianoKey key = new PianoKey( getContext()
                                    , keyH
                                    , keyW
                                    , picture
-                                   , note);
+                                   , note
+                                   , isWhiteKey);
         key.setId(id);
         key.setOnTouchListener(this);
         addView(key, params);
@@ -164,53 +186,80 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
         return getWhiteKeyHeight() / 2;
     }
 
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-
-        for (int ptrIndex = 0; ptrIndex < motionEvent.getPointerCount(); ptrIndex++) {
-
-            // index of the pointer which starts this Event
-            int actionPointerIndex = motionEvent.getActionIndex();
-
-            // resolve the action as a basic type (up, down or move)
-            int actionResolved = motionEvent.getAction() & MotionEvent.ACTION_MASK;
-            if (actionResolved < 7 && actionResolved > 4) {
-                actionResolved = actionResolved - 5;
-            }
-
-            if (actionResolved == MotionEvent.ACTION_MOVE) {
-
-                dealEvent(ptrIndex, motionEvent, view, actionResolved);
-
-
-            } else {
-                dealEvent(actionPointerIndex, motionEvent, view, actionResolved);
-
-            }
-        }
-        return false;
-    }
-
-    private void dealEvent(int actionPointerIndex, MotionEvent event,
-                           View eventView, int actionresolved) {
+    private void dealEvent(final int actionPointerIndex,
+                           final MotionEvent event, final View eventView,
+                           final int actionResolved) {
         int rawX, rawY;
-        int location[] = { 0, 0 };
+        final int location[] = { 0, 0 };
         eventView.getLocationOnScreen(location);
 
         rawX = (int) event.getX(actionPointerIndex) + location[0];
         rawY = (int) event.getY(actionPointerIndex) + location[1];
 
-        ArrayList<View> views = getTouchedViews(rawX, rawY, actionresolved);
+        final int actionPointerID = event.getPointerId(actionPointerIndex);
+        ArrayList<View> hoverViews = getTouchedViews(rawX, rawY);
 
-        // dumpEvent(event);
-        for (View view : views) {
+        if (actionResolved == MotionEvent.ACTION_DOWN) {
+            downTouchedViewsIndex[actionPointerID] = (ArrayList<View>) hoverViews
+                    .clone();
+        }
+
+        if (downTouchedViewsIndex[actionPointerID] != null) {
+            final ArrayList<View> tempViews = (ArrayList<View>) hoverViews
+                    .clone();
+            tempViews.removeAll(downTouchedViewsIndex[actionPointerID]);
+            hoverViews.removeAll(tempViews);
+        }
+
+        if (recentTouchedViewsIndex[actionPointerID] != null) {
+            final ArrayList<View> recentTouchedViews = recentTouchedViewsIndex[actionPointerID];
+
+            final ArrayList<View> shouldTouchViews = (ArrayList<View>) hoverViews
+                    .clone();
+            if (!shouldTouchViews.containsAll(recentTouchedViews)) {
+                shouldTouchViews.removeAll(recentTouchedViews);
+                shouldTouchViews.addAll(recentTouchedViews);
+
+                final ArrayList<View> outsideTouchedViews = (ArrayList<View>) shouldTouchViews
+                        .clone();
+                outsideTouchedViews.removeAll(hoverViews);
+            }
+
+            recentTouchedViewsIndex[actionPointerID] = hoverViews;
+            hoverViews = shouldTouchViews;
+        } else {
+            recentTouchedViewsIndex[actionPointerID] = hoverViews;
+        }
+
+        if (actionResolved == MotionEvent.ACTION_UP) {
+            recentTouchedViewsIndex[actionPointerID] = null;
+            downTouchedViewsIndex[actionPointerID] = null;
+        }
+
+        dumpEvent(event);
+        for (final View view : hoverViews) {
             int x, y;
             view.getLocationOnScreen(location);
             x = rawX - location[0];
             y = rawY - location[1];
 
-            MotionEvent me = MotionEvent.obtain(event.getDownTime(),
-                    event.getEventTime(), actionresolved, x, y,
+
+            if (recentTouchedViewsIndex[actionPointerID] != null) {
+                if (pointInView(x, y, mTouchSlop, view.getWidth(),
+                        view.getHeight())) {
+
+
+                    if (!recentTouchedViewsIndex[actionPointerID]
+                            .contains(view)) {
+                        recentTouchedViewsIndex[actionPointerID].add(view);
+                    }
+                } else if (moveOutsideEnabledViews.contains(view)) {
+
+                    recentTouchedViewsIndex[actionPointerID].add(view);
+                }
+            }
+            final MotionEvent me = MotionEvent.obtain(event.getDownTime(),
+                    event.getEventTime(), actionResolved, x, y,
                     event.getPressure(actionPointerIndex),
                     event.getPressure(actionPointerIndex),
                     event.getMetaState(), event.getXPrecision(),
@@ -218,91 +267,110 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
                     event.getEdgeFlags());
             me.setLocation(x, y);
 
-
-
             if (!me.equals(event)) {
-                /*
-             * Log.v("tag", "actionindex: " + actionPointerIndex +
-             * " resolved: " + actionPointerIndex + " to " + view.toString()
-             * + " y:" + view.getTop() + "-" + (view.getTop() +
-             * view.getHeight()));
-             */
-                // me.setAction(actionresolved);
-//   playOwnSound();
+
                 view.onTouchEvent(me);
             }
 
-            if (actionresolved == MotionEvent.ACTION_MOVE) {
+            // debug
+            if (actionResolved == MotionEvent.ACTION_MOVE) {
             }
         }
 
     }
 
-    private ArrayList<View> getTouchedViews(int x, int y, int action) {
+    private void dumpEvent(final MotionEvent event) {
 
-        int moveGap = 0;
+        for (int i = 0; i < event.getPointerCount(); i++) {
 
-        if (action == MotionEvent.ACTION_MOVE) {
-            moveGap = 0;
         }
 
-        ArrayList<View> touchedViews = new ArrayList<View>();
-        ArrayList<View> possibleViews = new ArrayList<View>();
+
+    }
+
+    private ArrayList<View> getChildViews(final View view) {
+        final ArrayList<View> views = new ArrayList<View>();
+        if (view instanceof ViewGroup) {
+            final ViewGroup v = ((ViewGroup) view);
+            if (v.getChildCount() > 0) {
+                for (int i = 0; i < v.getChildCount(); i++) {
+                    views.add(v.getChildAt(i));
+                }
+
+            }
+        }
+        return views;
+    }
+
+    private ArrayList<View> getTouchedViews(final int x, final int y) {
+
+        final ArrayList<View> touchedViews = new ArrayList<View>();
+        final ArrayList<View> possibleViews = new ArrayList<View>();
 
         if (parent instanceof ViewGroup) {
             possibleViews.add(parent);
             for (int i = 0; i < possibleViews.size(); i++) {
-                View view = possibleViews.get(i);
+                final View view = possibleViews.get(i);
 
-                int location[] = { 0, 0 };
+                final int location[] = { 0, 0 };
                 view.getLocationOnScreen(location);
 
-                if (((view.getHeight() + location[1] + moveGap >= y)
-                        & (view.getWidth() + location[0] + moveGap >= x)
-                        & (view.getLeft() - moveGap <= x) & (view.getTop()
-                        - moveGap <= y))
+                if (((view.getHeight() + location[1] >= y)
+                        & (view.getWidth() + location[0] >= x)
+                        & (view.getLeft() <= x) & (view.getTop() <= y))
                         || view instanceof FrameLayout) {
-
                     touchedViews.add(view);
                     possibleViews.addAll(getChildViews(view));
                 }
 
             }
         }
-
         return touchedViews;
-
     }
 
-    private ArrayList<View> getChildViews(View view) {
+/*    @Override
+    public void onCreate(final Bundle instance) {
+        super.onCreate(instance);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().clearFlags(
+                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        parent = findViewById(android.R.id.content).getRootView();
+        parent.setOnTouchListener(this);
+        mTouchSlop = ViewConfiguration.get(getApplicationContext())
+                .getScaledTouchSlop();
+    } */
 
-        ArrayList<View> views = new ArrayList<View>();
-        if (view instanceof ViewGroup) {
-            ViewGroup v = ((ViewGroup) view);
-            if (v.getChildCount() > 0) {
-                for (int i = 0; i < v.getChildCount(); i++) {
-                    views.add(v.getChildAt(i));
-                }
+    @Override
+    public boolean onTouch(final View v, final MotionEvent event) {
+
+        // index of the pointer which starts this Event
+        final int actionPointerIndex = event.getActionIndex();
+
+        // resolve the action as a basic type (up, down or move)
+        int actionResolved = event.getAction() & MotionEvent.ACTION_MASK;
+        if (actionResolved < 7 && actionResolved > 4) {
+            actionResolved = actionResolved - 5;
+        }
+
+        if (actionResolved == MotionEvent.ACTION_MOVE) {
+            for (int ptrIndex = 0; ptrIndex < event.getPointerCount(); ptrIndex++) {
+                // only one event for all move events.
+                dealEvent(ptrIndex, event, v, actionResolved);
+
             }
-        }
-        return views;
-    }
 
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-
-        if(motionEvent.getAction() ==  MotionEvent.ACTION_DOWN) {
-            playOwnSound();
+        } else {
+            dealEvent(actionPointerIndex, event, v, actionResolved);
         }
+
         return true;
     }
 
-    public void playOwnSound() {
-
-
-                player = new PianoPlayer(null, Note.A);
-                player.play();
-
-
-
+    private boolean pointInView(final float localX, final float localY,
+                                final float slop, final float width, final float height) {
+        return localX >= -slop && localY >= -slop && localX < ((width) + slop)
+                && localY < ((height) + slop);
     }
+
 }

@@ -36,7 +36,8 @@ public abstract class ParentSelfDrawingView extends View {
 
 
 
-    public ParentSelfDrawingView(Context context, int width, int height) {
+    public ParentSelfDrawingView( Context context
+                                , int width, int height) {
 
         super(context);
         this.width  = width;
@@ -59,7 +60,6 @@ public abstract class ParentSelfDrawingView extends View {
                           , this.height) );
         super.onDraw(canvas);
     }
-
-
-
 }
+
+
