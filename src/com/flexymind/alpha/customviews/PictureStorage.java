@@ -18,6 +18,7 @@ public class PictureStorage {
     public static final Picture   clefPicture;
     public static final Picture   startButton;
     public static final Picture   pressedStartButton;
+    public static final Picture   greenKey;
 
 
     static {
@@ -75,5 +76,9 @@ public class PictureStorage {
         pressedStartButton =
                 SVGParser.getSVGFromResource( res
                                             , R.raw.pressedstartbutton).getPicture();
+
+        greenKey =
+                SVGParser.getSVGFromResource( res
+                                            , R.raw.greenkey).getPicture();
     }
 }

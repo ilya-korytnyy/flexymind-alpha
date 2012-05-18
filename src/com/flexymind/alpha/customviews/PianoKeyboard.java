@@ -9,6 +9,7 @@ import com.flexymind.alpha.GameScreen;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.player.Note;
 
+import static com.flexymind.alpha.customviews.PictureStorage.greenKey;
 import static com.flexymind.alpha.customviews.
               PictureStorage.whiteKeyNotPressed;
 import static com.flexymind.alpha.customviews.
@@ -50,7 +51,7 @@ public class PianoKeyboard extends Board {
 
         params.addRule(ALIGN_LEFT);
 
-        addKey( whiteKeyNotPressed
+        addKey( greenKey
               , getWhiteKeyHeight()
               , getWhiteKeyWidth()
               , params
