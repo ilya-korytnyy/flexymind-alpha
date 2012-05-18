@@ -1,10 +1,13 @@
 package com.flexymind.alpha.Game;
 
+import android.view.View;
+import com.flexymind.alpha.GameScreen;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
 import com.flexymind.alpha.player.Melody;
 import com.flexymind.alpha.player.MidiNote;
 import com.flexymind.alpha.player.Note;
+import com.flexymind.alpha.player.PianoPlayer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +18,7 @@ public class Game {
     private int staveCapacity;
     private NoteBoard noteBoard;
     private Melody currentMelody;
+    private PianoPlayer player;
 
 
     public Game(NoteBoard noteBoard) {
@@ -27,6 +31,7 @@ public class Game {
         setMelody();
         getStaveCapacity();
         drawMelodyPart(1);
+        playMelodyPart(1);
     }
 
     private void setMelody() {
@@ -45,6 +50,30 @@ public class Game {
         noteBoard.drawMelody(melodyPart);
     }
 
+    private void playMelodyPart(int part){
+        player = new PianoPlayer(noteBoard.getContext(), Note.C);
+        //for (MidiNote midiNote : melodyPart){
+        //    PianoPlayer pianoPlayer = new PianoPlayer(noteBoard.getContext(), R.raw.gooses);
+          //  pianoPlayer.play();
+        //}
+        playOwnSound();
+
+    }
+
+
+
+    public void playOwnSound() {
+
+        Thread soundThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                player.play();
+            }
+        });
+        soundThread.start();
+    }
+
+
     private void nextPartList(int part) {
 
         int upperBorder = staveCapacity;
@@ -54,7 +83,7 @@ public class Game {
             upperBorder = currentMelody.size();
         }
 
-        melodyPart= currentMelody.SubList(part-1,upperBorder);
+        melodyPart = currentMelody.SubList(part - 1, upperBorder);
     }
 
 

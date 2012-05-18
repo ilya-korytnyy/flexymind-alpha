@@ -56,17 +56,6 @@ public class NoteBoard extends Board {
         super.onLayout(changed, l, t, r, b);
         setAllNeededSizes();
         drawStave();
-        /*
-        drawNote(Note.C);
-        drawNote(Note.Cz);
-        drawNote(Note.D);
-        drawNote(Note.Dz);
-        drawNote(Note.E);
-        drawNote(Note.F);
-        drawNote(Note.Fz);
-        drawNote(Note.G);
-        drawNote(Note.Gz);
-          */
         drawClef();
         drawMelodyOnStave();
     }
@@ -98,7 +87,7 @@ public class NoteBoard extends Board {
 
     public int getHowMuchIWant() {
 
-        return 10;
+        return 6;
     }
 
     /**
@@ -126,7 +115,7 @@ public class NoteBoard extends Board {
         }else {
 
             params.addRule(BELOW, notesParams.get(note).line);
-            margeOnLineCorrection = notesParams.get(note).isOnLine *
+            margeOnLineCorrection = - notesParams.get(note).isOnLine *
                     linesGap / 2;
         }
 
