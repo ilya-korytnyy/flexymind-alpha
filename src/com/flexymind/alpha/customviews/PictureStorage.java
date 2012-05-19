@@ -14,7 +14,9 @@ class PictureStorage {
 
     public static final Picture   linePicture;
     public static final Picture   whiteKeyNotPressed;
+    public static final Picture   whiteKeyPressed;
     public static final Picture   blackKeyNotPressed;
+    public static final Picture   blackKeyPressed;
     public static final Picture   clefPicture;
 
     static {
@@ -57,9 +59,16 @@ class PictureStorage {
         whiteKeyNotPressed =
                 SVGParser.getSVGFromResource( res
                                             , R.raw.whitekey).getPicture();
+        whiteKeyPressed =
+                SVGParser.getSVGFromResource( res
+                        , R.raw.whitekeypressed).getPicture();
+
         blackKeyNotPressed =
                 SVGParser.getSVGFromResource( res
                                             , R.raw.blackkey).getPicture();
+        blackKeyPressed =
+                SVGParser.getSVGFromResource( res
+                        , R.raw.blackkeypressed).getPicture();
 
         clefPicture =
                 SVGParser.getSVGFromResource( res

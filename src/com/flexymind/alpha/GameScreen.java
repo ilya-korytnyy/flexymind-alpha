@@ -1,10 +1,7 @@
 package com.flexymind.alpha;
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 
 public class GameScreen extends Activity {
 
@@ -13,5 +10,6 @@ public class GameScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         StaticResources.res = getResources();
+
     }
 }
