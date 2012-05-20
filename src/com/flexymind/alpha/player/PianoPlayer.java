@@ -3,26 +3,13 @@ package com.flexymind.alpha.player;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.view.View;
 
 /**
  * Сlass for playing defined tone when pressed the button.
- * An example of calling a particular melody in GameScreen class:
- *
- *  public PianoPlayer pPlayerX;    // one instance for defined tone
- *  public void onCreate.... {
- *      ...
- *      pPlayerX = new PlaySound(this, Tone.X);
- *  }
- *  and
- *  public void onClick... {
- *      pPlayerX.play();
- *  }
- *
  */
 public class PianoPlayer {
-    public  SoundPool   soundPool;
-    public  int         toneID;
+    private  SoundPool   soundPool;
+    private  int         toneID;
     private MidiNote    midiNote;
 
     /**
@@ -38,13 +25,15 @@ public class PianoPlayer {
 
     /**
      * @param context Context for SoundPool
-     * @param song WTF???
+     * @param song id of song(R.raw.song)
      */
     public PianoPlayer(Context context, int song) {
 
         soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         toneID = soundPool.load(context, song, 1);
     }
+
+
     /**
      * Gets the .mid file for that Note and plays it.
      */

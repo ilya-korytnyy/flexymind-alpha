@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+    <CheckBox
+            android:id="@+id/rotateCB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="36dp"
+            android:checked="true" />
+
+    <TextView
+            android:id="@+id/rotateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/rotateCB"
+            android:layout_alignBottom="@+id/rotateCB"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="29dp"
+            android:text="Rotate 180"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+            android:id="@+id/volumeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/rotateTV"
+            android:layout_below="@+id/rotateCB"
+            android:text="Volume"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <SeekBar
+            android:id="@+id/volumeSB"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/rotateCB"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/volumeTV"
+            android:layout_marginRight="35dp" />
+
+    <TextView
+            android:id="@+id/songTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/volumeTV"
+            android:layout_below="@+id/volumeSB"
+            android:layout_marginTop="16dp"
+            android:text="Song"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Spinner
+            android:id="@+id/songCombo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawSelectorOnTop="true"
+            android:prompt="@string/songPrompt"
+            android:layout_alignLeft="@+id/volumeSB"
+            android:layout_alignRight="@+id/volumeSB"
+            android:layout_alignTop="@+id/songTV"
+            >
+
+    </Spinner>
+
+</RelativeLayout>

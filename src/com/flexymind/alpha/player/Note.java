@@ -1,6 +1,9 @@
 package com.flexymind.alpha.player;
 
+import java.util.Arrays;
+
 public enum Note {
+
     C,      // до
     Cz,     // до диез
     D,      // ре
@@ -16,10 +19,18 @@ public enum Note {
     C1,     // до
     UNKNOW;
 
-    //[review] mandrgin: strange name... it points to the MIDI file.
-    //so  it better be called as 'getMidiFileId()'
-    ////[review] mandrigin: javadocs for public methods!
-    public static Note getToneById(int id){
+    private static Note[] blackNotes = new Note[] { Cz, Dz, Fz, Gz, Az };
+    private static Note[] whiteNotes = new Note[] { C, D, E, F, G, A, H, C1 };
+    private static Note[] allNotes  = new Note[] { C, Cz, D, Dz, E, F, Fz, G, Gz, A, Az, H, C1 };
+
+    /**
+     * Returns the tone associated with the specified {@code id}. ID is set up in Midi parsing library.
+     *
+     * @param id ID of the Note
+     * @return The Note
+     */
+    public static Note getToneByMidiFileId(int id){
+
         switch (id){
             case 57:
                 return Note.A;
@@ -52,22 +63,15 @@ public enum Note {
         }
     }
 
-    private static Note[] blackTone = null;
-    private static Note[] whiteTone = null;
-    private static Note[] allNotes  = null;
-
     public static Note[] getNotesForBlackKeys() {
-        if(blackTone == null){
-            blackTone =  new Note[] {Cz, Dz, Fz, Gz, Az };
-        }
-
-        return blackTone;
+        return blackNotes;
     }
 
     public static Note[] getNotesForWhiteKeys() {
-        if(whiteTone == null){
-            whiteTone = new Note[] {C, D, E, F, G, A, H, C1};
-        }
-        return whiteTone;
+        return whiteNotes;
+    }
+
+    public static Note[] getNotesForAllKeys() {
+        return allNotes;
     }
 }

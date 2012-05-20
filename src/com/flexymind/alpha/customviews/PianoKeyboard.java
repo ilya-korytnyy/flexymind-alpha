@@ -13,15 +13,13 @@ import com.flexymind.alpha.player.PianoPlayer;
 
 import java.util.ArrayList;
 
-import static com.flexymind.alpha.customviews.PictureStorage.blackKeyNotPressed;
-import static com.flexymind.alpha.customviews.PictureStorage.whiteKeyNotPressed;
+import static com.flexymind.alpha.customviews.PictureStorage.*;
 
 public class PianoKeyboard extends Board implements View.OnTouchListener {
 
     private final int    COUNT_OF_WHITE_KEYS     =   8;
     private final int    START_ID_FOR_KEY_VIEWS  = 100;
     private final int[]  BLACK_KEY_POSITIONS     =  {1, 2, 4, 5, 6};
- //   private final int    CONTROLS;
             //TODO fill this array automatic
 
     private View parent;
@@ -50,15 +48,15 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
 
 
-
     @Override
     public void onLayout(boolean changed, int l,
                              int t, int r, int b) {
 
         super.onLayout(changed, l, t, r, b);
 
-            addWhiteKeys();
-            addBlackKeys();
+        addWhiteKeys();
+        addBlackKeys();
+
     }
 
     private void addWhiteKeys() {
@@ -71,7 +69,7 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
         params.addRule(ALIGN_LEFT);
 
-        addKey( whiteKeyNotPressed
+        addKey( greenKey
               , getWhiteKeyHeight()
               , getWhiteKeyWidth()
               , params
