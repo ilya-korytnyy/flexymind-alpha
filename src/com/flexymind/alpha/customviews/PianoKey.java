@@ -14,6 +14,7 @@ import com.flexymind.alpha.player.PianoPlayer;
 public class PianoKey extends ParentSelfDrawingView {
 
     private PianoPlayer player;
+    private Note note;
 
     /**
      *
@@ -28,7 +29,8 @@ public class PianoKey extends ParentSelfDrawingView {
 
         super(context, keyW, keyH);
         this.picture    = picture;
-        this.player     = PianoPlayer.getInstance(context, note);
+        this.note       = note;
+        this.player     = PianoPlayer.getInstance(context);
     }
 
     public void playOwnSound() {
@@ -36,7 +38,7 @@ public class PianoKey extends ParentSelfDrawingView {
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                player.play();
+                player.play(note);
             }
         });
         soundThread.start();

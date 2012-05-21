@@ -20,10 +20,7 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
     private RelativeLayout startScreen;
 
     private static final int SETTINGS_BUTTON = 1001;
-
-
-    private PianoPlayer play;
-
+    private PianoPlayer player;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +35,6 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
         startButton = (StartButton) findViewById(R.id.startbutton);
         startButton.setOnClickListener(this);
 
-
         settingsButton = new ImageButton(this);
         settingsButton.setId(SETTINGS_BUTTON);
 
@@ -48,7 +44,6 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
         setSizeSettingsButton();
     }
 
-
     private void setSizeSettingsButton() {
         settingsBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.settings);
         DisplayMetrics metrics = new DisplayMetrics();
@@ -57,22 +52,7 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
 
         settingsButton.setImageBitmap(settingsBitmap);
 
-        play = new PianoPlayer(this, R.raw.gooses);
-
-    }
-
-    public void createGameScreen() {
-
-        Intent intent = new Intent(this, GameScreen.class);
-        startActivity(intent);
-		finish();
-    }
-
-    private void createSettingsScreen() {
-        Intent intent = new Intent(this, Settings.class);
-
-        startActivity(intent);
-        finish();
+        player = PianoPlayer.getInstance(this);
     }
 
     @Override
@@ -91,16 +71,29 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
 
     }
 
+    public void createGameScreen() {
+
+        Intent intent = new Intent(this, GameScreen.class);
+        startActivity(intent);
+        finish();
+    }
 
     public void playOwnSound() {
 
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                play.play();
+                player.play(R.raw.song);
             }
         });
         soundThread.start();
+    }
+
+    private void createSettingsScreen() {
+        Intent intent = new Intent(this, Settings.class);
+
+        startActivity(intent);
+        finish();
     }
 
 }

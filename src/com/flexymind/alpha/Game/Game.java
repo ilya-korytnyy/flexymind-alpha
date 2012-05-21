@@ -51,13 +51,15 @@ public class Game {
     }
 
     private void playMelodyPart(int part){
-        player = PianoPlayer.getInstance(noteBoard.getContext(), Note.C);
-        //for (MidiNote midiNote : melodyPart){
-        //    PianoPlayer pianoPlayer = PianoPlayer.getInstance(noteBoard.getContext(), midiNote.getNote());
-        //    pianoPlayer.play();
-        //}
-        playOwnSound();
+        //player = PianoPlayer.getInstance(noteBoard.getContext());
+        //playOwnSound();
 
+        /*
+        for (MidiNote midiNote : melodyPart){
+            PianoPlayer pianoPlayer = PianoPlayer.getInstance(noteBoard.getContext());
+            pianoPlayer.play(midiNote.getNote());
+        }
+        //*/
     }
 
     public void playOwnSound() {
@@ -65,7 +67,7 @@ public class Game {
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                player.play();
+                player.play(R.raw.song);
             }
         });
         soundThread.start();
@@ -77,7 +79,6 @@ public class Game {
         int upperBorder = staveCapacity;
 
         if(part * staveCapacity > currentMelody.size()) {
-
             upperBorder = currentMelody.size();
         }
 

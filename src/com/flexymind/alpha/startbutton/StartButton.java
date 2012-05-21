@@ -17,7 +17,7 @@ public class StartButton extends Board {
 
     public StartButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        player = new PianoPlayer(super.getContext(), R.raw.song);
+        player = PianoPlayer.getInstance(super.getContext());
 
     }
 
@@ -59,14 +59,12 @@ public class StartButton extends Board {
 
     }
 
-
-
     public static void playOwnSound() {
 
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                player.play();
+                player.play(R.raw.song);
             }
         });
         soundThread.start();
