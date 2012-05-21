@@ -51,10 +51,10 @@ public class Game {
     }
 
     private void playMelodyPart(int part){
-        player = new PianoPlayer(noteBoard.getContext(), Note.C);
+        player = PianoPlayer.getInstance(noteBoard.getContext(), Note.C);
         //for (MidiNote midiNote : melodyPart){
-        //    PianoPlayer pianoPlayer = new PianoPlayer(noteBoard.getContext(), R.raw.gooses);
-          //  pianoPlayer.play();
+        //    PianoPlayer pianoPlayer = PianoPlayer.getInstance(noteBoard.getContext(), midiNote.getNote());
+        //    pianoPlayer.play();
         //}
         playOwnSound();
 

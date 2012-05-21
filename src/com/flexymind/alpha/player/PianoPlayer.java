@@ -12,10 +12,19 @@ public class PianoPlayer {
     private  int         toneID;
     private MidiNote    midiNote;
 
+    private static PianoPlayer instance;
+
+    public static PianoPlayer getInstance(Context context, Note note) {
+        if (instance == null) {
+            instance = new PianoPlayer(context, note);
+        }
+        return instance;
+    }
+
     /**
      * @param context from class GameScreen
      */
-    public PianoPlayer(Context context, Note note) {
+    private PianoPlayer(Context context, Note note) {
 
         soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 

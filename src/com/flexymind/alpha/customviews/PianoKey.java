@@ -28,7 +28,7 @@ public class PianoKey extends ParentSelfDrawingView {
 
         super(context, keyW, keyH);
         this.picture    = picture;
-        this.player     = new PianoPlayer(context, note);
+        this.player     = PianoPlayer.getInstance(context, note);
     }
 
     public void playOwnSound() {
