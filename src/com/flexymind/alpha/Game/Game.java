@@ -1,6 +1,7 @@
 package com.flexymind.alpha.Game;
 
 import android.content.Context;
+import android.os.CountDownTimer;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
 import com.flexymind.alpha.player.Melody;
@@ -9,6 +10,7 @@ import com.flexymind.alpha.player.PianoPlayer;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
 
 
 public class Game {
@@ -61,12 +63,29 @@ public class Game {
                                     , melodyPart.get(i).getMidiFileId());
             playerList.add(i, player);
         }
-
+        Timer timer = new Timer();
         for(int i = 0; i < melodyPart.size();) {
-            playOwnSound(i);
+            onTickTock(i);
+
         }
+
     }
 
+
+    private void onTickTock(final int i) {
+
+        new CountDownTimer(6000, 1000) {
+            public void onTick(long millisUntilFinished) {
+
+            }
+            @Override
+            public void onFinish() {
+                playOwnSound(i);
+
+            }
+
+        }.start();
+    }
 
     private void playOwnSound(final int i) {
         Thread soundThread = new Thread(new Runnable() {
