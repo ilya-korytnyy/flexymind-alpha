@@ -21,7 +21,7 @@ public class GameScreen extends Activity {
         NoteBoard noteBoard = (NoteBoard)
                             findViewById(R.id.noteboard);
 
-        Game game = new Game(noteBoard);
+        Game game = new Game(noteBoard, getApplicationContext());
         game.gameStart();
 
     }

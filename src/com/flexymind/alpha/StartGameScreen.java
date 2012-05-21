@@ -52,7 +52,7 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
 
         settingsButton.setImageBitmap(settingsBitmap);
 
-        player = PianoPlayer.getInstance(this);
+        player = new PianoPlayer(this, R.raw.gooses);
     }
 
     @Override
@@ -60,7 +60,6 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
         switch(view.getId()) {
             case R.id.startbutton: {
                 createGameScreen();
-                playOwnSound();
                 break;
             }
             case SETTINGS_BUTTON: {
@@ -83,7 +82,7 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                player.play(R.raw.song);
+                player.play();
             }
         });
         soundThread.start();

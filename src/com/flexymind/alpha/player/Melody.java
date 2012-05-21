@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Melody {
 
-    public List<MidiNote> midiList;
+    public static List<MidiNote> midiList;
 
     public Melody(int id) {
 

@@ -30,7 +30,7 @@ public class PianoKey extends ParentSelfDrawingView {
         super(context, keyW, keyH);
         this.picture    = picture;
         this.note       = note;
-        this.player     = PianoPlayer.getInstance(context);
+        this.player     = new PianoPlayer(context, note);//PianoPlayer.getInstance(context);
     }
 
     public void playOwnSound() {
@@ -38,7 +38,7 @@ public class PianoKey extends ParentSelfDrawingView {
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                player.play(note);
+                player.play();//(note);
             }
         });
         soundThread.start();

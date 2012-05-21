@@ -17,7 +17,7 @@ public class StartButton extends Board {
 
     public StartButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        player = PianoPlayer.getInstance(super.getContext());
+        player = new PianoPlayer(super.getContext(), R.raw.gooses);
 
     }
 
@@ -51,7 +51,7 @@ public class StartButton extends Board {
                                          , height );
 
         LayoutParams layoutParams = new LayoutParams( LayoutParams.WRAP_CONTENT
-                                              , LayoutParams.WRAP_CONTENT);
+                                                    , LayoutParams.WRAP_CONTENT);
 
         layoutParams.addRule(CENTER_IN_PARENT);
         sButtonView.setId(0);
@@ -64,7 +64,7 @@ public class StartButton extends Board {
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                player.play(R.raw.song);
+                player.play();
             }
         });
         soundThread.start();

@@ -1,29 +1,30 @@
 package com.flexymind.alpha.Game;
 
-import android.view.View;
-import com.flexymind.alpha.GameScreen;
+import android.content.Context;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
 import com.flexymind.alpha.player.Melody;
 import com.flexymind.alpha.player.MidiNote;
-import com.flexymind.alpha.player.Note;
 import com.flexymind.alpha.player.PianoPlayer;
 
 import java.util.LinkedList;
 import java.util.List;
 
+
 public class Game {
 
-    private List<MidiNote> melodyPart;
-    private int staveCapacity;
-    private NoteBoard noteBoard;
-    private Melody currentMelody;
-    private PianoPlayer player;
+    private List<MidiNote>          melodyPart;
+    private int                     staveCapacity;
+    private NoteBoard               noteBoard;
+    private Melody                  currentMelody;
+    private PianoPlayer             player;
+    private LinkedList<PianoPlayer> playerList;
+    private Context                 context;
 
-
-    public Game(NoteBoard noteBoard) {
+    public Game(NoteBoard noteBoard, Context context) {
 
         this.noteBoard = noteBoard;
+        this.context   = context;
     }
 
     public void gameStart() {
@@ -51,23 +52,27 @@ public class Game {
     }
 
     private void playMelodyPart(int part){
-        //player = PianoPlayer.getInstance(noteBoard.getContext());
-        //playOwnSound();
 
-        /*
-        for (MidiNote midiNote : melodyPart){
-            PianoPlayer pianoPlayer = PianoPlayer.getInstance(noteBoard.getContext());
-            pianoPlayer.play(midiNote.getNote());
+
+        playerList = new LinkedList<PianoPlayer>();
+
+        for(int i = 0; i < melodyPart.size(); i++) {
+            player = new PianoPlayer( context
+                                    , melodyPart.get(i).getMidiFileId());
+            playerList.add(i, player);
         }
-        //*/
+
+        for(int i = 0; i < melodyPart.size();) {
+            playOwnSound(i);
+        }
     }
 
-    public void playOwnSound() {
 
+    private void playOwnSound(final int i) {
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                player.play(R.raw.song);
+                playerList.get(i).play();
             }
         });
         soundThread.start();
