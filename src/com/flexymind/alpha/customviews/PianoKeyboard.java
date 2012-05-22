@@ -5,10 +5,9 @@ import android.graphics.Picture;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import com.flexymind.alpha.R;
 import com.flexymind.alpha.player.Note;
 import com.flexymind.alpha.player.PianoPlayer;
 
@@ -22,10 +21,7 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
     private final int    COUNT_OF_WHITE_KEYS     =   8;
     private final int    START_ID_FOR_KEY_VIEWS  = 100;
     private final int[]  BLACK_KEY_POSITIONS     =  {1, 2, 4, 5, 6};
- //   private final int    CONTROLS;
             //TODO fill this array automatic
-
-    private boolean wasAddBlaskKey=false;
 
     private View parent;
 
@@ -39,6 +35,8 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
     private PianoPlayer player;
 
+    private boolean isOnLayout = false;
+
 
 
     public PianoKeyboard(Context context, AttributeSet attrs) {
@@ -46,11 +44,10 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
         super(context, attrs);
 
         parent = getRootView();
-        //parent.setOnTouchListener(this);
+        parent.setOnTouchListener(this);
+        mTouchSlop = ViewConfiguration.get(getContext())
+                .getScaledTouchSlop();
     }
-
-
-
 
     @Override
     public void onLayout(boolean changed, int l,
@@ -58,11 +55,11 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
         super.onLayout(changed, l, t, r, b);
 
-        if(!wasAddBlaskKey){
+        if (!isOnLayout) {
+
             addWhiteKeys();
             addBlackKeys();
-            addPlayMidiButton();
-            wasAddBlaskKey=true;
+            isOnLayout = true;
         }
     }
 
@@ -102,31 +99,6 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
         params.addRule(RIGHT_OF, id);
 
         return  params;
-    }
-
-    private void addPlayMidiButton() {
-
-        final Button playButton = new Button(getContext());
-        final PianoPlayer song = new PianoPlayer( this.getContext()
-                                                , R.raw.song );
-        LayoutParams layoutParams = new LayoutParams
-                (LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-        layoutParams.addRule(CENTER_HORIZONTAL);
-
-        OnClickListener onClickListener = new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                song.play();
-                playButton.setVisibility(View.INVISIBLE);
-            }
-        };
-
-        playButton.setText("Play");
-
-        playButton.setOnClickListener(onClickListener);
-
-        this.addView(playButton, layoutParams);
     }
 
     private void addBlackKeys() {
@@ -189,6 +161,7 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
     private void dealEvent(final int actionPointerIndex,
                            final MotionEvent event, final View eventView,
                            final int actionResolved) {
+
         int rawX, rawY;
         final int location[] = { 0, 0 };
         eventView.getLocationOnScreen(location);
@@ -236,7 +209,6 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
             downTouchedViewsIndex[actionPointerID] = null;
         }
 
-        dumpEvent(event);
         for (final View view : hoverViews) {
             int x, y;
             view.getLocationOnScreen(location);
@@ -279,24 +251,20 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
     }
 
-    private void dumpEvent(final MotionEvent event) {
-
-        for (int i = 0; i < event.getPointerCount(); i++) {
-
-        }
-
-
-    }
-
     private ArrayList<View> getChildViews(final View view) {
+
         final ArrayList<View> views = new ArrayList<View>();
+
         if (view instanceof ViewGroup) {
+
             final ViewGroup v = ((ViewGroup) view);
+
             if (v.getChildCount() > 0) {
+
                 for (int i = 0; i < v.getChildCount(); i++) {
+
                     views.add(v.getChildAt(i));
                 }
-
             }
         }
         return views;
@@ -319,27 +287,20 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
                         & (view.getWidth() + location[0] >= x)
                         & (view.getLeft() <= x) & (view.getTop() <= y))
                         || view instanceof FrameLayout) {
+
                     touchedViews.add(view);
                     possibleViews.addAll(getChildViews(view));
                 }
-
             }
+        }
+
+        PianoKey lastKey =  (PianoKey)touchedViews.get(touchedViews.size() - 1);
+        if(touchedViews.size() > 2 && !lastKey.isWhite()) {
+
+            touchedViews.remove(1);
         }
         return touchedViews;
     }
-
-/*    @Override
-    public void onCreate(final Bundle instance) {
-        super.onCreate(instance);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().clearFlags(
-                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-        parent = findViewById(android.R.id.content).getRootView();
-        parent.setOnTouchListener(this);
-        mTouchSlop = ViewConfiguration.get(getApplicationContext())
-                .getScaledTouchSlop();
-    } */
 
     @Override
     public boolean onTouch(final View v, final MotionEvent event) {
@@ -350,17 +311,19 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
         // resolve the action as a basic type (up, down or move)
         int actionResolved = event.getAction() & MotionEvent.ACTION_MASK;
         if (actionResolved < 7 && actionResolved > 4) {
+
             actionResolved = actionResolved - 5;
         }
 
         if (actionResolved == MotionEvent.ACTION_MOVE) {
+
             for (int ptrIndex = 0; ptrIndex < event.getPointerCount(); ptrIndex++) {
                 // only one event for all move events.
                 dealEvent(ptrIndex, event, v, actionResolved);
-
             }
 
         } else {
+
             dealEvent(actionPointerIndex, event, v, actionResolved);
         }
 

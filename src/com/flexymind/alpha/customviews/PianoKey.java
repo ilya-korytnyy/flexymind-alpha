@@ -5,11 +5,6 @@ import android.graphics.Picture;
 import android.view.MotionEvent;
 import com.flexymind.alpha.player.Note;
 import com.flexymind.alpha.player.PianoPlayer;
-//
-//import static com.flexymind.alpha.customviews.PictureStorage.blackKeyNotPressed;
-//import static com.flexymind.alpha.customviews.PictureStorage.blackKeyPressed;
-//import static com.flexymind.alpha.customviews.PictureStorage.whiteKeyNotPressed;
-//import static com.flexymind.alpha.customviews.PictureStorage.whiteKeyPressed;
 
 
 public class PianoKey extends ParentSelfDrawingView {
@@ -66,26 +61,16 @@ public class PianoKey extends ParentSelfDrawingView {
                 switchPicture(PictureStorage.blackKeyPressed);
         }
 
-        if(motionEvent.getAction() ==  MotionEvent.ACTION_UP) {
+        else if( motionEvent.getAction() ==  MotionEvent.ACTION_UP ||
+                 motionEvent.getAction() ==  MotionEvent.ACTION_MOVE) {
+
             if (whiteKey)
                 switchPicture(PictureStorage.whiteKeyNotPressed);
             else
                 switchPicture(PictureStorage.blackKeyNotPressed);
-        }
-
-        if(motionEvent.getAction() ==  MotionEvent.ACTION_CANCEL) {
-            if (whiteKey)
-                switchPicture(PictureStorage.whiteKeyNotPressed);
-            else
-                switchPicture(PictureStorage.blackKeyNotPressed);
-        }
-
-        if( motionEvent.getAction() ==  MotionEvent.ACTION_POINTER_DOWN ||
-            motionEvent.getAction() ==  MotionEvent.ACTION_POINTER_UP ) {
         }
 
          invalidate();
-
 
         return true;
     }
