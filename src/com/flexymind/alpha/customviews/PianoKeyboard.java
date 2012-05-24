@@ -13,14 +13,15 @@ import com.flexymind.alpha.player.PianoPlayer;
 
 import java.util.ArrayList;
 
-import static com.flexymind.alpha.customviews.PictureStorage.*;
+import static com.flexymind.alpha.customviews.PictureStorage.blackKeyNotPressed;
+import static com.flexymind.alpha.customviews.PictureStorage.whiteKeyNotPressed;
 
 public class PianoKeyboard extends Board implements View.OnTouchListener {
 
     private final int    COUNT_OF_WHITE_KEYS     =   8;
     private final int    START_ID_FOR_KEY_VIEWS  = 100;
     private final int[]  BLACK_KEY_POSITIONS     =  {1, 2, 4, 5, 6};
-            //TODO fill this array automatic
+    //TODO fill this array automatic
 
     private View parent;
 
@@ -34,6 +35,8 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
     private PianoPlayer player;
 
+    private boolean isOnLayout = false;
+
 
 
     public PianoKeyboard(Context context, AttributeSet attrs) {
@@ -46,17 +49,18 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
                 .getScaledTouchSlop();
     }
 
-
-
     @Override
     public void onLayout(boolean changed, int l,
-                             int t, int r, int b) {
+                         int t, int r, int b) {
 
         super.onLayout(changed, l, t, r, b);
 
-        addWhiteKeys();
-        addBlackKeys();
+        if (!isOnLayout) {
 
+            addWhiteKeys();
+            addBlackKeys();
+            isOnLayout = true;
+        }
     }
 
     private void addWhiteKeys() {
@@ -65,26 +69,26 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
         final boolean whiteKey = true;
 
         LayoutParams params = new LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
         params.addRule(ALIGN_LEFT);
 
-        addKey( greenKey
-              , getWhiteKeyHeight()
-              , getWhiteKeyWidth()
-              , params
-              , id++
-              , Note.C
-              , whiteKey  );
+        addKey( whiteKeyNotPressed
+                , getWhiteKeyHeight()
+                , getWhiteKeyWidth()
+                , params
+                , id++
+                , Note.C
+                , whiteKey  );
 
         for (int i = 0; i < COUNT_OF_WHITE_KEYS - 1; i++) {
             addKey( whiteKeyNotPressed
-                  , getWhiteKeyHeight()
-                  , getWhiteKeyWidth()
-                  , paramsWithRightOf(id - 1)
-                  , id++
-                  , Note.getNotesForWhiteKeys()[i+1]
-                  , whiteKey);
+                    , getWhiteKeyHeight()
+                    , getWhiteKeyWidth()
+                    , paramsWithRightOf(id - 1)
+                    , id++
+                    , Note.getNotesForWhiteKeys()[i+1]
+                    , whiteKey);
         }
     }
 
@@ -105,13 +109,13 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
         int j = 0;
         for (int whiteKeyNumber: BLACK_KEY_POSITIONS) {
             addKey( blackKeyNotPressed
-                  , getBlackKeyHeight()
-                  , getBlackKeyWidth()
-                  , paramsWithMargin(whiteKeyNumber * getWhiteKeyWidth()
-                                              - getBlackKeyWidth() / 2)
-                  , ++id
-                  , Note.getNotesForBlackKeys()[j++]
-                  , whiteKey);
+                    , getBlackKeyHeight()
+                    , getBlackKeyWidth()
+                    , paramsWithMargin(whiteKeyNumber * getWhiteKeyWidth()
+                    - getBlackKeyWidth() / 2)
+                    , ++id
+                    , Note.getNotesForBlackKeys()[j++]
+                    , whiteKey);
         }
     }
 
@@ -125,14 +129,14 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
     private void addKey(Picture picture, int keyH, int keyW,
                         LayoutParams params, int id, Note note
-                       , boolean isWhiteKey ) {
+            , boolean isWhiteKey ) {
 
         PianoKey key = new PianoKey( getContext()
-                                   , keyH
-                                   , keyW
-                                   , picture
-                                   , note
-                                   , isWhiteKey);
+                , keyH
+                , keyW
+                , picture
+                , note
+                , isWhiteKey);
         key.setId(id);
         key.setOnTouchListener(this);
         addView(key, params);
@@ -157,6 +161,7 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
     private void dealEvent(final int actionPointerIndex,
                            final MotionEvent event, final View eventView,
                            final int actionResolved) {
+
         int rawX, rawY;
         final int location[] = { 0, 0 };
         eventView.getLocationOnScreen(location);
@@ -186,7 +191,7 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
                     .clone();
             if (!shouldTouchViews.containsAll(recentTouchedViews)) {
                 shouldTouchViews.removeAll(recentTouchedViews);
-              //  shouldTouchViews.addAll(recentTouchedViews);
+                shouldTouchViews.addAll(recentTouchedViews);
 
                 final ArrayList<View> outsideTouchedViews = (ArrayList<View>) shouldTouchViews
                         .clone();
@@ -218,17 +223,13 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
                     if (!recentTouchedViewsIndex[actionPointerID]
                             .contains(view)) {
-
                         recentTouchedViewsIndex[actionPointerID].add(view);
                     }
                 } else if (moveOutsideEnabledViews.contains(view)) {
 
                     recentTouchedViewsIndex[actionPointerID].add(view);
-
-
                 }
             }
-
             final MotionEvent me = MotionEvent.obtain(event.getDownTime(),
                     event.getEventTime(), actionResolved, x, y,
                     event.getPressure(actionPointerIndex),
@@ -238,33 +239,32 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
                     event.getEdgeFlags());
             me.setLocation(x, y);
 
-
-
-
-
             if (!me.equals(event)) {
-
 
                 view.onTouchEvent(me);
             }
 
-            // onto debug
+            // debug
             if (actionResolved == MotionEvent.ACTION_MOVE) {
             }
         }
 
     }
 
-
     private ArrayList<View> getChildViews(final View view) {
+
         final ArrayList<View> views = new ArrayList<View>();
+
         if (view instanceof ViewGroup) {
+
             final ViewGroup v = ((ViewGroup) view);
+
             if (v.getChildCount() > 0) {
+
                 for (int i = 0; i < v.getChildCount(); i++) {
+
                     views.add(v.getChildAt(i));
                 }
-
             }
         }
         return views;
@@ -287,11 +287,17 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
                         & (view.getWidth() + location[0] >= x)
                         & (view.getLeft() <= x) & (view.getTop() <= y))
                         || view instanceof FrameLayout) {
+
                     touchedViews.add(view);
                     possibleViews.addAll(getChildViews(view));
                 }
-
             }
+        }
+
+        PianoKey lastKey =  (PianoKey)touchedViews.get(touchedViews.size() - 1);
+        if(touchedViews.size() > 2 && !lastKey.isWhite()) {
+
+            touchedViews.remove(1);
         }
         return touchedViews;
     }
@@ -305,17 +311,19 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
         // resolve the action as a basic type (up, down or move)
         int actionResolved = event.getAction() & MotionEvent.ACTION_MASK;
         if (actionResolved < 7 && actionResolved > 4) {
+
             actionResolved = actionResolved - 5;
         }
 
         if (actionResolved == MotionEvent.ACTION_MOVE) {
+
             for (int ptrIndex = 0; ptrIndex < event.getPointerCount(); ptrIndex++) {
                 // only one event for all move events.
                 dealEvent(ptrIndex, event, v, actionResolved);
-
             }
 
         } else {
+
             dealEvent(actionPointerIndex, event, v, actionResolved);
         }
 
