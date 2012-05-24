@@ -25,6 +25,4 @@ public class GameScreen extends Activity {
         game.gameStart();
 
     }
-
-
 }

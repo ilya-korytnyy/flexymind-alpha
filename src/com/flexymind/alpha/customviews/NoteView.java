@@ -42,7 +42,7 @@ public class NoteView extends ParentSelfDrawingView {
         super(context, noteWidth * 3, noteHeight * 4);
 
         this.note       = note;
-        currentColorArrayWithPictures = greenPictures;
+        currentColorArrayWithPictures = blackPictures;
 
         setNoteFormAndCorrectionToTopMargin();
         setNotePicture();
@@ -102,7 +102,7 @@ public class NoteView extends ParentSelfDrawingView {
     /**
      * Makes it green
      */
-    public void highlight() {
+    public void highlightGreen() {
 
         currentColorArrayWithPictures = greenPictures;
         setNotePicture();
@@ -111,7 +111,7 @@ public class NoteView extends ParentSelfDrawingView {
     /**
      * Makes it red
      */
-    public void highlightError() {
+    public void highlightRed() {
 
         currentColorArrayWithPictures = redPictures;
         setNotePicture();
@@ -120,7 +120,7 @@ public class NoteView extends ParentSelfDrawingView {
     /**
      * Makes it black again
      */
-    public void unHighlight() {
+    public void highlightBlack() {
 
         currentColorArrayWithPictures = blackPictures;
         setNotePicture();

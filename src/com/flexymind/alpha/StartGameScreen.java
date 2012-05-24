@@ -20,7 +20,10 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
     private RelativeLayout startScreen;
 
     private static final int SETTINGS_BUTTON = 1001;
-    private PianoPlayer player;
+
+
+    private PianoPlayer play;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,11 +32,13 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
         setContentView(R.layout.start);
 
         StaticResources.res = getResources();
+        play = new PianoPlayer(this, R.raw.song);
 
         startScreen = (RelativeLayout) findViewById(R.id.startScreen);
 
         startButton = (StartButton) findViewById(R.id.startbutton);
         startButton.setOnClickListener(this);
+
 
         settingsButton = new ImageButton(this);
         settingsButton.setId(SETTINGS_BUTTON);
@@ -44,6 +49,7 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
         setSizeSettingsButton();
     }
 
+
     private void setSizeSettingsButton() {
         settingsBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.settings);
         DisplayMetrics metrics = new DisplayMetrics();
@@ -52,15 +58,30 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
 
         settingsButton.setImageBitmap(settingsBitmap);
 
-        player = PianoPlayer.getInstance(this);
+
+    }
+
+    public void createGameScreen() {
+
+        Intent intent = new Intent(this, GameScreen.class);
+        startActivity(intent);
+		finish();
+    }
+
+    private void createSettingsScreen() {
+        Intent intent = new Intent(this, Settings.class);
+
+        startActivity(intent);
+        finish();
     }
 
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.startbutton: {
-                createGameScreen();
                 playOwnSound();
+                createGameScreen();
+
                 break;
             }
             case SETTINGS_BUTTON: {
@@ -71,29 +92,16 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
 
     }
 
-    public void createGameScreen() {
-
-        Intent intent = new Intent(this, GameScreen.class);
-        startActivity(intent);
-        finish();
-    }
 
     public void playOwnSound() {
 
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                player.play(R.raw.song);
+                play.play();
             }
         });
         soundThread.start();
-    }
-
-    private void createSettingsScreen() {
-        Intent intent = new Intent(this, Settings.class);
-
-        startActivity(intent);
-        finish();
     }
 
 }

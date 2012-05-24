@@ -1,15 +1,11 @@
 package com.flexymind.alpha.Game;
 
-import android.view.View;
-import com.flexymind.alpha.GameScreen;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
 import com.flexymind.alpha.player.Melody;
 import com.flexymind.alpha.player.MidiNote;
-import com.flexymind.alpha.player.Note;
 import com.flexymind.alpha.player.PianoPlayer;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
@@ -36,7 +32,7 @@ public class Game {
 
     private void setMelody() {
 
-        currentMelody = new Melody(R.raw.gooses);
+        currentMelody = new Melody(R.raw.song);
     }
 
     private void getStaveCapacity() {
@@ -47,19 +43,17 @@ public class Game {
     private void drawMelodyPart(int part) {
 
         nextPartList(part);
-        noteBoard.drawMelody(melodyPart);
+        noteBoard.setShownNotes(melodyPart);
     }
 
     private void playMelodyPart(int part){
-        //player = PianoPlayer.getInstance(noteBoard.getContext());
-        //playOwnSound();
+        player = new PianoPlayer(noteBoard.getContext(), R.raw.song);
+        //for (MidiNote midiNote : melodyPart){
+        //    PianoPlayer pianoPlayer = new PianoPlayer(noteBoard.getContext(), R.raw.gooses);
+          //  pianoPlayer.play();
+        //}
+        playOwnSound();
 
-        /*
-        for (MidiNote midiNote : melodyPart){
-            PianoPlayer pianoPlayer = PianoPlayer.getInstance(noteBoard.getContext());
-            pianoPlayer.play(midiNote.getNote());
-        }
-        //*/
     }
 
     public void playOwnSound() {
@@ -67,7 +61,7 @@ public class Game {
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                player.play(R.raw.song);
+                player.play();
             }
         });
         soundThread.start();
@@ -79,6 +73,7 @@ public class Game {
         int upperBorder = staveCapacity;
 
         if(part * staveCapacity > currentMelody.size()) {
+
             upperBorder = currentMelody.size();
         }
 
@@ -86,5 +81,8 @@ public class Game {
     }
 
 
+    private void startRound() {
+
+    }
 
 }

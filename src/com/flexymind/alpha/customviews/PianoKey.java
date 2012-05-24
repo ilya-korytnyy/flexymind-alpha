@@ -1,20 +1,15 @@
 package com.flexymind.alpha.customviews;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Picture;
-import android.graphics.Rect;
-import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import com.flexymind.alpha.player.Note;
 import com.flexymind.alpha.player.PianoPlayer;
-
 
 public class PianoKey extends ParentSelfDrawingView {
 
     private PianoPlayer player;
-    private Note note;
+    private  boolean whiteKey;
 
     /**
      *
@@ -25,12 +20,12 @@ public class PianoKey extends ParentSelfDrawingView {
      */
 
     public PianoKey(Context context, int keyH, int keyW,
-                            Picture picture,  Note note) {
+                    Picture picture,  Note note, boolean whiteKey) {
 
         super(context, keyW, keyH);
         this.picture    = picture;
-        this.note       = note;
-        this.player     = PianoPlayer.getInstance(context);
+        this.player     = new PianoPlayer(context, note);
+        this.whiteKey   = whiteKey;
     }
 
     public void playOwnSound() {
@@ -38,18 +33,44 @@ public class PianoKey extends ParentSelfDrawingView {
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                player.play(note);
+                player.play();
             }
         });
         soundThread.start();
+    }
+
+    private void switchPicture(Picture switchPicture) {
+
+        picture = switchPicture;
+    }
+
+    public boolean isWhite(){
+        return whiteKey;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
 
         if(motionEvent.getAction() ==  MotionEvent.ACTION_DOWN) {
+
             playOwnSound();
+            if (whiteKey)
+                switchPicture(PictureStorage.whiteKeyPressed);
+            else
+                switchPicture(PictureStorage.blackKeyPressed);
         }
+
+        else if( motionEvent.getAction() ==  MotionEvent.ACTION_UP ||
+                motionEvent.getAction() ==  MotionEvent.ACTION_MOVE) {
+
+            if (whiteKey)
+                switchPicture(PictureStorage.whiteKeyNotPressed);
+            else
+                switchPicture(PictureStorage.blackKeyNotPressed);
+        }
+
+        invalidate();
+
         return true;
     }
 }

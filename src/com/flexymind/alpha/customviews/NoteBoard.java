@@ -21,21 +21,24 @@ public class NoteBoard extends Board {
     private int noteLeftMarge;
     private int notesGap;
 
-    private class NoteMargeParams {
-        public int  line;
+    private Map<Note, NoteMargeParams> notesParams;
 
+    private List<Note> notes = new LinkedList<Note>();
+    private List<NoteView> noteViews =
+                            new LinkedList<NoteView>();   // stores all NoteViews that are displayed
+
+
+    private class NoteMargeParams {
+
+        public int  line;
         public int  isOnLine;
         public NoteMargeParams(int line, int isOnLine) {
 
             this.line = line;
             this.isOnLine = isOnLine;
         }
+
     }
-
-    private Map<Note, NoteMargeParams> notesParams;
-
-    private List<Note> notes = new LinkedList<Note>();
-    private List<NoteView> noteViews = new LinkedList<NoteView>();   // stores all NoteViews that are displayed
 
     public NoteBoard(Context context) {
 
@@ -58,6 +61,7 @@ public class NoteBoard extends Board {
         drawStave();
         drawClef();
         drawMelodyOnStave();
+        highlightNote(3);
     }
 
     private void initializeNotesMarginParams() {
@@ -127,6 +131,7 @@ public class NoteBoard extends Board {
 
         this.addView(noteView, params);
         this.noteLeftMarge += notesGap;
+        noteViews.add(noteView);
 
     }
 
@@ -170,9 +175,10 @@ public class NoteBoard extends Board {
      * Draw each Note of the melody. Previously drawn Notes are removed.
      * @param melody
      */
-    public void drawMelody(List<MidiNote> melody) {
+    public void setShownNotes(List<MidiNote> melody) {
 
-        // TODO: remove NoteViews
+        notes.clear();
+
         for (MidiNote midiNote : melody){
 
             notes.add(midiNote.getNote());
@@ -181,6 +187,8 @@ public class NoteBoard extends Board {
 
     private void drawMelodyOnStave() {
 
+        noteViews.clear();
+
         for (Note note1 : notes) {
 
             drawNote(note1);
@@ -188,9 +196,9 @@ public class NoteBoard extends Board {
 
     }
 
-    public void removeAllNotes() {
-        notes.clear();
-        // TODO: redraw (remove NoteViews)
+
+    public void highlightNote(int id) {
+        noteViews.get(id).highlightGreen();
     }
 
     public void highlightCorrectNote(int position) {
@@ -198,7 +206,7 @@ public class NoteBoard extends Board {
             return;
         }
 
-        noteViews.get(position).highlight();
+        noteViews.get(position).highlightGreen();
     }
 
     public void unHighlightNote(int position) {
@@ -206,16 +214,13 @@ public class NoteBoard extends Board {
             return;
         }
 
-        noteViews.get(position).unHighlight();
+        noteViews.get(position).highlightBlack();
     }
 
     public void highlightErrorNote(Note note, int position) {
         // TODO: create new View at specified position and make it red
     }
 
-    private void initializeMap() {
-
-    }
 
     /*
      * The stave takes all height, width without gaps and sets line gap depending on positions count
@@ -247,4 +252,7 @@ public class NoteBoard extends Board {
         this.notesGap      = (staveWidth - noteLeftMarge
         - getHowMuchIWant() * 20) /  (getHowMuchIWant() - 1);
     }
+
+
+
 }
