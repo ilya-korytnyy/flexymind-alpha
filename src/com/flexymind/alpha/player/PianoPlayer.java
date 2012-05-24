@@ -81,17 +81,14 @@ public class PianoPlayer {
 
         @Override
         public void onJetUserIdUpdate(JetPlayer jetPlayer, int i, int i1) {
-            //To change body of implemented methods use File | Settings | File Templates.
         }
 
         @Override
         public void onJetNumQueuedSegmentUpdate(JetPlayer jetPlayer, int i) {
-            //To change body of implemented methods use File | Settings | File Templates.
         }
 
         @Override
         public void onJetPauseUpdate(JetPlayer jetPlayer, int i) {
-            //To change body of implemented methods use File | Settings | File Templates.
         }
     };
 

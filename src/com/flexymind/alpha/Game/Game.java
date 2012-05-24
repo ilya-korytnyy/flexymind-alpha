@@ -28,7 +28,15 @@ public class Game {
         getStaveCapacity();
         drawMelodyPart(1);
         playMelodyPart(1);
+        startGameplay();
     }
+
+    private void startGameplay() {
+
+        noteBoard.removeNotesFromStave();
+        noteBoard.invalidate();
+    }
+
 
     private void setMelody() {
 
@@ -46,14 +54,10 @@ public class Game {
         noteBoard.setShownNotes(melodyPart);
     }
 
-    private void playMelodyPart(int part){
-        player = new PianoPlayer(noteBoard.getContext(), R.raw.song);
-        //for (MidiNote midiNote : melodyPart){
-        //    PianoPlayer pianoPlayer = new PianoPlayer(noteBoard.getContext(), R.raw.gooses);
-          //  pianoPlayer.play();
-        //}
-        playOwnSound();
+    private void playMelodyPart(int part) {
 
+        player = new PianoPlayer(noteBoard.getContext(), R.raw.song);
+        playOwnSound();
     }
 
     public void playOwnSound() {
