@@ -7,10 +7,12 @@
     <TableRow>
         <TextView
                 android:layout_column="1"
+                android:layout_weight="0.3"
                 android:text="@string/rotate"
                 android:padding="3dip"/>
         <ToggleButton
                 android:id="@+id/rotateToggle"
+                android:layout_weight="0.7"
                 android:onClick="onToggleClicked"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -21,10 +23,12 @@
 
     <TableRow>
         <TextView
+                android:layout_weight="0.3"
                 android:layout_column="1"
                 android:text="@string/volume"
                 android:padding="3dip"/>
         <SeekBar
+                android:layout_weight="0.7"
                 android:id="@+id/volumeSeekBar"/>
     </TableRow>
 
@@ -35,10 +39,12 @@
     <TableRow>
         <TextView
                 android:layout_column="1"
+                android:layout_weight="0.3"
                 android:text="@string/song"
                 android:padding="3dip"/>
         <Spinner
                 android:id="@+id/songSpinner"
+                android:layout_weight="0.7"
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
                 android:prompt="@string/song"/>
@@ -47,10 +53,12 @@
     <TableRow>
         <TextView
                 android:layout_column="1"
+                android:layout_weight="0.3"
                 android:text="@string/instrument"
                 android:padding="3dip"/>
         <Spinner
                 android:id="@+id/instrumentSpinner"
+                android:layout_weight="0.7"
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
                 android:prompt="@string/instrument"/>
@@ -59,6 +67,7 @@
     <TableRow>
         <TextView
                 android:layout_column="1"
+                android:layout_weight="0.3"
                 android:text="@string/octaves"
                 android:padding="3dip"/>
     </TableRow>

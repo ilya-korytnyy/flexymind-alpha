@@ -12,7 +12,7 @@ public class GameScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         // set orientation selected in the settings
-        setRequestedOrientation(savedInstanceState.getInt("orientation"));
+        //setRequestedOrientation(savedInstanceState.getInt("orientation"));
 
         StaticResources.res = getResources();
 
