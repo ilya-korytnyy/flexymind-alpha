@@ -60,13 +60,24 @@ public class PianoKey extends ParentSelfDrawingView {
                 switchPicture(PictureStorage.blackKeyPressed);
         }
 
-        else if( motionEvent.getAction() ==  MotionEvent.ACTION_UP ||
-                motionEvent.getAction() ==  MotionEvent.ACTION_MOVE) {
+        else if( motionEvent.getAction() ==  MotionEvent.ACTION_UP ) {
 
             if (whiteKey)
                 switchPicture(PictureStorage.whiteKeyNotPressed);
             else
                 switchPicture(PictureStorage.blackKeyNotPressed);
+        }
+
+        else if( motionEvent.getAction() ==  MotionEvent.ACTION_MOVE ) {
+
+            if ( motionEvent.getRawX() <= this.getLeft() ||
+                 motionEvent.getRawX() >= this.getRight() ) {
+
+                if ( whiteKey )
+                    switchPicture(PictureStorage.whiteKeyNotPressed);
+                else
+                    switchPicture(PictureStorage.blackKeyNotPressed);
+            }
         }
 
         invalidate();

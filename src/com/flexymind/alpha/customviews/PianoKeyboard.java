@@ -9,7 +9,6 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import com.flexymind.alpha.player.Note;
-import com.flexymind.alpha.player.PianoPlayer;
 
 import java.util.ArrayList;
 
@@ -32,8 +31,6 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
     private final ArrayList<View> moveOutsideEnabledViews = new ArrayList<View>();
 
     private int mTouchSlop = 24;
-
-    private PianoPlayer player;
 
     private boolean isOnLayout = false;
 
@@ -170,7 +167,10 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
         rawY = (int) event.getY(actionPointerIndex) + location[1];
 
         final int actionPointerID = event.getPointerId(actionPointerIndex);
+
+
         ArrayList<View> hoverViews = getTouchedViews(rawX, rawY);
+
 
         if (actionResolved == MotionEvent.ACTION_DOWN) {
             downTouchedViewsIndex[actionPointerID] = (ArrayList<View>) hoverViews
@@ -178,6 +178,7 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
         }
 
         if (downTouchedViewsIndex[actionPointerID] != null) {
+
             final ArrayList<View> tempViews = (ArrayList<View>) hoverViews
                     .clone();
             tempViews.removeAll(downTouchedViewsIndex[actionPointerID]);
@@ -185,11 +186,13 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
         }
 
         if (recentTouchedViewsIndex[actionPointerID] != null) {
+
             final ArrayList<View> recentTouchedViews = recentTouchedViewsIndex[actionPointerID];
 
             final ArrayList<View> shouldTouchViews = (ArrayList<View>) hoverViews
                     .clone();
-            if (!shouldTouchViews.containsAll(recentTouchedViews)) {
+            if ( !shouldTouchViews.containsAll(recentTouchedViews) ) {
+
                 shouldTouchViews.removeAll(recentTouchedViews);
                 shouldTouchViews.addAll(recentTouchedViews);
 
@@ -201,15 +204,18 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
             recentTouchedViewsIndex[actionPointerID] = hoverViews;
             hoverViews = shouldTouchViews;
         } else {
+
             recentTouchedViewsIndex[actionPointerID] = hoverViews;
         }
 
         if (actionResolved == MotionEvent.ACTION_UP) {
+
             recentTouchedViewsIndex[actionPointerID] = null;
             downTouchedViewsIndex[actionPointerID] = null;
         }
 
         for (final View view : hoverViews) {
+
             int x, y;
             view.getLocationOnScreen(location);
             x = rawX - location[0];
@@ -231,7 +237,7 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
                 }
             }
             final MotionEvent me = MotionEvent.obtain(event.getDownTime(),
-                    event.getEventTime(), actionResolved, x, y,
+                    event.getEventTime(), actionResolved, rawX, rawY,
                     event.getPressure(actionPointerIndex),
                     event.getPressure(actionPointerIndex),
                     event.getMetaState(), event.getXPrecision(),
@@ -241,14 +247,19 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
             if (!me.equals(event)) {
 
-                view.onTouchEvent(me);
+                if (event.getY() < 0) {
+
+                    me.setAction(MotionEvent.ACTION_UP);
+                    eventView.onTouchEvent(me);
+                }
+                else
+                    view.onTouchEvent(me);
             }
 
-            // debug
+
             if (actionResolved == MotionEvent.ACTION_MOVE) {
             }
         }
-
     }
 
     private ArrayList<View> getChildViews(final View view) {
@@ -267,7 +278,9 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
                 }
             }
         }
+
         return views;
+
     }
 
     private ArrayList<View> getTouchedViews(final int x, final int y) {
@@ -294,10 +307,14 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
             }
         }
 
-        PianoKey lastKey =  (PianoKey)touchedViews.get(touchedViews.size() - 1);
-        if(touchedViews.size() > 2 && !lastKey.isWhite()) {
+        if ( touchedViews.size() > 0) {
 
-            touchedViews.remove(1);
+            PianoKey lastKey =  (PianoKey)touchedViews.get(touchedViews.size() - 1);
+
+            if(touchedViews.size() > 2 && !lastKey.isWhite()) {
+
+                touchedViews.remove(1);
+            }
         }
         return touchedViews;
     }
@@ -307,7 +324,6 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
         // index of the pointer which starts this Event
         final int actionPointerIndex = event.getActionIndex();
-
         // resolve the action as a basic type (up, down or move)
         int actionResolved = event.getAction() & MotionEvent.ACTION_MASK;
         if (actionResolved < 7 && actionResolved > 4) {
