@@ -1,6 +1,7 @@
 package com.flexymind.alpha.Game;
 
-import android.app.Dialog;
+import android.view.View;
+import android.widget.Button;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
 import com.flexymind.alpha.player.Melody;
@@ -16,7 +17,7 @@ public class Game {
     private NoteBoard noteBoard;
     private Melody currentMelody;
     private PianoPlayer player;
-    private Dialog      dialog;
+
 
     public Game(NoteBoard noteBoard) {
 
@@ -29,16 +30,41 @@ public class Game {
         getStaveCapacity();
         drawMelodyPart(1);
         playMelodyPart(1);
+        //noteBoard.showAllWhatINeed();
         showIntroduceDialog();
+        startGameplay();
+
 
     }
 
 
     private void showIntroduceDialog() {
         StartGameDialog startGameDialog =
-                new StartGameDialog(noteBoard.getContext());
-
+                new StartGameDialog( noteBoard.getContext()
+                                   , noteBoard);
         startGameDialog.show();
+    }
+
+    private void startGameplay() {
+
+        final Button button = new Button(noteBoard.getContext());
+
+
+        View.OnClickListener onClickListener= new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                noteBoard.showAllWhatINeed();
+
+                noteBoard.highlightNote(2);
+                button.setText("dick instead the pussy");
+            }
+        };
+
+     noteBoard.showAllWhatINeed();
+
+        button.setOnClickListener(onClickListener);
+        button.setText("button with long-long name");
     }
 
 
@@ -58,14 +84,10 @@ public class Game {
         noteBoard.setShownNotes(melodyPart);
     }
 
-    private void playMelodyPart(int part){
-        player = new PianoPlayer(noteBoard.getContext(), R.raw.song);
-        //for (MidiNote midiNote : melodyPart){
-        //    PianoPlayer pianoPlayer = new PianoPlayer(noteBoard.getContext(), R.raw.gooses);
-          //  pianoPlayer.play();
-        //}
-        playOwnSound();
+    private void playMelodyPart(int part) {
 
+        player = new PianoPlayer(noteBoard.getContext(), R.raw.song);
+        playOwnSound();
     }
 
     public void playOwnSound() {

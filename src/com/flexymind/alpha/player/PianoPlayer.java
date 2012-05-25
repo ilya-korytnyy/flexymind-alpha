@@ -1,9 +1,11 @@
 package com.flexymind.alpha.player;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.JetPlayer;
 import android.media.SoundPool;
+import com.flexymind.alpha.R;
 
 /**
  * Сlass for playing defined tone when pressed the button.
@@ -12,9 +14,8 @@ public class PianoPlayer {
     private  SoundPool   soundPool;
     private  int         toneID;
     private MidiNote    midiNote;
-
-    private JetPlayer   jetPlayer;
-
+    private static JetPlayer jetPlayer;
+    private static AssetFileDescriptor melody;
 
     /**
      * @param context from class GameScreen
@@ -53,10 +54,42 @@ public class PianoPlayer {
         soundPool.play(toneID, leftVolume, rightVolume, priority, loop, playbackSpeed);
     }
 
+    private static void startJetPlayer(Context context) {
 
-    public PianoPlayer(Context context) {
         jetPlayer = JetPlayer.getJetPlayer();
-
+        jetPlayer.setEventListener(JetPlayerEventListener);
+        setJetPlayerMelody(context);
+        jetPlayer.play();
     }
+
+    private static void setJetPlayerMelody(Context context){
+
+        melody = context.getResources().openRawResourceFd(R.raw.gooses);
+        jetPlayer.loadJetFile(melody);
+        jetPlayer.clearQueue();
+        jetPlayer.queueJetSegment(1, -1, 0, 0, 0, (byte) 0);
+    }
+
+    static JetPlayer.OnJetEventListener JetPlayerEventListener = new JetPlayer.OnJetEventListener() {
+        @Override
+        public void onJetEvent(JetPlayer player, short segment, byte track, byte channel,
+                               byte controller, byte value) {
+            if (value == 80) {
+                //highlightNextNote();
+            }
+        }
+
+        @Override
+        public void onJetUserIdUpdate(JetPlayer jetPlayer, int i, int i1) {
+        }
+
+        @Override
+        public void onJetNumQueuedSegmentUpdate(JetPlayer jetPlayer, int i) {
+        }
+
+        @Override
+        public void onJetPauseUpdate(JetPlayer jetPlayer, int i) {
+        }
+    };
 
 }

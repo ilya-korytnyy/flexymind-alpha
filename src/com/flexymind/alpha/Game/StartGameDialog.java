@@ -8,11 +8,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import com.flexymind.alpha.R;
+import com.flexymind.alpha.customviews.NoteBoard;
 
 public class StartGameDialog extends Dialog {
+    private NoteBoard noteBoard;
 
-    public StartGameDialog(Context context) {
+    public StartGameDialog(Context context, NoteBoard noteBoard) {
         super(context);
+        this.noteBoard = noteBoard;
     }
 
     @Override
@@ -49,6 +52,7 @@ public class StartGameDialog extends Dialog {
 
         @Override
         public void onClick(View v) {
+            noteBoard.showAllWhatINeed();
             StartGameDialog.this.cancel();
         }
     };

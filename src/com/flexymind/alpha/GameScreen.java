@@ -5,9 +5,8 @@ import android.os.Bundle;
 import com.flexymind.alpha.Game.Game;
 import com.flexymind.alpha.customviews.NoteBoard;
 
-
 public class GameScreen extends Activity {
-    private NoteBoard noteBoard;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -15,20 +14,11 @@ public class GameScreen extends Activity {
         setContentView(R.layout.main);
         StaticResources.res = getResources();
 
-        noteBoard = (NoteBoard)
+        NoteBoard noteBoard = (NoteBoard)
                             findViewById(R.id.noteboard);
 
         Game game = new Game(noteBoard);
         game.gameStart();
-
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        noteBoard.invalidate();
-    }
-
-
 
 }

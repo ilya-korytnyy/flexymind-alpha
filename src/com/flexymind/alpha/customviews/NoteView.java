@@ -1,26 +1,21 @@
 package com.flexymind.alpha.customviews;
 
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Picture;
 import com.flexymind.alpha.player.Note;
 
-import static com.flexymind.alpha.customviews.
-              PictureStorage.blackPictures;
-import static com.flexymind.alpha.customviews.
-              PictureStorage.greenPictures;
-import static com.flexymind.alpha.customviews.
-              PictureStorage.redPictures;
+import static com.flexymind.alpha.customviews.PictureStorage.*;
 
 
 public class NoteView extends ParentSelfDrawingView {
 
-    public  final static int       UP         = 0;
-    public  final static int       DOWN       = 1;
-    public  final static int       SHARP_UP   = 2;
-    public  final static int       SHARP_DOWN = 3;
+    public  static final int       UP         = 0;
+    public  static final int       DOWN       = 1;
+    public  static final int       SHARP_UP   = 2;
+    public  static final int       SHARP_DOWN = 3;
 
 
-    private final        Note      note;
+    private        final Note      note;
 
     private              Picture[] currentColorArrayWithPictures;
     private              int       noteForm;
@@ -129,6 +124,10 @@ public class NoteView extends ParentSelfDrawingView {
     public int getTopMarginCorrection() {
 
         return topMarginCorrection;
+    }
+
+    private void delete() {
+
     }
 
 }
