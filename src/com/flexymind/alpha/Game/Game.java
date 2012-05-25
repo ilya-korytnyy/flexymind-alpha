@@ -29,7 +29,7 @@ public class Game {
         getStaveCapacity();
         drawMelodyPart(1);
         playMelodyPart(1);
-        //showIntroduceDialog();
+        showIntroduceDialog();
 
     }
 
