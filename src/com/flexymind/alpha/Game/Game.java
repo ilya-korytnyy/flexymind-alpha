@@ -1,5 +1,6 @@
 package com.flexymind.alpha.Game;
 
+import android.media.JetPlayer;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
 import com.flexymind.alpha.player.Melody;
@@ -15,7 +16,7 @@ public class Game {
     private NoteBoard noteBoard;
     private Melody currentMelody;
     private PianoPlayer player;
-
+    int PART = 1;
 
     public Game(NoteBoard noteBoard) {
 
@@ -26,8 +27,8 @@ public class Game {
 
         setMelody();
         getStaveCapacity();
-        drawMelodyPart(1);
-        playMelodyPart(1);
+        drawMelodyPart(PART);
+        playMelodyPart(PART);
     }
 
     private void setMelody() {
@@ -47,42 +48,19 @@ public class Game {
     }
 
     private void playMelodyPart(int part){
-        player = new PianoPlayer(noteBoard.getContext(), R.raw.song);
-        //for (MidiNote midiNote : melodyPart){
-        //    PianoPlayer pianoPlayer = new PianoPlayer(noteBoard.getContext(), R.raw.gooses);
-          //  pianoPlayer.play();
-        //}
-        playOwnSound();
 
+        player = new PianoPlayer(noteBoard.getContext());
+        player.playJetMelody();
     }
-
-    public void playOwnSound() {
-
-        Thread soundThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                player.play();
-            }
-        });
-        soundThread.start();
-    }
-
 
     private void nextPartList(int part) {
 
         int upperBorder = staveCapacity;
-
         if(part * staveCapacity > currentMelody.size()) {
 
             upperBorder = currentMelody.size();
         }
-
         melodyPart = currentMelody.SubList(part - 1, upperBorder);
-    }
-
-
-    private void startRound() {
-
     }
 
 }
