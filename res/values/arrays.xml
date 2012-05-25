@@ -6,4 +6,10 @@
         <item>Song 4</item>
         <item>Nadezhda_Babkina</item>
     </string-array>
+    <string-array name="instruments">
+        <item>Piano</item>
+        <item>Guitar</item>
+        <item>Organ</item>
+        <item>Drums</item>
+    </string-array>
 </resources>
