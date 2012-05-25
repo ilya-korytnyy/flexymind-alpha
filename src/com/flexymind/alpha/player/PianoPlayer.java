@@ -70,7 +70,11 @@ public class PianoPlayer {
         public void onJetEvent(JetPlayer player, short segment, byte track, byte channel,
                                byte controller, byte value) {
             if (value == 80) {
-                //highlightNextNote();
+                //nextNote event;
+            }
+            else if (value == 83){
+
+                //EOF event(end of melody)
             }
         }
 
