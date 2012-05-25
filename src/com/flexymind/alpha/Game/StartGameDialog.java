@@ -26,7 +26,7 @@ public class StartGameDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.startgamedialog);
-        setTitle("Let's game!");
+        setTitle("Let's play!");
 
         Button OKButton = (Button) findViewById(R.id.okbutton);
         OKButton.setOnClickListener(OKListener);
