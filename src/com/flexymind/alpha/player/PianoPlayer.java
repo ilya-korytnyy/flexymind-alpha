@@ -13,7 +13,7 @@ import com.flexymind.alpha.R;
 public class PianoPlayer {
     private  SoundPool   soundPool;
     private  int         toneID;
-    private MidiNote    midiNote;
+    private MidiNote     midiNote;
     private static JetPlayer jetPlayer;
     private static AssetFileDescriptor melody;
 
@@ -23,7 +23,6 @@ public class PianoPlayer {
     public PianoPlayer(Context context, Note note) {
 
         soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-
         midiNote = new MidiNote(note);
         toneID = soundPool.load(context, midiNote.getMidiFileId(), 1);
     }
@@ -38,11 +37,17 @@ public class PianoPlayer {
         toneID = soundPool.load(context, song, 1);
     }
 
+    public PianoPlayer(Context context){
+
+        jetPlayer = JetPlayer.getJetPlayer();
+        jetPlayer.setEventListener(JetPlayerEventListener);
+        setJetPlayerMelody(context);
+    }
 
     /**
      * Gets the .mid file for that Note and plays it.
      */
-    public void play() {
+    public void playBySoundPool() {
 
         // params of playing
         float   leftVolume      =   1.0f;
@@ -54,20 +59,10 @@ public class PianoPlayer {
         soundPool.play(toneID, leftVolume, rightVolume, priority, loop, playbackSpeed);
     }
 
-    private static void startJetPlayer(Context context) {
-
-        jetPlayer = JetPlayer.getJetPlayer();
-        jetPlayer.setEventListener(JetPlayerEventListener);
-        setJetPlayerMelody(context);
-        jetPlayer.play();
-    }
-
     private static void setJetPlayerMelody(Context context){
 
-        melody = context.getResources().openRawResourceFd(R.raw.gooses);
+        melody = context.getResources().openRawResourceFd(R.raw.goosesjet);
         jetPlayer.loadJetFile(melody);
-        jetPlayer.clearQueue();
-        jetPlayer.queueJetSegment(1, -1, 0, 0, 0, (byte) 0);
     }
 
     static JetPlayer.OnJetEventListener JetPlayerEventListener = new JetPlayer.OnJetEventListener() {
@@ -81,15 +76,25 @@ public class PianoPlayer {
 
         @Override
         public void onJetUserIdUpdate(JetPlayer jetPlayer, int i, int i1) {
+            //To change body of implemented methods use File | Settings | File Templates.
         }
 
         @Override
         public void onJetNumQueuedSegmentUpdate(JetPlayer jetPlayer, int i) {
+            //To change body of implemented methods use File | Settings | File Templates.
         }
 
         @Override
         public void onJetPauseUpdate(JetPlayer jetPlayer, int i) {
+            //To change body of implemented methods use File | Settings | File Templates.
         }
+
     };
 
+    public void playJetMelody(){
+
+        jetPlayer.clearQueue();
+        jetPlayer.queueJetSegment(0, -1, 0, 0, 0, (byte) 0);
+        jetPlayer.play();
+    }
 }

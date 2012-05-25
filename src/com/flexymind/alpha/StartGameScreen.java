@@ -21,10 +21,6 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
 
     private static final int SETTINGS_BUTTON = 1001;
 
-
-    private PianoPlayer play;
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -32,7 +28,6 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
         setContentView(R.layout.start);
 
         StaticResources.res = getResources();
-        play = new PianoPlayer(this, R.raw.song);
 
         startScreen = (RelativeLayout) findViewById(R.id.startScreen);
 
@@ -79,7 +74,6 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.startbutton: {
-                playOwnSound();
                 createGameScreen();
 
                 break;
@@ -90,18 +84,6 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
             }
         }
 
-    }
-
-
-    public void playOwnSound() {
-
-        Thread soundThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                play.play();
-            }
-        });
-        soundThread.start();
     }
 
 }
