@@ -2,6 +2,7 @@ package com.flexymind.alpha;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -91,9 +92,21 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
 
     private void createSettingsScreen() {
         Intent intent = new Intent(this, Settings.class);
-
-        startActivity(intent);
-        finish();
+        int requestCode = 1;
+        startActivityForResult(intent, requestCode);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // orientation
+        setRequestedOrientation(data.getIntExtra("orientation", ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE));
+
+        // song
+
+        // instrument
+
+        // octaves
+    }
 }

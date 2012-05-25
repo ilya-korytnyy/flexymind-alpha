@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:stretchColumns="1">
+    <TableRow>
+        <TextView
+                android:layout_column="1"
+                android:text="@string/rotate"
+                android:padding="3dip"/>
+        <ToggleButton
+                android:id="@+id/rotateToggle"
+                android:onClick="onToggleClicked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:textOn="Rotation ON"
+                android:textOff="Rotation OFF"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+                android:layout_column="1"
+                android:text="@string/volume"
+                android:padding="3dip"/>
+        <SeekBar
+                android:id="@+id/volumeSeekBar"/>
+    </TableRow>
+
+    <View
+            android:layout_height="3dip"
+            android:background="#FF909090"/>
+
+    <TableRow>
+        <TextView
+                android:layout_column="1"
+                android:text="@string/song"
+                android:padding="3dip"/>
+        <Spinner
+                android:id="@+id/songSpinner"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:prompt="@string/song"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+                android:layout_column="1"
+                android:text="@string/instrument"
+                android:padding="3dip"/>
+        <Spinner
+                android:id="@+id/instrumentSpinner"
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:prompt="@string/instrument"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+                android:layout_column="1"
+                android:text="@string/octaves"
+                android:padding="3dip"/>
+        <EditText
+                android:id="@+id/octavesEdit"/>
+    </TableRow>
+
+</TableLayout>
