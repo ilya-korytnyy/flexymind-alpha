@@ -1,13 +1,11 @@
 package com.flexymind.alpha;
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 import com.flexymind.alpha.Game.Game;
 import com.flexymind.alpha.customviews.NoteBoard;
-import com.flexymind.alpha.startbutton.StartButtonView;
+
+import java.net.IDN;
 
 public class GameScreen extends Activity {
 
@@ -25,4 +23,7 @@ public class GameScreen extends Activity {
         game.gameStart();
 
     }
+
+
+
 }

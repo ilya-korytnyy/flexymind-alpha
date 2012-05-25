@@ -1,5 +1,8 @@
 package com.flexymind.alpha.Game;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.app.Dialog;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
 import com.flexymind.alpha.player.Melody;
@@ -15,7 +18,7 @@ public class Game {
     private NoteBoard noteBoard;
     private Melody currentMelody;
     private PianoPlayer player;
-
+    private Dialog      dialog;
 
     public Game(NoteBoard noteBoard) {
 
@@ -28,7 +31,16 @@ public class Game {
         getStaveCapacity();
         drawMelodyPart(1);
         playMelodyPart(1);
+        showIntroduceDialog();
+
     }
+
+
+    private void showIntroduceDialog() {
+       // StartGameDialog startGameDialog = new StartGameDialog();
+       // startGameDialog.showStartDialog();
+    }
+
 
     private void setMelody() {
 
