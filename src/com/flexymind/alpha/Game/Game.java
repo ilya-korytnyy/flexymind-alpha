@@ -67,7 +67,6 @@ public class Game {
         soundThread.start();
     }
 
-
     private void nextPartList(int part) {
 
         int upperBorder = staveCapacity;
@@ -79,10 +78,4 @@ public class Game {
 
         melodyPart = currentMelody.SubList(part - 1, upperBorder);
     }
-
-
-    private void startRound() {
-
-    }
-
 }
