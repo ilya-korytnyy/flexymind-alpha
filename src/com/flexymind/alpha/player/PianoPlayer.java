@@ -5,7 +5,7 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.JetPlayer;
 import android.media.SoundPool;
-import com.flexymind.alpha.Game.StartGameDialog;
+import com.flexymind.alpha.game.StartGameDialog;
 import com.flexymind.alpha.R;
 
 

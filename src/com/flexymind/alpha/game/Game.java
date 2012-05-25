@@ -1,4 +1,4 @@
-package com.flexymind.alpha.Game;
+package com.flexymind.alpha.game;
 
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
@@ -10,6 +10,8 @@ import java.util.List;
 
 public class Game {
 
+    static boolean played = false;
+
     private                 List<MidiNote>  melodyPart;
     private                 int             staveCapacity;
     private                 NoteBoard       noteBoard;
@@ -18,12 +20,10 @@ public class Game {
     private static final    int             PART = 1;
 
     public Game(NoteBoard noteBoard) {
-
         this.noteBoard = noteBoard;
     }
 
     public void gameStart() {
-
         setMelody();
         getStaveCapacity();
         drawMelodyPart(PART);
@@ -41,21 +41,20 @@ public class Game {
     }
 
     private void drawMelodyPart(int part) {
-
         nextPartList(part);
         noteBoard.setShownNotes(melodyPart);
     }
 
     private void playMelodyPart(int part){
-
         player = new PianoPlayer(noteBoard.getContext());
         player.playJetMelody();
     }
 
 
 
-    private void nextPartList(int part) {
 
+
+    private void nextPartList(int part) {
         int upperBorder = staveCapacity;
         if(part * staveCapacity > currentMelody.size()) {
 

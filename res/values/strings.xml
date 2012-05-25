@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Piano</string>
-    <string name="songPrompt">Choose a planet</string>
+    <string name="app_name">Piano App</string>
+    <string name="rotate">Rotate 180</string>
+    <string name="volume">Volume</string>
+    <string name="song">Song</string>
+    <string name="instrument">Instrument</string>
+    <string name="octaves">Number of octaves</string>
+    <string name="okButton">OK</string>
 </resources>

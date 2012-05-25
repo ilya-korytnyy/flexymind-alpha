@@ -1,4 +1,4 @@
-package com.flexymind.alpha.Game;
+package com.flexymind.alpha.game;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import com.flexymind.alpha.R;
-import com.flexymind.alpha.customviews.NoteBoard;
 
 public class StartGameDialog extends Dialog {
 
