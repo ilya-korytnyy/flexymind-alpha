@@ -2,6 +2,7 @@ package com.flexymind.alpha.player;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.media.JetPlayer;
 import android.media.SoundPool;
 
 /**
@@ -11,6 +12,9 @@ public class PianoPlayer {
     private  SoundPool   soundPool;
     private  int         toneID;
     private MidiNote    midiNote;
+
+    private JetPlayer   jetPlayer;
+
 
     /**
      * @param context from class GameScreen
@@ -47,6 +51,12 @@ public class PianoPlayer {
         float   playbackSpeed   =   1.5f;
 
         soundPool.play(toneID, leftVolume, rightVolume, priority, loop, playbackSpeed);
+    }
+
+
+    public PianoPlayer(Context context) {
+        jetPlayer = JetPlayer.getJetPlayer();
+
     }
 
 }

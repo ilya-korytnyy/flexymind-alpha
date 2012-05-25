@@ -1,7 +1,5 @@
 package com.flexymind.alpha.Game;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.app.Dialog;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
@@ -31,14 +29,16 @@ public class Game {
         getStaveCapacity();
         drawMelodyPart(1);
         playMelodyPart(1);
-        showIntroduceDialog();
+        //showIntroduceDialog();
 
     }
 
 
     private void showIntroduceDialog() {
-       // StartGameDialog startGameDialog = new StartGameDialog();
-       // startGameDialog.showStartDialog();
+        StartGameDialog startGameDialog =
+                new StartGameDialog(noteBoard.getContext());
+
+        startGameDialog.show();
     }
 
 

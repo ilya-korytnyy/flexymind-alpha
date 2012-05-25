@@ -1,23 +1,65 @@
 package com.flexymind.alpha.Game;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
-import android.content.DialogInterface.OnShowListener;
-import com.flexymind.alpha.GameScreen;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import com.flexymind.alpha.R;
 
-public class StartGameDialog extends GameScreen {
-    private static Dialog dialog;
-    private static final int ID = 1;
+public class StartGameDialog extends Dialog {
+
+    public StartGameDialog(Context context) {
+        super(context);
+    }
 
     @Override
-    protected Dialog onCreateDialog(int id) {
-        if(id == ID) {
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.startgamedialog);
+        setTitle("Let's game!");
+
+        Button OKButton = (Button) findViewById(R.id.okbutton);
+        OKButton.setOnClickListener(OKListener);
+
+        setCanceledOnTouchOutside(true);
+        setOnCancelListener(cancelListener);
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    private OnCancelListener cancelListener = new OnCancelListener() {
+        @Override
+        public void onCancel(DialogInterface dialog) {
+            StartGameDialog.this.cancel();
+        }
+    };
+
+    private View.OnClickListener OKListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            StartGameDialog.this.cancel();
+        }
+    };
+
+
+
+}
+
+/*
             AlertDialog.Builder startDialog = new AlertDialog.Builder(getApplicationContext());
-            startDialog.setTitle("Let's game!" );
-            startDialog.setPositiveButton("OK", null);
+
             dialog = startDialog.create();
 
             dialog.setOnShowListener( new OnShowListener() {
@@ -43,11 +85,5 @@ public class StartGameDialog extends GameScreen {
             return dialog;
         }
         return super.onCreateDialog(id);
-
-
     }
-
-    public void showStartDialog() {
-        showDialog(ID);
-    }
-}
+    */
