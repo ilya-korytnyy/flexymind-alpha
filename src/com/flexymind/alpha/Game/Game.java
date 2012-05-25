@@ -1,5 +1,7 @@
 package com.flexymind.alpha.Game;
 
+import android.view.View;
+import android.widget.Button;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
 import com.flexymind.alpha.player.Melody;
@@ -33,8 +35,22 @@ public class Game {
 
     private void startGameplay() {
 
-        noteBoard.removeNotesFromStave();
-        noteBoard.invalidate();
+        Button button = new Button(noteBoard.getContext());
+
+
+        View.OnClickListener onClickListener= new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                 noteBoard.removeNotesFromStave();
+                noteBoard.invalidate();
+            }
+        };
+
+        button.setOnClickListener(onClickListener);
+        button.setText("button with long-long name");
+        noteBoard.addView(button);
+
     }
 
 
