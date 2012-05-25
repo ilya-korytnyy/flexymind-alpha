@@ -10,12 +10,12 @@ import java.util.List;
 
 public class Game {
 
-    private List<MidiNote> melodyPart;
-    private int staveCapacity;
-    private NoteBoard noteBoard;
-    private Melody currentMelody;
-    private PianoPlayer player;
-    int PART = 1;
+    private                 List<MidiNote>  melodyPart;
+    private                 int             staveCapacity;
+    private                 NoteBoard       noteBoard;
+    private                 Melody          currentMelody;
+    private                 PianoPlayer     player;
+    private static final    int             PART = 1;
 
     public Game(NoteBoard noteBoard) {
 
@@ -28,16 +28,8 @@ public class Game {
         getStaveCapacity();
         drawMelodyPart(PART);
         playMelodyPart(PART);
-        showIntroduceDialog();
     }
 
-
-    private void showIntroduceDialog() {
-        StartGameDialog startGameDialog =
-                new StartGameDialog( noteBoard.getContext()
-                                    , noteBoard);
-        startGameDialog.show();
-    }
 
     private void setMelody() {
         currentMelody = new Melody(R.raw.song);
@@ -57,22 +49,10 @@ public class Game {
     private void playMelodyPart(int part){
 
         player = new PianoPlayer(noteBoard.getContext());
-        playOwnSound();
+        player.playJetMelody();
     }
-                static boolean bool = false;
-    public void playOwnSound() {
 
-        Thread soundThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (!bool) {
-                   player.playJetMelody();
-                }
-                bool = true;
-            }
-        });
-        soundThread.start();
-    }
+
 
     private void nextPartList(int part) {
 

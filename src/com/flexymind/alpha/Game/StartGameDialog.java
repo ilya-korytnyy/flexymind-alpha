@@ -10,11 +10,9 @@ import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
 
 public class StartGameDialog extends Dialog {
-    private NoteBoard noteBoard;
 
-    public StartGameDialog(Context context, NoteBoard noteBoard) {
+    public StartGameDialog(Context context) {
         super(context);
-        this.noteBoard = noteBoard;
     }
 
     @Override
@@ -51,7 +49,6 @@ public class StartGameDialog extends Dialog {
 
         @Override
         public void onClick(View v) {
-            noteBoard.showEverythingNeeded();
             StartGameDialog.this.cancel();
         }
     };

@@ -29,6 +29,8 @@ public class NoteBoard extends Board {
     public  List<NoteView> noteViews =
                             new ArrayList<NoteView>(); // stores all NoteViews that are displayed
 
+
+
     private class NoteMargeParams {
 
         public int  line;

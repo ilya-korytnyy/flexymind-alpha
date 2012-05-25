@@ -5,7 +5,10 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.JetPlayer;
 import android.media.SoundPool;
+import com.flexymind.alpha.Game.StartGameDialog;
 import com.flexymind.alpha.R;
+
+
 
 /**
  * Сlass for playing defined tone when pressed the button.
@@ -16,6 +19,9 @@ public class PianoPlayer {
     private MidiNote     midiNote;
     private static JetPlayer jetPlayer;
     private static AssetFileDescriptor melody;
+    public static byte value;
+    private static Context context;
+
 
     /**
      * @param context from class GameScreen
@@ -25,7 +31,10 @@ public class PianoPlayer {
         soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         midiNote = new MidiNote(note);
         toneID = soundPool.load(context, midiNote.getMidiFileId(), 1);
+        this.context = context;
     }
+
+
 
     /**
      * @param context Context for SoundPool
@@ -37,12 +46,18 @@ public class PianoPlayer {
         toneID = soundPool.load(context, song, 1);
     }
 
+
+
+
     public PianoPlayer(Context context){
 
         jetPlayer = JetPlayer.getJetPlayer();
         jetPlayer.setEventListener(JetPlayerEventListener);
         setJetPlayerMelody(context);
     }
+
+
+
 
     /**
      * Gets the .mid file for that Note and plays it.
@@ -59,46 +74,69 @@ public class PianoPlayer {
         soundPool.play(toneID, leftVolume, rightVolume, priority, loop, playbackSpeed);
     }
 
+
+
+
     private static void setJetPlayerMelody(Context context){
 
-        melody = context.getResources().openRawResourceFd(R.raw.goojet);
+        melody = context.getResources().openRawResourceFd(R.raw.goosample);
         jetPlayer.loadJetFile(melody);
     }
 
-    static JetPlayer.OnJetEventListener JetPlayerEventListener = new JetPlayer.OnJetEventListener() {
-        @Override
-        public void onJetEvent(JetPlayer player, short segment, byte track, byte channel,
-                               byte controller, byte value) {
-            if (value == 80) {
-                //nextNote event;
-            }
-            else if (value == 83){
 
-                //EOF event(end of melody)
+
+
+    public static JetPlayer.OnJetEventListener JetPlayerEventListener = new JetPlayer.OnJetEventListener() {
+        @Override
+        public void onJetEvent( JetPlayer player, short segment, byte track
+                              , byte channel, byte controller, byte value) {
+
+            PianoPlayer.value = value;
+            if (value == 80) {
+                                //nextNote event;
+                PianoPlayer.value = value;
+            }
+            else if (value == 83) {
+                                    //EOF event(end of melody)
+                PianoPlayer.value = value;
+                showIntroduceDialog();
             }
         }
 
+        private void showIntroduceDialog() {
+
+            StartGameDialog startGameDialog =
+                    new StartGameDialog(context);
+            startGameDialog.show();
+        }
+
+
         @Override
         public void onJetUserIdUpdate(JetPlayer jetPlayer, int i, int i1) {
-            //To change body of implemented methods use File | Settings | File Templates.
         }
 
         @Override
         public void onJetNumQueuedSegmentUpdate(JetPlayer jetPlayer, int i) {
-            //To change body of implemented methods use File | Settings | File Templates.
         }
 
         @Override
         public void onJetPauseUpdate(JetPlayer jetPlayer, int i) {
-            //To change body of implemented methods use File | Settings | File Templates.
         }
 
     };
 
-    public void playJetMelody(){
+    public void playJetMelody() {
+
+        int segment = 0;
+        int libNumber = -1;
+        int repeatCount = 0;
+        int octave = 7;
+        int muteFlags = 0;
+        byte eventID = 0;
 
         jetPlayer.clearQueue();
-        jetPlayer.queueJetSegment(0, -1, 0, 0, 0, (byte) 0);
+        jetPlayer.queueJetSegment( segment, libNumber, repeatCount
+                                 , octave, muteFlags, eventID);
         jetPlayer.play();
     }
 }
