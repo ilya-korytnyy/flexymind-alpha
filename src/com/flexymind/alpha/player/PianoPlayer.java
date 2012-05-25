@@ -61,7 +61,7 @@ public class PianoPlayer {
 
     private static void setJetPlayerMelody(Context context){
 
-        melody = context.getResources().openRawResourceFd(R.raw.goosesjet);
+        melody = context.getResources().openRawResourceFd(R.raw.goojet);
         jetPlayer.loadJetFile(melody);
     }
 
