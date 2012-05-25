@@ -79,7 +79,7 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.startbutton: {
-                playOwnSound();
+//                playOwnSound();
                 createGameScreen();
 
                 break;

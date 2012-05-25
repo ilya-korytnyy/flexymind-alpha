@@ -171,7 +171,6 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
         ArrayList<View> hoverViews = getTouchedViews(rawX, rawY);
 
-
         if (actionResolved == MotionEvent.ACTION_DOWN) {
             downTouchedViewsIndex[actionPointerID] = (ArrayList<View>) hoverViews
                     .clone();
@@ -205,6 +204,9 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
             hoverViews = shouldTouchViews;
         } else {
 
+            for (int i = 0; i < actionPointerID; i++)
+                if( recentTouchedViewsIndex[i].equals(hoverViews) )
+                    return;
             recentTouchedViewsIndex[actionPointerID] = hoverViews;
         }
 
@@ -245,15 +247,21 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
                     event.getEdgeFlags());
             me.setLocation(x, y);
 
+
+
             if (!me.equals(event)) {
 
-                if (event.getY() < 0) {
+
+{               if (event.getY() < 0) {
 
                     me.setAction(MotionEvent.ACTION_UP);
                     eventView.onTouchEvent(me);
                 }
-                else
+                else {
+
                     view.onTouchEvent(me);
+                }
+}
             }
 
 
@@ -342,7 +350,6 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
             dealEvent(actionPointerIndex, event, v, actionResolved);
         }
-
         return true;
     }
 
