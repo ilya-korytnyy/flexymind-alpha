@@ -32,7 +32,7 @@ public class Game {
 
 
     private void setMelody() {
-        currentMelody = new Melody(R.raw.song);
+        currentMelody = new Melody(R.raw.goomidi);
     }
 
     private void getStaveCapacity() {

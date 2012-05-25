@@ -34,7 +34,7 @@ public class NoteView extends ParentSelfDrawingView {
     public NoteView(Context context, int noteWidth,
                             int noteHeight, Note note) {
 
-        super(context, noteWidth * 3, noteHeight * 4);
+        super(context, (int) (noteWidth * 2.7), (int) (noteHeight * 3.2));
 
         this.note       = note;
         currentColorArrayWithPictures = blackPictures;
@@ -50,7 +50,7 @@ public class NoteView extends ParentSelfDrawingView {
 
         if (!isInverted() && !isSharp()) {
 
-            topMarginCorrection = - height / 2 - height / 10;
+            topMarginCorrection = - height / 2 - height / 12;
             noteForm = UP;
         }else if (!isInverted() && isSharp()) {
 

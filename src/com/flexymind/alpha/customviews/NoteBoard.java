@@ -10,6 +10,12 @@ import java.util.*;
 
 public class NoteBoard extends Board {
 
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);    //To change body of overridden methods use File | Settings | File Templates.
+        showEverythingNeeded();
+    }
+
     private static final int ALL_LINES_COUNT  =  9;
 
     private int staveHeight;
@@ -98,7 +104,7 @@ public class NoteBoard extends Board {
 
     public int getHowMuchIWant() {
 
-        return 8;
+        return 6;
     }
 
     /**
