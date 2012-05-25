@@ -59,34 +59,3 @@ public class StartGameDialog extends Dialog {
 
 
 }
-
-/*
-            AlertDialog.Builder startDialog = new AlertDialog.Builder(getApplicationContext());
-
-            dialog = startDialog.create();
-
-            dialog.setOnShowListener( new OnShowListener() {
-
-                @Override
-                public void onShow(DialogInterface dialogInterface) {
-
-                }
-            });
-
-            dialog.setOnCancelListener(new OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    dialog.dismiss();
-                }
-            });
-
-            dialog.setOnDismissListener(new OnDismissListener() {
-                public void onDismiss(DialogInterface dialog) {
-                    dialog.dismiss();
-                }
-            });
-            return dialog;
-        }
-        return super.onCreateDialog(id);
-    }
-    */
