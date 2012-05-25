@@ -1,14 +1,12 @@
 package com.flexymind.alpha.customviews;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import com.flexymind.alpha.player.MidiNote;
 import com.flexymind.alpha.player.Note;
 
-import java.util.EnumMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class NoteBoard extends Board {
 
@@ -23,12 +21,13 @@ public class NoteBoard extends Board {
     private int lineWidth;
     private int noteLeftMarge;
     private int notesGap;
+    public static boolean isCreated = false;
 
     private Map<Note, NoteMargeParams> notesParams;
 
     private List<Note> notes = new LinkedList<Note>();
-    private List<NoteView> noteViews =
-                            new LinkedList<NoteView>();   // stores all NoteViews that are displayed
+    public  List<NoteView> noteViews =
+                            new ArrayList<NoteView>(); // stores all NoteViews that are displayed
 
     private class NoteMargeParams {
 
@@ -52,17 +51,22 @@ public class NoteBoard extends Board {
 
         super(context, attrs);
         initializeNotesMarginParams();
-
     }
 
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
-        super.onLayout(changed, l, t, r, b);
+    public void showAllWhatINeed() {
+
         setAllNeededSizes();
         drawStave();
         drawClef();
         drawMelodyOnStave();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+
+        super.onDraw(canvas);
+        isCreated = true;
     }
 
     private void initializeNotesMarginParams() {
@@ -177,7 +181,7 @@ public class NoteBoard extends Board {
      */
     public void setShownNotes(List<MidiNote> melody) {
 
-        notes.clear();
+        removeNotesFromStave();
 
         for (MidiNote midiNote : melody){
             notes.add(midiNote.getNote());
@@ -185,8 +189,6 @@ public class NoteBoard extends Board {
     }
 
     private void drawMelodyOnStave() {
-
-        noteViews.clear();
 
         for (Note note : notes) {
             noteViews.add(drawNote(note));
@@ -204,16 +206,17 @@ public class NoteBoard extends Board {
         if (position < 0 || position >= notes.size()) {
             return;
         }
-
         noteViews.get(position).highlightGreen();
     }
+
 
     public void removeNotesFromStave() {
 
         for (NoteView note : noteViews) {
             this.removeView(note);
         }
-        invalidate();
+        noteViews.clear();
+        notes.clear();
     }
 
     public void unHighlightNote(int position) {

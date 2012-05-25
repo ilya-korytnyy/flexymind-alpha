@@ -30,27 +30,30 @@ public class Game {
         getStaveCapacity();
         drawMelodyPart(1);
         playMelodyPart(1);
+
         startGameplay();
     }
 
     private void startGameplay() {
 
-        Button button = new Button(noteBoard.getContext());
+        final Button button = new Button(noteBoard.getContext());
 
 
         View.OnClickListener onClickListener= new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                 noteBoard.removeNotesFromStave();
-                noteBoard.invalidate();
+                noteBoard.showAllWhatINeed();
+
+                noteBoard.highlightNote(2);
+                button.setText("dick instead the pussy");
             }
         };
 
+     noteBoard.showAllWhatINeed();
+
         button.setOnClickListener(onClickListener);
         button.setText("button with long-long name");
-        noteBoard.addView(button);
-
     }
 
 
