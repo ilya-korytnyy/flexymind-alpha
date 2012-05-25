@@ -13,9 +13,11 @@ public class GameScreen extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        // set orientation selected in the settings
+        setRequestedOrientation(savedInstanceState.getInt("orientation"));
+
         StaticResources.res = getResources();
 
         NoteBoard noteBoard = (NoteBoard)

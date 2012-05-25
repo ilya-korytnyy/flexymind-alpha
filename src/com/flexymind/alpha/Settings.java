@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.*;
 
+import java.lang.reflect.Method;
+
 /**
  * TODO: pass list of songs and instruments with the Intent
  */
@@ -48,6 +50,17 @@ public class Settings extends Activity implements AdapterView.OnItemSelectedList
         SeekBar volumeSeekBar = (SeekBar) findViewById(R.id.volumeSeekBar);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         volumeSeekBar.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+
+        // setup NumberPicker
+        /*Object picker = findViewById(R.id.octavesPicker);
+        Class pickerClass = picker.getClass();
+        try {
+            Method method = pickerClass.getMethod("setRange", int.class, int.class);
+            method.invoke(picker, 1, 7);
+        }
+        catch (Exception e) {
+
+        }           */
     }
 
     // Spinner
@@ -101,6 +114,7 @@ public class Settings extends Activity implements AdapterView.OnItemSelectedList
         intent.putExtra("selectedSong", selectedSong);
         intent.putExtra("selectedInstrument", selectedInstrument);
         intent.putExtra("numberOfOctaves", numberOfOctaves);
+        intent.putExtra("orientation", orientation);
         setResult(RESULT_OK, intent);
         finish();
     }

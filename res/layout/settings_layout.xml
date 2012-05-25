@@ -61,8 +61,6 @@
                 android:layout_column="1"
                 android:text="@string/octaves"
                 android:padding="3dip"/>
-        <EditText
-                android:id="@+id/octavesEdit"/>
     </TableRow>
 
 </TableLayout>
