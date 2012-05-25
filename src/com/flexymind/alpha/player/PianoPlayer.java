@@ -42,7 +42,6 @@ public class PianoPlayer {
         jetPlayer = JetPlayer.getJetPlayer();
         jetPlayer.setEventListener(JetPlayerEventListener);
         setJetPlayerMelody(context);
-        playJetMelody();
     }
 
     /**
@@ -97,6 +96,5 @@ public class PianoPlayer {
         jetPlayer.clearQueue();
         jetPlayer.queueJetSegment(0, -1, 0, 0, 0, (byte) 0);
         jetPlayer.play();
-
     }
 }

@@ -2,6 +2,7 @@ package com.flexymind.alpha.customviews;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import com.flexymind.alpha.Game.Game;
 import com.flexymind.alpha.player.MidiNote;
 import com.flexymind.alpha.player.Note;
 

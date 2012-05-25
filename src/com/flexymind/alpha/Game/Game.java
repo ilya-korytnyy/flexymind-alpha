@@ -8,6 +8,9 @@ import com.flexymind.alpha.player.MidiNote;
 import com.flexymind.alpha.player.PianoPlayer;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 public class Game {
 
@@ -32,7 +35,6 @@ public class Game {
     }
 
     private void setMelody() {
-
         currentMelody = new Melody(R.raw.song);
     }
 
@@ -50,7 +52,21 @@ public class Game {
     private void playMelodyPart(int part){
 
         player = new PianoPlayer(noteBoard.getContext());
-        player.playJetMelody();
+        playOwnSound();
+    }
+                static boolean bool = false;
+    public void playOwnSound() {
+
+        Thread soundThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (!bool) {
+                   player.playJetMelody();
+                }
+                bool = true;
+            }
+        });
+        soundThread.start();
     }
 
     private void nextPartList(int part) {
