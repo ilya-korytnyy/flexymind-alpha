@@ -1,5 +1,7 @@
 package com.flexymind.alpha.game;
 
+import android.os.Handler;
+import android.os.Message;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
 import com.flexymind.alpha.player.Melody;
@@ -14,10 +16,19 @@ public class Game {
 
     private                 List<MidiNote>  melodyPart;
     private                 int             staveCapacity;
-    private                 NoteBoard       noteBoard;
+    private static NoteBoard       noteBoard;
     private                 Melody          currentMelody;
     private                 PianoPlayer     player;
     private static final    int             PART = 1;
+    public static Handler colorHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);    //To change body of overridden methods use File | Settings | File Templates.
+
+            noteBoard.highlightNote(3);
+
+        }
+    };
 
     public Game(NoteBoard noteBoard) {
         this.noteBoard = noteBoard;

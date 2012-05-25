@@ -5,6 +5,7 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.JetPlayer;
 import android.media.SoundPool;
+import com.flexymind.alpha.game.Game;
 import com.flexymind.alpha.game.StartGameDialog;
 import com.flexymind.alpha.R;
 
@@ -95,6 +96,7 @@ public class PianoPlayer {
             if (value == 80) {
                                 //nextNote event;
                 PianoPlayer.value = value;
+                Game.colorHandler.sendMessage(Game.colorHandler.obtainMessage());
             }
             else if (value == 83) {
                                     //EOF event(end of melody)
