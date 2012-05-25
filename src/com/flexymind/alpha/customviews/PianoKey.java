@@ -33,7 +33,7 @@ public class PianoKey extends ParentSelfDrawingView {
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                player.play();
+                player.playBySoundPool();
             }
         });
         soundThread.start();

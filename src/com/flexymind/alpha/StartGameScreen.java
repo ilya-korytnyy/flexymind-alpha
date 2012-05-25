@@ -10,7 +10,6 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import com.flexymind.alpha.player.PianoPlayer;
 import com.flexymind.alpha.startbutton.StartButton;
 
 public class StartGameScreen extends Activity implements View.OnClickListener {
@@ -38,7 +37,6 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
         StaticResources.res = getResources();
 
         startScreen = (RelativeLayout) findViewById(R.id.startScreen);
-
         startButton = (StartButton) findViewById(R.id.startbutton);
         startButton.setOnClickListener(this);
 
@@ -48,15 +46,15 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
         startScreen.addView(settingsButton);
 
         settingsButton.setOnClickListener(this);
-        setSizeSettingsButton();
+        setSettingsButtonSize();
     }
 
-    private void setSizeSettingsButton() {
+    private void setSettingsButtonSize() {
         settingsBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.settings);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        settingsBitmap = Bitmap.createScaledBitmap(settingsBitmap, metrics.heightPixels / 6, metrics.heightPixels / 6, true);
-
+        settingsBitmap = Bitmap.createScaledBitmap(settingsBitmap, metrics.heightPixels / 6,
+                                                   metrics.heightPixels / 6, true);
         settingsButton.setImageBitmap(settingsBitmap);
     }
 
