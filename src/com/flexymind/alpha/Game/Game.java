@@ -1,5 +1,6 @@
 package com.flexymind.alpha.Game;
 
+import android.media.JetPlayer;
 import android.view.View;
 import android.widget.Button;
 import com.flexymind.alpha.R;
@@ -9,6 +10,9 @@ import com.flexymind.alpha.player.MidiNote;
 import com.flexymind.alpha.player.PianoPlayer;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 public class Game {
 
@@ -17,7 +21,7 @@ public class Game {
     private NoteBoard noteBoard;
     private Melody currentMelody;
     private PianoPlayer player;
-
+    int PART = 1;
 
     public Game(NoteBoard noteBoard) {
 
@@ -28,9 +32,9 @@ public class Game {
 
         setMelody();
         getStaveCapacity();
-        drawMelodyPart(1);
-        playMelodyPart(1);
-        //noteBoard.showAllWhatINeed();
+        drawMelodyPart(PART);
+        playMelodyPart(PART);
+
         showIntroduceDialog();
         startGameplay();
 
@@ -41,7 +45,7 @@ public class Game {
     private void showIntroduceDialog() {
         StartGameDialog startGameDialog =
                 new StartGameDialog( noteBoard.getContext()
-                                   , noteBoard);
+                        , noteBoard);
         startGameDialog.show();
     }
 
@@ -61,7 +65,7 @@ public class Game {
             }
         };
 
-     noteBoard.showAllWhatINeed();
+        noteBoard.showAllWhatINeed();
 
         button.setOnClickListener(onClickListener);
         button.setText("button with long-long name");
@@ -69,7 +73,6 @@ public class Game {
 
 
     private void setMelody() {
-
         currentMelody = new Melody(R.raw.song);
     }
 
@@ -84,39 +87,33 @@ public class Game {
         noteBoard.setShownNotes(melodyPart);
     }
 
-    private void playMelodyPart(int part) {
+    private void playMelodyPart(int part){
 
-        player = new PianoPlayer(noteBoard.getContext(), R.raw.song);
+        player = new PianoPlayer(noteBoard.getContext());
         playOwnSound();
     }
-
+                static boolean bool = false;
     public void playOwnSound() {
 
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                player.play();
+                if (!bool) {
+                   player.playJetMelody();
+                }
+                bool = true;
             }
         });
         soundThread.start();
     }
 
-
     private void nextPartList(int part) {
 
         int upperBorder = staveCapacity;
-
         if(part * staveCapacity > currentMelody.size()) {
 
             upperBorder = currentMelody.size();
         }
-
         melodyPart = currentMelody.SubList(part - 1, upperBorder);
     }
-
-
-    private void startRound() {
-
-    }
-
 }

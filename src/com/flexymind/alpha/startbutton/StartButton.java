@@ -2,10 +2,8 @@ package com.flexymind.alpha.startbutton;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.Board;
-import android.graphics.Color;
 import com.flexymind.alpha.player.PianoPlayer;
 
 
@@ -66,7 +64,7 @@ public class StartButton extends Board {
         Thread soundThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                player.play();
+                player.playBySoundPool();
             }
         });
         soundThread.start();
