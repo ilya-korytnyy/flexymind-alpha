@@ -54,7 +54,7 @@ public class NoteBoard extends Board {
     }
 
 
-    public void showAllWhatINeed() {
+    public void showEverythingNeeded() {
 
         setAllNeededSizes();
         drawStave();

@@ -1,6 +1,5 @@
 package com.flexymind.alpha.Game;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -52,7 +51,7 @@ public class StartGameDialog extends Dialog {
 
         @Override
         public void onClick(View v) {
-            noteBoard.showAllWhatINeed();
+            noteBoard.showEverythingNeeded();
             StartGameDialog.this.cancel();
         }
     };

@@ -29,8 +29,6 @@ public class Game {
         drawMelodyPart(PART);
         playMelodyPart(PART);
         showIntroduceDialog();
-        startGameplay();
-
     }
 
 
