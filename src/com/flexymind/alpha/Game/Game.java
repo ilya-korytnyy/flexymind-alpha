@@ -35,7 +35,7 @@ public class Game {
     private void showIntroduceDialog() {
         StartGameDialog startGameDialog =
                 new StartGameDialog( noteBoard.getContext()
-                        , noteBoard);
+                                    , noteBoard);
         startGameDialog.show();
     }
 
