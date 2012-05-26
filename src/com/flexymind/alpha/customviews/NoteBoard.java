@@ -10,10 +10,13 @@ import java.util.*;
 
 public class NoteBoard extends Board {
 
+    private static boolean boolka = false;
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);    //To change body of overridden methods use File | Settings | File Templates.
-        showEverythingNeeded();
+        super.onLayout(changed, l, t, r, b);
+            showEverythingNeeded();
+            boolka = !boolka;
     }
 
     private static final int ALL_LINES_COUNT  =  9;

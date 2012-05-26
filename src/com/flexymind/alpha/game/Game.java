@@ -1,5 +1,6 @@
 package com.flexymind.alpha.game;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import com.flexymind.alpha.R;
@@ -25,8 +26,9 @@ public class Game {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);    //To change body of overridden methods use File | Settings | File Templates.
 
-            noteBoard.highlightNote(3);
-
+            int d = msg.getData().getInt("NUMBER_NOTE");
+            noteBoard.highlightNote(d);
+            noteBoard.invalidate();
         }
     };
 
@@ -56,9 +58,14 @@ public class Game {
         noteBoard.setShownNotes(melodyPart);
     }
 
-    private void playMelodyPart(int part){
-        player = new PianoPlayer(noteBoard.getContext());
-        player.playJetMelody();
+    private static boolean isPlayed = false;
+
+    private void playMelodyPart(int part) {
+        if (!isPlayed) {
+            player = new PianoPlayer(noteBoard.getContext());
+            player.playJetMelody();
+            isPlayed = true;
+        }
     }
 
 
