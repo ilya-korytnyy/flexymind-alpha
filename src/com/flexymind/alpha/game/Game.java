@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 import com.flexymind.alpha.R;
 import com.flexymind.alpha.customviews.NoteBoard;
+import com.flexymind.alpha.customviews.PianoKey;
+import com.flexymind.alpha.customviews.PianoKeyboard;
 import com.flexymind.alpha.player.Melody;
 import com.flexymind.alpha.player.MidiNote;
 import com.flexymind.alpha.player.PianoPlayer;
@@ -18,7 +20,8 @@ public class Game {
     private                 List<MidiNote>  melodyPart;
     private                 int             staveCapacity;
     private static NoteBoard       noteBoard;
-    private                 Melody          currentMelody;
+    private static PianoKeyboard   pianoKeyboard;
+    private static                 Melody          currentMelody;
     private                 PianoPlayer     player;
     private static final    int             PART = 1;
     public static Handler colorHandler = new Handler(){
@@ -29,11 +32,26 @@ public class Game {
             int d = msg.getData().getInt("NUMBER_NOTE");
             noteBoard.highlightNote(d);
             noteBoard.invalidate();
+
+            pianoKeyboard.highlightHome();
+            for (PianoKey pianoKey : pianoKeyboard.pianoKeys) {
+                MidiNote midiNote =  currentMelody.midiList.get(d);
+                if (pianoKey.note.equals(midiNote.getNote())) {
+                    pianoKeyboard.highlightGreen(midiNote.getNote());
+                }
+            }
+
+            if (d == currentMelody.midiList.size() - 1) {
+                pianoKeyboard.highlightHome();
+
+            }
+            pianoKeyboard.invalidate();
         }
     };
 
-    public Game(NoteBoard noteBoard) {
+    public Game(NoteBoard noteBoard, PianoKeyboard pianoKeyboard) {
         this.noteBoard = noteBoard;
+        this.pianoKeyboard = pianoKeyboard;
     }
 
     public void gameStart() {

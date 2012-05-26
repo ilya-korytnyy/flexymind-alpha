@@ -6,10 +6,12 @@ import android.view.MotionEvent;
 import com.flexymind.alpha.player.Note;
 import com.flexymind.alpha.player.PianoPlayer;
 
+
 public class PianoKey extends ParentSelfDrawingView {
 
     private PianoPlayer player;
     private  boolean whiteKey;
+    public Note note;
 
     /**
      *
@@ -26,6 +28,7 @@ public class PianoKey extends ParentSelfDrawingView {
         this.picture    = picture;
         this.player     = new PianoPlayer(context, note);
         this.whiteKey   = whiteKey;
+        this.note       = note;
     }
 
     public void playOwnSound() {
@@ -84,4 +87,5 @@ public class PianoKey extends ParentSelfDrawingView {
 
         return true;
     }
+
 }

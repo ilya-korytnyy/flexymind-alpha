@@ -3,6 +3,7 @@ package com.flexymind.alpha;
 import android.app.Activity;
 import android.os.Bundle;
 import com.flexymind.alpha.customviews.NoteBoard;
+import com.flexymind.alpha.customviews.PianoKeyboard;
 import com.flexymind.alpha.game.Game;
 
 public class GameScreen extends Activity {
@@ -19,7 +20,10 @@ public class GameScreen extends Activity {
         NoteBoard noteBoard = (NoteBoard)
                             findViewById(R.id.noteboard);
 
-        game = new Game(noteBoard);
+        PianoKeyboard pianoKeyboard = (PianoKeyboard)
+                            findViewById(R.id.pianokeyboard);
+
+        game = new Game(noteBoard, pianoKeyboard);
     }
 
     @Override

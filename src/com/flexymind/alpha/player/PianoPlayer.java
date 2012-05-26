@@ -108,7 +108,8 @@ public class PianoPlayer {
             }
             else if (value == 83) {
                                     //EOF event(end of melody)
-                showIntroduceDialog();
+                   showIntroduceDialog();
+
             }
         }
 

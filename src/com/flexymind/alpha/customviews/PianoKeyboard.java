@@ -11,8 +11,10 @@ import android.widget.FrameLayout;
 import com.flexymind.alpha.player.Note;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.flexymind.alpha.customviews.PictureStorage.blackKeyNotPressed;
+import static com.flexymind.alpha.customviews.PictureStorage.greenKey;
 import static com.flexymind.alpha.customviews.PictureStorage.whiteKeyNotPressed;
 
 public class PianoKeyboard extends Board implements View.OnTouchListener {
@@ -21,6 +23,9 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
     private final int    START_ID_FOR_KEY_VIEWS  = 100;
     private final int[]  BLACK_KEY_POSITIONS     =  {1, 2, 4, 5, 6};
     //TODO fill this array automatic
+    public List<PianoKey> pianoKeys =
+            new ArrayList<PianoKey>(); // stores all NoteViews that are displayed
+
 
     private View parent;
 
@@ -70,23 +75,23 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
         params.addRule(ALIGN_LEFT);
 
-        addKey( whiteKeyNotPressed
+        pianoKeys.add(addKey(whiteKeyNotPressed
                 , getWhiteKeyHeight()
                 , getWhiteKeyWidth()
                 , params
                 , id++
                 , Note.C
-                , whiteKey  );
+                , whiteKey));
 
         for (int i = 0; i < COUNT_OF_WHITE_KEYS - 1; i++) {
-            addKey( whiteKeyNotPressed
+            pianoKeys.add(addKey(whiteKeyNotPressed
                     , getWhiteKeyHeight()
                     , getWhiteKeyWidth()
                     , paramsWithRightOf(id - 1)
                     , id++
-                    , Note.getNotesForWhiteKeys()[i+1]
-                    , whiteKey);
-        }
+                    , Note.getNotesForWhiteKeys()[i + 1]
+                    , whiteKey));
+            }
     }
 
     private LayoutParams paramsWithRightOf(int id) {
@@ -105,14 +110,14 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
 
         int j = 0;
         for (int whiteKeyNumber: BLACK_KEY_POSITIONS) {
-            addKey( blackKeyNotPressed
+            pianoKeys.add(addKey(blackKeyNotPressed
                     , getBlackKeyHeight()
                     , getBlackKeyWidth()
                     , paramsWithMargin(whiteKeyNumber * getWhiteKeyWidth()
                     - getBlackKeyWidth() / 2)
                     , ++id
                     , Note.getNotesForBlackKeys()[j++]
-                    , whiteKey);
+                    , whiteKey));
         }
     }
 
@@ -124,7 +129,25 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
         return params;
     }
 
-    private void addKey(Picture picture, int keyH, int keyW,
+    public void highlightGreen(Note note){
+        for (PianoKey pianoKey : pianoKeys) {
+            if (pianoKey.note.equals(note)) {
+                pianoKey.picture = greenKey;
+                pianoKey.invalidate();
+            }
+        }
+    }
+
+    public void highlightHome() {
+        for (PianoKey pianoKey : pianoKeys) {
+               if (pianoKey.picture.equals(greenKey)) {
+                   pianoKey.picture = whiteKeyNotPressed;
+                pianoKey.invalidate();
+               }
+        }
+    }
+
+    private PianoKey addKey(Picture picture, int keyH, int keyW,
                         LayoutParams params, int id, Note note
             , boolean isWhiteKey ) {
 
@@ -137,6 +160,7 @@ public class PianoKeyboard extends Board implements View.OnTouchListener {
         key.setId(id);
         key.setOnTouchListener(this);
         addView(key, params);
+        return key;
     }
 
     private int getWhiteKeyWidth() {
