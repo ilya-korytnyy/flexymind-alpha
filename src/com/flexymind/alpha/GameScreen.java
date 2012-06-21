@@ -28,33 +28,33 @@ public class GameScreen extends Activity {
 
     @Override
     protected void onStart() {
-        super.onStart();    //To change body of overridden methods use File | Settings | File Templates.
+        super.onStart();
         game.gameStart();
     }
 
     @Override
     protected void onRestart() {
-        super.onRestart();    //To change body of overridden methods use File | Settings | File Templates.
+        super.onRestart();
     }
 
     @Override
     protected void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        super.onResume();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);    //To change body of overridden methods use File | Settings | File Templates.
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onStop() {
-        super.onStop();    //To change body of overridden methods use File | Settings | File Templates.
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();    //To change body of overridden methods use File | Settings | File Templates.
+        super.onDestroy();
 
     }
 }

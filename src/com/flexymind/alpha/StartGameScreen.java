@@ -12,20 +12,22 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import com.flexymind.alpha.startbutton.StartButton;
 
-public class StartGameScreen extends Activity implements View.OnClickListener {
+public class StartGameScreen extends Activity
+                    implements View.OnClickListener {
 
-    private StartButton startButton;
-    private ImageButton settingsButton;
-    private Bitmap      settingsBitmap;
-    private RelativeLayout startScreen;
+    private StartButton     startButton;
+    private ImageButton     settingsButton;
+    private Bitmap          settingsBitmap;
+    private RelativeLayout  startScreen;
 
     private static final int SETTINGS_BUTTON = 1001;
 
     // settings data
-    private String selectedSong = "default";
+    private String selectedSong       = "default";
     private String selectedInstrument = "default";
-    private int numberOfOctaves = 1;
-    private int orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
+    private int numberOfOctaves       = 1;
+    private int orientation           =
+            ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
     private String[] availableSongs = {};
 
     @Override
@@ -50,16 +52,21 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
     }
 
     private void setSettingsButtonSize() {
-        settingsBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.settings);
+        settingsBitmap = BitmapFactory.decodeResource( getResources()
+                                                     , R.drawable.settings);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        settingsBitmap = Bitmap.createScaledBitmap(settingsBitmap, metrics.heightPixels / 6,
-                                                   metrics.heightPixels / 6, true);
+        settingsBitmap =
+                Bitmap.createScaledBitmap( settingsBitmap
+                                         , metrics.heightPixels / 6
+                                         , metrics.heightPixels / 6
+                                         , true);
         settingsButton.setImageBitmap(settingsBitmap);
     }
 
     @Override
     public void onClick(View view) {
+
         switch(view.getId()) {
             case R.id.startbutton: {
                 createGameScreen();
@@ -73,6 +80,7 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
     }
 
     public void createGameScreen() {
+
         Intent intent = new Intent(this, GameScreen.class);
         intent.putExtra("selectedSong", selectedSong);
         intent.putExtra("selectedInstrument", selectedInstrument);
@@ -83,18 +91,24 @@ public class StartGameScreen extends Activity implements View.OnClickListener {
     }
 
     private void createSettingsScreen() {
+
         Intent intent = new Intent(this, Settings.class);         // TODO: pass a list of songs in the intent
         int requestCode = 1;
         startActivityForResult(intent, requestCode);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult( int requestCode
+                                   , int resultCode
+                                   , Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
 
         // orientation
-        setRequestedOrientation(data.getIntExtra("orientation", ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE));
-        this.orientation = data.getIntExtra("orientation", ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        setRequestedOrientation(data.getIntExtra( "orientation"
+                  , ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE));
+        this.orientation = data.getIntExtra("orientation"
+                  , ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 
         // song
         selectedSong = data.getStringExtra("selectedSong");
